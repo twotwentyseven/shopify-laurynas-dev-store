@@ -1,9 +1,11 @@
-{% for product in collections.frontpage.products limit:4 %}
-
-
-
-<h1>{{ product.available }} </h1>
-
+<h1 class="tw-text-3xl">Get ready for the upcoming chilly winter with the new 
+{%if collections['winter-drip'].title.contains('collection')%}
+ "{{ collections['winter-drip'].title }} "
+ {% else %}
+ "{{ collections['winter-drip'].title }}" collection
+{%endif%}  
+ </h1>
+{% for product in collections['winter-drip'].products limit:4 %}
   <div>
     <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
     {{ product.price | money }}
