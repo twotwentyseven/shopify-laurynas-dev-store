@@ -1,0 +1,26 @@
+{
+  "name": "shopify-laurynas-dev-store",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tailwindcss -i css/application.css -o assets/application.css.liquid --watch"
+
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/twotwentyseven/shopify-laurynas-dev-store.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/twotwentyseven/shopify-laurynas-dev-store/issues"
+  },
+  "homepage": "https://github.com/twotwentyseven/shopify-laurynas-dev-store#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.2.4"
+  }
+}
