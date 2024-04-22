@@ -1,0 +1,63 @@
+{% assign ss = section.settings %}
+
+{%- capture cartColors -%}
+    {
+    bg_color: '{{ ss.bg_color }}-{{ ss.bg_color_shade }}',
+    text_color: '{{ ss.text_color }}-{{ ss.text_color_shade }}',
+    border_color: '{{ ss.border_color }}-{{ ss.border_color_shade }}',
+    border_color_accent: '{{ ss.border_color }}-{{ ss.border_color_shade }}/20',
+    btn_color: '{{ ss.btn_color }}-{{ ss.btn_color_shade }}',
+    btn_text_color: '{{ ss.btn_text_color }}-{{ ss.btn_text_color_shade }}',
+    btn_hover_color: '{{ ss.btn_hover_color }}-{{ ss.btn_hover_color_shade }}',
+    btn_hover_text_color: '{{ ss.btn_hover_text_color }}-{{ ss.btn_hover_text_color_shade }}'
+    }
+{%- endcapture -%}
+
+{%- capture cartContent -%}
+    {
+    total: '{{ settings.total }}',
+    discount_msg: '{{ settings.discount_msg }}',
+    title: '{{ ss.title }}',
+    free_delivery_override:'{{ settings.free_delivery_override }}',
+    free_shipping_msg_start: '{{ settings.free_shipping_msg_start }}',
+    free_shipping_msg_end: '{{ settings.free_shipping_msg_end }}',
+    free_shipping_qualified: '{{ settings.free_shipping_qualified }}',
+    order_note_title: '{{ settings.order_note_title }}',
+    order_note_msg: '{{ settings.order_note_msg }}',
+    btn_text: '{{ ss.btn_text }}',
+    empty_cart_msg: '{{ settings.empty_cart_msg }}',
+    collection_url: '{{ settings.collection_url }}',
+    continue_shopping_btn: '{{ settings.continue_shopping_btn }}'
+    }
+{%- endcapture -%}
+
+
+<div id="vue-cart" class="popout-cart">
+
+    <cart
+        shop-url="{{ shop.url }}"
+        :popup="true"
+        :show-free-shipping="true"
+        :free-shipping-threshold="{{ settings.free_shipping_threshold }}"
+        :colours="{{ cartColors | strip_newlines | escape }}"
+        :content="{{ cartContent | strip_newlines | escape }}"
+        :show-order-note="true">
+
+        <template v-slot:additional_checkouts>
+            {% if additional_checkout_buttons %}
+                <p class="express-msg text-center mt-4">Or express checkout with</p>
+                <div class="additional-checkout-buttons">
+                    {{ content_for_additional_checkout_buttons }}
+                </div>
+            {% endif %}
+        </template>
+
+    </cart>
+
+</div>
+
+
+
+{% schema %}
+    {"name": "Cart Data"}
+{% endschema %}

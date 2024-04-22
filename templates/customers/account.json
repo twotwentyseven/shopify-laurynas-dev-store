@@ -1,0 +1,56 @@
+{
+  "sections": {
+    "nav": {
+      "type": "customer-account-nav",
+      "settings": {}
+    },
+    "main": {
+      "type": "customer-account-template",
+      "settings": {
+        "intro": "HI",
+        "show_name": true,
+        "logout": "Logout",
+        "subtitle": "Most Recent Orders",
+        "all_orders": "View all orders",
+        "product_count": 6,
+        "swiper": true,
+        "columns": 4,
+        "mobile_columns": 1,
+        "autoplay": false,
+        "loop": false,
+        "address_subtitle": "Saved Addresses",
+        "all_addresses": "VIEW ALL ADDRESSES"
+      }
+    },
+    "orders": {
+      "type": "customer-orders-template",
+      "settings": {
+        "intro": "Order History",
+        "subtitle": "Most Recent Orders",
+        "btn_text": "View Order",
+        "btn_color": "bg-secondary",
+        "btn_color_shade": 900,
+        "btn_text_color": "text-neutral",
+        "btn_text_color_shade": 900,
+        "btn_hover_color": "hover:bg-primary",
+        "btn_hover_color_shade": 500,
+        "btn_hover_text_color": "hover:text-secondary",
+        "btn_hover_text_color_shade": 900,
+        "alt_btn_text": "Buy Again",
+        "alt_btn_color": "bg-secondary",
+        "alt_btn_color_shade": 900,
+        "alt_btn_text_color": "text-neutral",
+        "alt_btn_text_color_shade": 900,
+        "alt_btn_hover_color": "hover:bg-primary",
+        "alt_btn_hover_color_shade": 700,
+        "alt_btn_hover_text_color": "hover:text-secondary",
+        "alt_btn_hover_text_color_shade": 900
+      }
+    }
+  },
+  "order": [
+    "nav",
+    "main",
+    "orders"
+  ]
+}

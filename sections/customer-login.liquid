@@ -1,0 +1,737 @@
+{% assign ss = section.settings %}
+
+<section class="form-builder | min-h-[90vh] relative w-full flex flex-wrap justify-center | lg:items-center lg:flex-nowrap | {{ ss.bg_color }}-{{ss.bg_color_shade}}">
+
+    <div class="form-wrapper | max-w-narrow-container m-auto p-6 px-container-gutter w-full order-2 border border-secondary-900 rounded-lg | lg:w-1/2 lg:order-2 | {% if ss.image != blank %}{% if ss.image_align == 'order-1' %}lg:pr-container-gutter-lg{% else %}lg:pl-container-gutter-lg{% endif %}{% endif %}">
+
+
+        <div
+            class="block "
+            data-toggle-wrapper="login-form"
+            data-add-class="block"
+            data-remove-class="hidden">
+            {% if ss.title != blank %}
+                <h1 class="title | mb-6  | {{ ss.text-align }} {{ ss.title_typeface }} {{ ss.title_weight }} {{ ss.title_color }}-{{ ss.title_color_shade }} {{ ss.title_size }} lg:{{ ss.title_size }}">
+                    {{ ss.title }}
+                </h1>
+            {% endif %}
+
+            {% if ss.subtitle != blank %}
+                <div class="content | mb-6 | lg:mb-10 | {{ ss.text-align }} {{ ss.subtitle_typeface }} {{ ss.subtitle_color }}-{{ ss.subtitle_color_shade }} {{ ss.subtitle_size }} lg:{{ ss.subtitle_size }}">
+                    {{ ss.subtitle }}
+                </div>
+            {% endif %}
+
+            {% form 'customer_login', return_to: routes.account_url %}
+
+                {% assign error = false %}
+
+                {% for error in form.errors %}
+                    <p class="text-error-500 text-body-large {{ ss.text-align }} my-2 | lg:text-body-large-lg">
+                        {% if error == 'form' %}
+                            {{ form.errors.messages[error] }}
+                            {% assign error = true %}
+                        {% else %}
+                            {{ form.errors.translated_fields[error] }} - {{ form.errors.messages[error] }}
+                            {% assign error = true %}
+                        {% endif %}
+                    </p>
+                {% endfor %}
+
+                <div class="field-wrap | w-full mb-4 {{ bs.field_col_width }} {{ ss.input_color }}-{{ ss.input_color_shade }} ">
+                    <label class="text-body-small uppercase font-semibold | lg:text-body-small-lg {% if error %}text-error-500{% else %}{{ ss.input_text_color }}-{{ ss.input_color_shade }}{% endif %}" for="email">{{ ss.email_label }}<span class="text-error-500">*</span>
+                    </label>
+                    <input
+                        class="w-full border rounded py-3 px-2 text-body-medium focus:outline-none bg-transparent-500 placeholder:{{ ss.input_text_color }}-{{ ss.input_color_shade }} | lg:text-body-medium-lg | {% if error %}border-error-500{% else %}{{ ss.input_color }}-{{ ss.input_color_shade }}{% endif %}"
+                        type="email"
+                        id="email"
+                        name="customer[email]"
+                        placeholder="{{ ss.email_placeholder }}"
+                        required>
+                </div>
+
+                <div class="field-wrap | relative w-full mb-4 {{ bs.field_col_width }} {{ ss.input_color }}-{{ ss.input_color_shade }} ">
+                    <label class="text-body-small uppercase font-semibold | lg:text-body-small-lg {% if error %}text-error-500{% else %}{{ ss.input_text_color }}-{{ ss.input_color_shade }}{% endif %}" for="password">{{ ss.password_label }}<span class="text-error-500">*</span>
+                    </label>
+                    <input
+                        class="password | w-full border rounded py-3 px-2 text-body-medium focus:outline-none bg-transparent-500 placeholder:{{ ss.input_text_color }}-{{ ss.input_color_shade }} | lg:text-body-medium-lg | {% if error %}border-error-500{% else %}{{ ss.input_color }}-{{ ss.input_color_shade }}{% endif %}"
+                        type="password"
+                        id="password"
+                        name="customer[password]"
+                        placeholder="{{ ss.password_placeholder }}"
+                        required>
+                    <label class="absolute top-[2.375rem] right-2 cursor-pointer"><input
+                            class="hidden"
+                            data-show-password
+                            type="checkbox"><span
+                            class="material-symbols-outlined text-body-medium | lg:text-body-medium-lg"
+                            data-add-content="visibility_off"
+                            data-remove-content="visibility">visibility</span>
+                    </label>
+                </div>
+
+                <a
+                    data-toggle-visibility="recover-form"
+                    class="block text-right mb-4 underline text-body-small | lg:text-body-small"
+                    href="#">{{ ss.forgotten_password }}</a>
+
+                <div class="submit mt-4">
+                    {% render 'button' element: 'button', type: 'submit', border_width: 'border', bg_color: ss.btn_color, bg_color_shade: ss.btn_color_shade, border_color: ss.btn_border_color, border_color_shade: ss.btn_border_color_shade, text_color: ss.btn_text_color, text_color_shade: ss.btn_text_color_shade, hover_bg: ss.btn_hover_color, hover_bg_shade: ss.btn_hover_color_shade, hover_border: ss.btn_hover_border_color, hover_border_shade: ss.btn_hover_border_color_shade, hover_text: ss.btn_hover_text_color, hover_text_shade: ss.btn_hover_text_color_shade, content: ss.btn_text, custom_class: 'w-full', before_icon: '', after_icon: '' %}
+                </div>
+
+
+                <a class="text-secondary-900 text-body-small mt-4 block {{ ss.text-align }} lg:text-body-small-lg underline" href="/account/register">{{ ss.register }}</a>
+
+            {% endform %}
+
+
+        </div>
+
+        <div
+            class="hidden"
+            data-toggle-wrapper="recover-form"
+            data-add-class="block"
+            data-remove-class="hidden">
+
+            {% if ss.title_reset != blank %}
+                <h2 class="title | mb-6  | {{ ss.text-align }} {{ ss.title_typeface }} {{ ss.title_weight }} {{ ss.title_color }}-{{ ss.title_color_shade }} {{ ss.title_size }} lg:{{ ss.title_size }}">
+                    {{ ss.title_reset }}
+                </h2>
+            {% endif %}
+
+            {% if ss.subtitle_reset != blank %}
+                <div class="content | mb-6 | lg:mb-10 | {{ ss.text-align }} {{ ss.subtitle_typeface }} {{ ss.subtitle_color }}-{{ ss.subtitle_color_shade }} {{ ss.subtitle_size }} lg:{{ ss.subtitle_size }}">
+                    {{ ss.subtitle_reset }}
+                </div>
+            {% endif %}
+
+            {% form 'recover_customer_password' %}
+                {{ form.errors | default_errors }}
+
+                {% if form.posted_successfully? %}
+                    <span class="hidden" data-form-state></span>
+                {% endif %}
+
+                <div class="field-wrap | w-full mb-4 {{ bs.field_col_width }}">
+                    <label class="text-body-small uppercase font-semibold | lg:text-body-small-lg {% if error %}text-error-500{% else %}{{ ss.input_text_color }}-{{ ss.input_color_shade }}{% endif %}" for="email_recover">{{ ss.email_label }}<span class="text-error-500">*</span>
+                    </label>
+                    <input
+                        medium
+                        class="w-full border rounded py-3 px-2 text-body-medium focus:outline-none bg-transparent-500 placeholder:{{ ss.input_text_color }}-{{ ss.input_color_shade }} | lg:text-body-large-lg | {% if error %}border-error-500{% else %}{{ ss.input_color }}-{{ ss.input_color_shade }}{% endif %}"
+                        type="email"
+                        id="recover_email"
+                        name="email"
+                        placeholder="{{ ss.email_placeholder }}"
+                        required>
+                </div>
+
+
+                <div class="submit mt-4">
+                    {% render 'button' element: 'button', type: 'submit', border_width: 'border', bg_color: ss.btn_color, bg_color_shade: ss.btn_color_shade, border_color: ss.btn_border_color, border_color_shade: ss.btn_border_color_shade, text_color: ss.btn_text_color, text_color_shade: ss.btn_text_color_shade, hover_bg: ss.btn_hover_color, hover_bg_shade: ss.btn_hover_color_shade, hover_border: ss.btn_hover_border_color, hover_border_shade: ss.btn_hover_border_color_shade, hover_text: ss.btn_hover_text_color, hover_text_shade: ss.btn_hover_text_color_shade, content: ss.btn_reset_text, custom_class: 'w-full', before_icon: '', after_icon: '' %}
+                </div>
+                <a
+                    data-toggle-visibility="login-form"
+                    class="block text-center mt-4 underline text-body-small | lg:text-body-small"
+                    href="#">{{ ss.is_customer }}</a>
+
+            {% endform %}
+
+        </div>
+
+        {% comment %}
+        only shows if guest checkout is enabled
+        {% endcomment %}
+        {% if shop.checkout.guest_login %}
+            {% if ss.title_guest != blank %}
+                <h3 class="title | mb-6  | {{ ss.text-align }} {{ ss.title_typeface }} {{ ss.title_weight }} {{ ss.title_color }}-{{ ss.title_color_shade }} {{ ss.title_size }} lg:{{ ss.title_size }}">
+                    {{ ss.title_guest }}
+                </h3>
+            {% endif %}
+
+            {% form 'guest_login' %}
+                {% render 'button' element: 'button', type: 'submit', border_width: 'border', bg_color: ss.btn_color, bg_color_shade: ss.btn_color_shade, border_color: ss.btn_border_color, border_color_shade: ss.btn_border_color_shade, text_color: ss.btn_text_color, text_color_shade: ss.btn_text_color_shade, hover_bg: ss.btn_hover_color, hover_bg_shade: ss.btn_hover_color_shade, hover_border: ss.btn_hover_border_color, hover_border_shade: ss.btn_hover_border_color_shade, hover_text: ss.btn_hover_text_color, hover_text_shade: ss.btn_hover_text_color_shade, content: ss.btn_text, custom_class: 'w-full', before_icon: '', after_icon: '' %}
+            {% endform %}
+        {% endif %}
+
+    </div>
+
+    {% if ss.image != blank %}
+        <div class="column | {{ ss.image_align_mob }} w-full | lg:w-1/2 lg:{{ ss.image_align }} | {{ ss.image_bleed }} {% if ss.image_bleed == 'space' %} pt-10 px-container-gutter lg:py-20 {% if ss.image_align == 'order-1' %}lg:pl-container-gutter-lg{% else %}lg:pr-container-gutter-lg{% endif %}{% endif %}">
+
+            {% render 'responsive-image' with image: ss.image, mobile_image: ss.image_mob, image_class: 'image mx-auto', wrapper_class: 'image-wrapper w-full' %}
+
+        </div>
+    {% endif %}
+
+</section>
+
+
+<style>
+    /* Hide recharge login link */
+    div#rc_login {
+        display: none !important;
+    }
+</style>
+
+
+{% schema %}
+    {
+        "name": "Customer Login",
+        "settings": [
+            {
+                "type": "header",
+                "content": "background color (if media is not used)"
+            },
+            {
+                "type": "select",
+                "id": "bg_color",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "bg-tertiary",
+                        "label": "Beige"
+                    },
+                    {
+                        "value": "bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "",
+                        "label": "None"
+                    }
+                ],
+                "label": "Background color"
+            },
+            {
+                "type": "range",
+                "id": "bg_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            },
+            {
+                "type": "header",
+                "content": "Column Background media"
+            }, {
+                "type": "image_picker",
+                "id": "image",
+                "label": "Image",
+                "info": "Recommended size: 1440x50rem"
+            }, {
+                "type": "image_picker",
+                "id": "image_mob",
+                "label": "Image (mobile)",
+                "info": "Recommended size: 375x460"
+            }, {
+                "type": "select",
+                "id": "image_align_mob",
+                "options": [
+                    {
+                        "value": "order-1",
+                        "label": "Top"
+                    }, {
+                        "value": "order-2",
+                        "label": "Bottom"
+                    }
+                ],
+                "label": "Image alignment mobile"
+            }, {
+                "type": "select",
+                "id": "image_align",
+                "options": [
+                    {
+                        "value": "order-1",
+                        "label": "Left"
+                    }, {
+                        "value": "order-2",
+                        "label": "Right"
+                    }
+                ],
+                "label": "Image alignment"
+            }, {
+                "type": "select",
+                "id": "image_bleed",
+                "options": [
+                    {
+                        "value": "space",
+                        "label": "Space around image"
+                    }, {
+                        "value": "no-space",
+                        "label": "Image fill space"
+                    }
+                ],
+                "label": "Image bleed"
+            }, {
+                "type": "select",
+                "id": "text-align",
+                "options": [
+                    {
+                        "value": "text-center justify-center",
+                        "label": "Center"
+                    }, {
+                        "value": "text-left justify-center lg:justify-start",
+                        "label": "Left"
+                    }, {
+                        "value": "text-right justify-center lg:justify-end",
+                        "label": "Right"
+                    }
+                ],
+                "label": "Text alignment"
+            }, {
+                "type": "header",
+                "content": "Fonts & Copy"
+            }, {
+                "type": "textarea",
+                "id": "title",
+                "label": "Title"
+            }, {
+                "type": "textarea",
+                "id": "title_reset",
+                "label": "Title reset"
+            }, {
+                "type": "textarea",
+                "id": "title_guest",
+                "label": "Title guest login"
+            }, {
+                "type": "select",
+                "id": "title_typeface",
+                "options": [
+                    {
+                        "value": "font-headline",
+                        "label": "Headline"
+                    }, {
+                        "value": "font-body",
+                        "label": "Body"
+                    }
+                ],
+                "label": "Title font"
+            }, {
+                "type": "select",
+                "id": "title_size",
+                "options": [
+                    {
+                        "value": "text-headline-6 lg:text-headline-6-lg",
+                        "label": "Heading 6"
+                    },
+                    {
+                        "value": "text-headline-5 lg:text-headline-5-lg",
+                        "label": "Heading 5"
+                    },
+                    {
+                        "value": "text-headline-4 lg:text-headline-4-lg",
+                        "label": "Heading 4"
+                    },
+                    {
+                        "value": "text-headline-3 lg:text-headline-3-lg",
+                        "label": "Heading 3"
+                    }, {
+                        "value": "text-headline-2 lg:text-headline-2-lg",
+                        "label": "Heading 2"
+                    }, {
+                        "value": "text-headline-1 lg:text-headline-1-lg",
+                        "label": "Heading 1"
+                    }, {
+                        "value": "text-display lg:text-display-lg",
+                        "label": "Display"
+                    }
+                ],
+                "label": "Title heading size"
+            }, {
+                "type": "select",
+                "id": "title_weight",
+
+                "options": [
+                    {
+                        "value": "font-bold",
+                        "label": "Bold"
+                    },
+                    {
+                        "value": "font-semibold",
+                        "label": "Semibold"
+                    },
+                    {
+                        "value": "font-medium",
+                        "label": "Medium"
+                    },
+                    {
+                        "value": "font-normal",
+                        "label": "Normal"
+                    }, {
+                        "value": "font-light",
+                        "label": "Light"
+                    }, {
+                        "value": "font-extralight",
+                        "label": "Extralight"
+                    }, {
+                        "value": "font-thin",
+                        "label": "Thin"
+                    }
+                ],
+                "label": "Title weight"
+            }, {
+                "type": "select",
+                "id": "title_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "text-neutral",
+                        "label": "White"
+                    }
+                ],
+                "label": "Title color"
+            }, {
+                "type": "range",
+                "id": "title_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Title color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "richtext",
+                "id": "subtitle",
+                "label": "Subtitle"
+            }, {
+                "type": "richtext",
+                "id": "subtitle_reset",
+                "label": "Subtitle reset"
+            }, {
+                "type": "select",
+                "id": "subtitle_typeface",
+                "options": [
+                    {
+                        "value": "font-headline",
+                        "label": "Headline"
+                    }, {
+                        "value": "font-body",
+                        "label": "Body"
+                    }
+                ],
+                "label": "Subtitle font"
+            }, {
+                "type": "select",
+                "id": "subtitle_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "text-neutral",
+                        "label": "White"
+                    }
+                ],
+                "label": "Subtitle color"
+            }, {
+                "type": "range",
+                "id": "subtitle_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Subtitle color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "input_color",
+                "options": [
+                    {
+                        "value": "border-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "border-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "border-tertiary",
+                        "label": "Beige"
+                    },
+                    {
+                        "value": "border-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "",
+                        "label": "None"
+                    }
+                ],
+                "label": "Input background color"
+            }, {
+                "type": "range",
+                "id": "input_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Input color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "input_text_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "text-tertiary",
+                        "label": "Beige"
+                    },
+                    {
+                        "value": "text-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "",
+                        "label": "None"
+                    }
+                ],
+                "label": "Input text color"
+            }, {
+                "type": "text",
+                "id": "email_label",
+                "label": "Email Label",
+                "default": "Email Address"
+            }, {
+                "type": "text",
+                "id": "email_placeholder",
+                "label": "Email Placeholder",
+                "default": "Email Address"
+            }, {
+                "type": "text",
+                "id": "password_label",
+                "label": "Password Label",
+                "default": "Password"
+            }, {
+                "type": "text",
+                "id": "password_placeholder",
+                "label": "Password Placeholder",
+                "default": "Password"
+            }, {
+                "type": "text",
+                "id": "forgotten_password",
+                "label": "Forgotten password link",
+                "default": "Forgot your password?"
+            }, {
+                "type": "text",
+                "id": "is_customer",
+                "label": "Already have account link",
+                "default": "Already have an account?"
+            }, {
+                "type": "text",
+                "id": "register",
+                "label": "Register link",
+                "default": "CREATE AN ACCOUNT"
+            }, {
+                "type": "header",
+                "content": "button 1"
+            }, {
+                "type": "text",
+                "id": "btn_text",
+                "label": "Button text"
+            }, {
+                "type": "text",
+                "id": "btn_reset_text",
+                "label": "Reset Button text"
+            }, {
+                "type": "text",
+                "id": "btn_guest_text",
+                "label": "Guest Button text"
+            }, {
+                "type": "select",
+                "id": "btn_color",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "bg-transparent",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button color"
+            }, {
+                "type": "range",
+                "id": "btn_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "btn_border_color",
+                "options": [
+                    {
+                        "value": "border-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "border-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "border-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "border-transparent",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button border color"
+            }, {
+                "type": "range",
+                "id": "btn_border_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button border color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "btn_text_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "text-tertiary",
+                        "label": "Beige"
+                    }, {
+                        "value": "text-neutral",
+                        "label": "White"
+                    }
+                ],
+                "label": "Button text color"
+            }, {
+                "type": "range",
+                "id": "btn_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "btn_hover_color",
+                "options": [
+                    {
+                        "value": "hover:bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "hover:bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "hover:bg-neutral",
+                        "label": "White"
+                    },
+                    {
+                        "value": "hover:bg-tertiary",
+                        "label": "Beige"
+                    }, {
+                        "value": "hover:bg-transparent",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button hover color"
+            }, {
+                "type": "range",
+                "id": "btn_hover_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button hover color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "btn_hover_border_color",
+                "options": [
+                    {
+                        "value": "hover:border-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "hover:border-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "hover:border-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "hover:border-transparent",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button hover border color"
+            }, {
+                "type": "range",
+                "id": "btn_hover_border_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button hover Border color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "btn_hover_text_color",
+                "options": [
+                    {
+                        "value": "hover:text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "hover:text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "text-tertiary",
+                        "label": "Beige"
+                    }, {
+                        "value": "hover:text-neutral",
+                        "label": "White"
+                    }
+                ],
+                "label": "Button hover text color"
+            }, {
+                "type": "range",
+                "id": "btn_hover_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button hover text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }
+        ]
+    }
+{% endschema %}

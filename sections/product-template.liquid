@@ -1,0 +1,823 @@
+{% assign ss = section.settings %}
+{% render 'product-card-content-and-colours' %}
+
+
+<section data-vue-app class="product-template | relative w-full px-container-gutter pb-10 pt-6 | lg:pb-20 lg:px-container-gutter-lg | {{ ss.text-align }} bg-tertiary-900">
+
+    {% assign hasVariants = false %}
+    {% assign hasSubscriptions = false %}
+    {% assign oneOff = true %}
+
+    {% if product.requires_selling_plan %}
+        {% assign oneOff = false %}
+    {% endif %}
+
+    {% if product.selling_plan_groups.size > 0 %}
+        {% assign hasSubscriptions = true %}
+    {% endif %}
+
+    {% if product.variants.size > 1 %}
+
+        {% assign hasVariants = true %}
+
+    {% endif %}
+    
+    <div class="product-card flex flex-wrap text-left | lg:gap-x-20 lg:max-w-[1296px] lg:m-auto">
+        {% render 'breadcrumbs' %}
+
+
+        <product-card
+            :metafield-object='{%- render "metafield-loop", name_space: "product_details", object: product -%}'
+            :product-object="{{ product | json | escape }}"
+            product-url="{{ product.url }}">
+            <template v-slot="props">
+                <div class="w-full relative mb-6 | lg:mb-0 lg:w-6/12">
+            
+                    {% if product.metafields.product_details.flag != blank %}
+                        <span class="absolute z-[33] right-2 top-2 rounded uppercase flex items-center justify-center font-semibold px-4 py-2 bg-secondary-900 text-tertiary-900 text-body-small | lg:text-body-small-lg">
+                            {{ product.metafields.product_details.flag }}
+                        </span>
+                    {% endif %}
+
+                    <div class="sticky-container | sticky flex flex-wrap top-site-header-height | lg:top-site-header-height-lg">
+                    
+                        <div class="w-full max-w-[550px] mx-auto shrink-0 lg:pr-gutter order-2">
+                            <div class="swiper h-full" data-product-thumb-swiper>
+                                <div class="swiper-wrapper">
+                                    {% for image in product.images %}
+                                        {% if image.attached_to_variant? %}
+                                            {% for variant in product.variants %}
+                                                {% if variant.image.id == image.id %}
+                                                    <div class="swiper-slide cursor-pointer rounded-lg" data-variant="{{ variant.id }}"  {%if forloop.index == 2%} :style="'background:' + props?.metafields?.metafields?.background_colour?.value?.custom_colour" :class="'bg-'+props.metafields?.metafields?.background_colour?.value?.defined_colors + '-' + props?.metafields?.metafields?.background_colour?.value?.defined_colors_shade" {%endif%}>
+                                                    {% render 'responsive-image' with image: image.src, wrapper_class: "img-wrap w-full h-full pointer-events-none", image_class: "primary-img object-cover w-full h-full rounded-lg" %}
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="swiper-slide cursor-pointer rounded-lg"  {%if forloop.index == 2%} :style="'background:' + props?.metafields?.metafields?.background_colour?.value?.custom_colour" :class="'bg-'+props.metafields?.metafields?.background_colour?.value?.defined_colors + '-' + props?.metafields?.metafields?.background_colour?.value?.defined_colors_shade" {%endif%}>
+                                                {% render 'responsive-image' with image: image.src, wrapper_class: "img-wrap w-full h-full pointer-events-none", image_class: "primary-img object-cover w-full h-full rounded-lg" %}
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full order-1 mb-4 | lg:pl-gutter ">
+                            <div class="swiper" data-product-main-swiper>
+                                <div class="swiper-wrapper">
+                                    {% for image in product.images %}
+                                    <div class="swiper-slide rounded-2xl" {%if forloop.index == 2%} :style="'background:' + props?.metafields?.metafields?.background_colour?.value?.custom_colour" :class="'bg-'+props.metafields?.metafields?.background_colour?.value?.defined_colors + '-' + props?.metafields?.metafields?.background_colour?.value?.defined_colors_shade" {%endif%}>
+                                        {% if image.attached_to_variant? %}
+                                            {% for variant in product.variants %}
+                                                {% if variant.image.id == image.id %}
+                                                    <div data-variant="{{ variant.id }}">
+                                                    {% render 'responsive-image' with image: image.src, wrapper_class: "img-wrap", image_class: "primary-img w-full" %}
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            <div>
+                                                {% render 'responsive-image' with image: image.src, wrapper_class: "img-wrap", image_class: "primary-img w-full" %}
+                                            </div>
+                                        {% endif %}
+                                        </div>
+
+                                    {% endfor %}
+                                </div>
+                                <div class="swiper-pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div :key="`product_card_${props.product.id}`"
+                    data-product-details
+                    :data-product-id="`${props.product.id}`"
+                    class="product-details | w-full px-4 h-fit py-10 rounded-2xl bg-neutral-900 text-secondary-900| lg:p-10 lg:w-2/5 lg:flex-grow | ">
+
+                    <div class="ecommerce-options">
+
+                        <form method="post" action="/cart/add" :id="props.product.id" accept-charset="UTF-8" class="shopify-product-form" enctype="multipart/form-data">
+
+                            <p data-match-height="product-title" class="title | font-headline text-headline-1 uppercase mb-2 | lg:text-headline-1-lg"><a href="{{ props.product.url }}">{{ product.title }}</a></p>
+
+                            
+                            <div class="desc | text-body-large mb-2 | lg:text-body-large-lg">{{ product.description }}</div>
+                            
+
+                            <div class="product_rating_wrapper">
+
+                                <a href="#shopify-product-reviews" class="reviews ani-scroll"><span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span></a>
+
+                            </div>
+
+                            <div class="flex justify-between">
+                                <div data-low-stock-warning="10" data-inventory="{{ product.first_available_variant.inventory_quantity }}" class="inventory | hidden w-full items-center text-body-small mt-2 mb-4 | lg:text-body-small-lg text-error-500"><span class="material-symbols-outlined mr-1.5">error</span> Only <span class="mx-1 after:content-['']" data-inventory="{{ product.first_available_variant.inventory_quantity }}"></span> remaining!</div>
+
+                        
+                            </div>
+                            
+                            <template v-if="(props.product.variants.length > 1 && !props.product.requires_selling_plan) || props.product.requires_selling_plan">
+
+                                <!--variant data-->
+
+                                <div class="form-controls">
+                                    <div class="hidden">
+                                        <input type="hidden" name="properties[_tags]" :value="props.product.tags.join(',')" data-property>
+                                        <input v-if="props.selectedVariant" type="hidden" name="id" :value="props.selectedVariant.id" data-property>
+                                        <input type="hidden" name="subscription" :value="props.subToggle" >
+                                        <!--<input v-if="props.groupedOptions[1][props.groupedOptions[1].length -1 ] == props.selectedOptions[1] && props.selectedMachine != '' " type="hidden" name="properties[machine_option]" :value="props.selectedMachine" data-property>-->
+                                    </div>
+                                </div>
+
+                                <div v-if="props.product.options.length > 0 && props.product.variants[0].option1 != 'Default Title'" class="flex flex-wrap mb-6 | lg:-mx-gutter">
+                                    
+                                    <div v-for="(option, i) in props.product.options" class="relative w-full lg:px-gutter  rounded border-secondary-900 bg-neutral-900" :key="option.name" :class="['z-'+(3 - i)*10]">
+
+                                        <div class="selector-wrapper transition-all accordion-content-wrapper" :class="props.groupedOptions[1][props.groupedOptions[1].length -1 ] != props.selectedOptions[1] && option.toLowerCase() =='machine' ? 'opacity-0' : 'opacity-100 expanded' ">
+                                                                
+                                            <label class="mb-2 gap-1 font-semibold text-secondary-900">${ option }: 
+                                                <span v-if="props.metafields?.metafields && props.metafields.metafields?.option_explanations"  class="inline-block cursor-pointer relative group">
+                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <g id="remix-icons/line/system/information-line" clip-path="url(#clip0_1317_1060)">
+                                                            <g id="Group">
+                                                                <path id="Vector" d="M8.00004 14.6667C4.31804 14.6667 1.33337 11.682 1.33337 8C1.33337 4.318 4.31804 1.33333 8.00004 1.33333C11.682 1.33333 14.6667 4.318 14.6667 8C14.6667 11.682 11.682 14.6667 8.00004 14.6667ZM8.00004 13.3333C9.41453 13.3333 10.7711 12.7714 11.7713 11.7712C12.7715 10.771 13.3334 9.41448 13.3334 8C13.3334 6.58551 12.7715 5.22895 11.7713 4.22876C10.7711 3.22856 9.41453 2.66666 8.00004 2.66666C6.58555 2.66666 5.229 3.22856 4.2288 4.22876C3.22861 5.22895 2.66671 6.58551 2.66671 8C2.66671 9.41448 3.22861 10.771 4.2288 11.7712C5.229 12.7714 6.58555 13.3333 8.00004 13.3333ZM7.33337 4.66666H8.66671V6H7.33337V4.66666ZM7.33337 7.33333H8.66671V11.3333H7.33337V7.33333Z" fill="#30261A"/>
+                                                            </g>
+                                                        </g>
+                                                        <defs>
+                                                            <clipPath id="clip0_1317_1060">
+                                                                <rect width="16" height="16" fill="white"/>
+                                                            </clipPath>
+                                                        </defs>
+                                                    </svg>
+                                                    <div class="info-panel | absolute p-4 z-[60] top-0 left-4 pointer-events-none text-body-large text-initial w-[clamp(120px,250px,35vw)] normal-case font-normal rounded-lg font-body transition-all opacity-0 scale-75 bg-tertiary-900 text-secondary-900 | group-hover:block group-hover:opacity-100 group-hover:scale-100">                                                   
+                                                        <i class="ri-close-line | absolute top-1 right-1"></i>
+                                                        <template v-if="props.metafields?.metafields && Object.keys(props.metafields.metafields).length > 0" v-for="metafield in props.metafields.metafields.option_explanations?.value">
+                                                            <template v-if="metafield.option_type == option.toLowerCase()">
+                                                                ${ metafield.tool_tip.children[0].children[0].value }
+                                                            </template>
+                                                        </template>
+                                                    </div>
+                                                </span>
+                                            </label>
+
+                                            <div v-if="option == 'size' || option == 'Size'" class="single-option-selector overflow-hidden">
+                                                <div v-for="(groupedOption, index) in props.groupedOptions[i]" class=" rounded border-secondary-900 flex-grow" :key="groupedOption">
+                                                    <input type="radio" :name="'product-selector-'+props.product.id" :id="'product-selector-'+props.product.id+'-'+index" :value="groupedOption" v-model="props.selectedOptions[i]">
+                                                    <label :for="'product-selector-'+props.product.id+'-'+index" class="justify-center rounded" :class="{disabled: !props.optionIsAvailable(i, groupedOption) }" class="rounded">${ groupedOption }</label>
+                                                </div>
+                                            </div>
+                                                <template v-else>
+                                                    <styleable-dropdown :default-to-first-option="false" label-classes="font-headline" v-model="props.selectedOptions[i]">
+                                                        <option v-for="groupedOption in props.groupedOptions[i]" :value="groupedOption" :key="groupedOption" class="font-headline">${ groupedOption }</option>
+                                                    </styleable-dropdown>
+                                                </template>
+                                        </div>
+
+                                    </div>
+
+                                    {%- comment -%}Checking for the grind option and which options are available{%- endcomment -%}
+                                    {% comment %}
+                                        
+                                    <template v-if="props.groupedOptions[1]?.length && props.metafields.metafields?.machine_options?.value?.length > 0">
+                                        <div class="relative w-full lg:px-gutter rounded border-secondary-900 bg-neutral-900">
+                                            <div class="selector-wrapper transition-all accordion-content-wrapper" :class="props.groupedOptions[1][props.groupedOptions[1].length -1 ] != props.selectedOptions[1] ? 'opacity-0' : 'opacity-100 expanded' ">
+
+                                                <label class="mb-2 gap-1 font-semibold text-secondary-900"> Machine: 
+                                                    <span class="inline-block cursor-pointer relative group">
+                                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <g id="remix-icons/line/system/information-line" clip-path="url(#clip0_1317_1060)">
+                                                                <g id="Group">
+                                                                    <path id="Vector" d="M8.00004 14.6667C4.31804 14.6667 1.33337 11.682 1.33337 8C1.33337 4.318 4.31804 1.33333 8.00004 1.33333C11.682 1.33333 14.6667 4.318 14.6667 8C14.6667 11.682 11.682 14.6667 8.00004 14.6667ZM8.00004 13.3333C9.41453 13.3333 10.7711 12.7714 11.7713 11.7712C12.7715 10.771 13.3334 9.41448 13.3334 8C13.3334 6.58551 12.7715 5.22895 11.7713 4.22876C10.7711 3.22856 9.41453 2.66666 8.00004 2.66666C6.58555 2.66666 5.229 3.22856 4.2288 4.22876C3.22861 5.22895 2.66671 6.58551 2.66671 8C2.66671 9.41448 3.22861 10.771 4.2288 11.7712C5.229 12.7714 6.58555 13.3333 8.00004 13.3333ZM7.33337 4.66666H8.66671V6H7.33337V4.66666ZM7.33337 7.33333H8.66671V11.3333H7.33337V7.33333Z" fill="#30261A"/>
+                                                                </g>
+                                                            </g>
+                                                            <defs>
+                                                                <clipPath id="clip0_1317_1060">
+                                                                    <rect width="16" height="16" fill="white"/>
+                                                                </clipPath>
+                                                            </defs>
+                                                        </svg>
+                                                        <div class="info-panel | absolute p-4 z-[60] top-0 left-4 pointer-events-none text-body-large text-initial w-[clamp(120px,250px,35vw)] normal-case font-normal rounded-lg font-body transition-all opacity-0 scale-75 bg-tertiary-900 text-secondary-900 | group-hover:block group-hover:opacity-100 group-hover:scale-100">                                                   
+                                                            <template v-if="props.metafields?.metafields && Object.keys(props.metafields.metafields).length > 0" v-for="metafield in props.metafields.metafields.option_explanations?.value">
+                                                                <template v-if="metafield.option_type == 'machine' ">
+                                                                    ${ metafield.tool_tip.children[0].children[0].value }
+                                                                </template>
+                                                            </template>
+                                                        </div>
+                                                    </span>
+                                                </label>
+
+                                                <styleable-dropdown  label-classes="font-headline" name="properties[machine_option]">
+                                                    <option v-for="machineOption in props.metafields.metafields.machine_options.value" :value="machineOption.option" :key="machineOption.option" class="font-headline">${ machineOption.option }</option>
+                                                </styleable-dropdown>
+
+                                            </div>
+                                        </div>
+                                    </template>
+                                    {% endcomment %}
+
+                                </div>
+                                {% comment %}
+                                    && window.productCardContent && !window.productCardContent?.variant_exclusion_list.some(variant => props.selectedVariant.name.includes(variant))
+                                {% endcomment %}
+                                <template v-if="props.product.selling_plan_groups?.length > 0 && !props.product.requires_selling_plan && !props.excludedVariant">
+                                    <div class="purchase-type | border bg-neutral-900 text-secondary-900 mb-2 mt-4  rounded-lg border-secondary-900">
+                                        <a @click.prevent="props.subState(false)" href="#" class="flex relative items-center py-3 px-4 text-body-medium | lg:text-body-medium-lg | before:h-4 before:w-4 before:content-[''] before:rounded-lg before:border  before:block before:mr-2 before:transition-all before:duration-animation-speed | after:h-2 after:w-2 after:block after:absolute after:left-5 after:rounded-lg after:content-['']  after:transition-all after:duration-animation-speed" :class="[props.subToggle ? 'before:border-secondary-400' : 'active before: rounded border-secondary-900 text-neutral-900 after:bg-neutral-900 bg-secondary-900']">{{ settings.one_time }}</a>
+                                    </div>
+                                </template>
+                                <template v-if="props.product.selling_plan_groups?.length > 0 && props.product.selling_plan_groups[0].selling_plans && !props.excludedVariant">
+                                    <div class="purchase-type | border bg-neutral-900 text-secondary-900  rounded-lg border-secondary-900">
+                                        <template v-if="props.product.selling_plan_groups?.length > 0 && !props.product.requires_selling_plan">
+                                            <a @click.prevent="props.subState(true)" href="#" class="flex relative items-center py-3 px-4 text-body-medium | lg:text-body-medium-lg | before:h-4 before:w-4 before:content-[''] before:rounded-lg before:border before:block before:mr-2 before:transition-all before:duration-animation-speed | after:h-2 after:w-2 after:block after:absolute after:left-5 after:rounded-lg after:content-[''] after:transition-all after:duration-animation-speed" :class="[props.subToggle ? 'active border-secondary-900 after:bg-neutral-900 bg-secondary-900 text-neutral-900 rounded-bl-none rounded-br-none ' : 'before:border-secondary-400 rounded ']">
+                                                {{ settings.subscription }} 
+                                                <template v-if="props.product.selling_plan_groups[0]?.selling_plans[0]">
+                                                    <template v-if="props.product.selling_plan_groups[0].selling_plans[0].price_adjustments[0].value_type == 'percentage'">
+                                                        ${ props.product.selling_plan_groups[0].selling_plans[0].price_adjustments[0].value }%
+                                                    </template>
+                                                    <template v-if="props.product.selling_plan_groups[0].selling_plans[0].price_adjustments[0].value_type == 'value'">
+                                                        £ ${ props.formatCurrency(selling_plan.price_adjustments[0].value) } 
+                                                    </template>
+                                                </template>
+                                            </a>
+                                        </template>
+                                        <div :data-frequency-selector="props.product.id" class="subscription-wrapper selector-wrapper | !mt-0 w-full !bg-secondary-900 !text-neutral-900  rounded-lg rounded-tl-none rounded-tr-none border-secondary-900 p-4 pt-0" :class="[(props.subToggle || props.product.requires_selling_plan)  ? 'block expanded' : '']">
+
+                                            <styleable-dropdown name="properties[selling_plan]">
+                                                <template v-for="selling_group in props.product.selling_plan_groups">
+                                                <option v-for="selling_plan in selling_group.selling_plans" :value="selling_plan.id" :key="selling_plan.id">
+                                                    ${ selling_plan.name }
+                                                    {% comment %}
+                                                    <template v-if="selling_plan.price_adjustments[0]">
+                                                        - <template v-if="selling_plan.price_adjustments[0].value_type == 'percentage'">
+                                                            ${ selling_plan.price_adjustments[0].value }% discount
+                                                        </template>
+                                                        <template v-if="selling_plan.price_adjustments[0].value_type == 'value'">
+                                                            ${ props.formatCurrency(selling_plan.price_adjustments[0].value) }% discount
+                                                        </template>
+                                
+                                                    </template>    
+                                                    {% endcomment %}
+                                                </option>
+                                                </template>
+                                            </styleable-dropdown>
+
+                                            {% if settings.subscription_key_points != blank %}
+                                                <div class="sub-benefits | mt-2">{{ settings.subscription_key_points }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </template>
+
+                                <div class="flex-grid">
+                                    
+                                    <template v-if="props.product.available">
+                                        <div class="qty-wrapper w-full border-t border-neutral-0/25 mt-4">
+                                            <label class="w-full uppercase text-body-small  font-semibold block mb-2">Quantity:</label>
+                                            <div class="flex">
+                                                <a href="#" class="decrement qty-btn | py-2 px-4 border  rounded border-secondary-900" @click.prevent="props.decrement">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <g id="remix-icons/fill/system/subtract-fill" clip-path="url(#clip0_1108_24449)">
+                                                        <g id="Group">
+                                                        <path id="Vector" d="M5 11H19V13H5V11Z" fill="#30261A"/>
+                                                        </g>
+                                                        </g>
+                                                        <defs>
+                                                        <clipPath id="clip0_1108_24449">
+                                                        <rect width="24" height="24" fill="white"/>
+                                                        </clipPath>
+                                                        </defs>
+                                                    </svg>
+                                                </a>
+                                                <input class="mx-2 border rounded border-secondary-900 bg-transparent-500 w-full text-center text-body-medium outline-none" name="quantity" type="number" data-qty-selector v-model="props.quantity">
+                                                <a href="#" class="increment qty-btn | py-2 px-4 border  rounded border-secondary-900" @click.prevent="props.increment">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <g id="remix-icons/line/system/add-line" clip-path="url(#clip0_1108_24455)">
+                                                        <g id="Group">
+                                                        <path id="Vector" d="M11 11V5H13V11H19V13H13V19H11V13H5V11H11Z" fill="#30261A"/>
+                                                        </g>
+                                                        </g>
+                                                        <defs>
+                                                        <clipPath id="clip0_1108_24455">
+                                                        <rect width="24" height="24" fill="white"/>
+                                                        </clipPath>
+                                                        </defs>
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        
+                                        <template v-if="!props.selectedVariant">
+                                            <button disabled class="btn | w-full py-button-y px-button-x rounded-lg text-center text-button flex items-center justify-center relative cursor-pointer | lg:text-button-lg bg-secondary-900 text-tertiary-900 opacity-30 | transition-all duration-animation-speed | disabled">Not available</button>
+                                        </template>
+                                        <template v-else-if="props.selectedVariant.available">
+                                            <div :class="{'w-full border-t border-neutral-0/25 pt-4 mt-4': (props.product.selling_plan_groups?.length > 0 || !props.product.requires_selling_plan)}">
+                                                <button  data-cart-add-async class="btn | w-full py-button-y px-button-x rounded-lg text-center text-button font-headline flex items-center justify-center relative cursor-pointer bg-primary-900 text-secondary-900 hover:bg-secondary-900 hover:text-tertiary-900  | lg:text-button-lg | transition-all duration-animation-speed">
+                                                    Add to Cart
+                                                    <template v-if="props.selectedVariant">
+
+                                                        <p v-if="props.selectedVariant.compare_at_price > props.selectedVariant.price" class="price | text-body-large | lg:text-body-large-lg pointer-events-none">
+                                                            <del class="opacity-25 pointer-events-none">&nbsp ${ props.formatCurrency(props.selectedVariant.compare_at_price) }</del> ${ props.formatCurrency(props.selectedVariant.price) }
+                                                        </p>
+                                                        <template v-else>
+                                                            <p v-if="props.subToggle && props.product.selling_plan_groups[0].selling_plans[0].price_adjustments[0].value && !props.excludedVariant" class="price | text-body-large | lg:text-body-large-lg pointer-events-none">&nbsp ${ props.formatCurrency(props.selectedVariant.price * (100 - props.product.selling_plan_groups[0].selling_plans[0].price_adjustments[0].value) / 100 )  }</p>
+                                                            <p v-else class="price | text-body-large | lg:text-body-large-lg pointer-events-none">&nbsp ${ props.formatCurrency(props.selectedVariant.price ) }</p>
+                                                        </template>
+                                                        
+
+                                                    </template>
+                                                </button>
+                                            </div>
+                                        </template>
+                                        <template v-else>
+                                            <div class="w-full border-t border-neutral-0/25 pt-4 mt-4">
+                                                <button disabled class="btn | w-full py-button-y px-button-x rounded-lg text-center text-button flex items-center justify-center relative cursor-pointer font-headline | lg:text-button-lg bg-secondary-900 text-tertiary-900 opacity-30 | transition-all duration-animation-speed | disabled">Sold Out</button>
+                                            </div>
+                                        </template>
+                                        
+                                        <p v-if="props.product.selling_plan_groups?.length > 0 || !props.product.requires_selling_plan" class="delivery-fee-msg | text-center mb-4 mt-4 text-body-small">{{ settings.free_delivery }} £{{ settings.free_shipping_threshold }}</p>
+
+                                    </template>
+                                    
+                                    <template v-else>
+
+                                        <div class="w-full border-t border-neutral-0/25 pt-4 mt-4">
+                                            <button disabled class="btn | w-full py-button-y px-button-x rounded text-center text-button flex items-center justify-center relative cursor-pointer font-headline | lg:text-button-lg bg-secondary-900 text-tertiary-900 opacity-30 | transition-all duration-animation-speed | disabled">Sold Out</button>
+                                        </div>
+
+                                    </template>
+
+                                    <template>
+                                        {% if additional_checkout_buttons %}
+                                        {% comment %}
+                                            <div class="additional-checkout-buttons">
+                                                {{ content_for_additional_checkout_buttons }}
+                                            </div>
+                                        {% endcomment %}
+                                        {% form "product", product %}
+                                            <p class="express-msg text-center mt-4">Or express checkout with</p>
+                                            <div class="additional-checkout-buttons">
+                                                {{ form | payment_button }}
+                                            </div>    
+                                        {%endform%}
+                                        {% endif %}
+                                    </template>
+                                </div>
+
+                            </div>
+                        
+                        </form>
+
+                        </div>
+
+                    </div>
+
+                    </template>
+
+                    <template v-else>
+
+                        <form method="post" action="/cart/add" :id="props.product.id" accept-charset="UTF-8" class="shopify-product-form" enctype="multipart/form-data">
+                            <div class="form-controls">
+                                <div class="hidden">
+                                    <input type="hidden" name="properties[_tags]" :value="props.product.tags.join(',')" data-property>
+                                    <input v-if="props.selectedVariant" type="hidden" name="id" :value="props.selectedVariant.id" data-property>
+                                    <input type="hidden" name="quantity" data-qty-selector v-model="props.quantity">
+                                    <input v-if="props.groupedOptions[1][props.groupedOptions[1].length -1 ] == props.selectedOptions[1] && props.selectedMachine !== null && props.selectedMachine !== undefined " type="hidden" name="properties[machine_option]" :value="props.selectedMachine[0]" data-property>
+                                    <p class="testestest">${props.selectedMachine}</p>
+                                </div>
+                            </div>
+
+                            <!--variant data-->
+
+                            <template v-if="!props.selectedVariant">
+                                <button disabled class="btn | w-full py-button-y px-button-x rounded-lg text-center text-button flex items-center justify-center relative cursor-pointer | lg:text-button-lg bg-secondary-900 text-tertiary-900 opacity-30 | transition-all duration-animation-speed | disabled">Not available</button>
+                            </template>
+                            <template v-else-if="props.selectedVariant.available">
+                                <label class="w-full uppercase text-body-small  font-semibold block mb-2">Quantity:</label>
+                                <div class="flex">
+                                    <a href="#" class="decrement qty-btn | py-2 px-4 border  rounded border-secondary-900" @click.prevent="props.decrement">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <g id="remix-icons/fill/system/subtract-fill" clip-path="url(#clip0_1108_24449)">
+                                            <g id="Group">
+                                            <path id="Vector" d="M5 11H19V13H5V11Z" fill="#30261A"/>
+                                            </g>
+                                            </g>
+                                            <defs>
+                                            <clipPath id="clip0_1108_24449">
+                                            <rect width="24" height="24" fill="white"/>
+                                            </clipPath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                    <input class="mx-2 border rounded border-secondary-900 bg-transparent-500 w-full text-center text-body-medium outline-none" name="quantity" type="number" data-qty-selector v-model="props.quantity">
+                                    <a href="#" class="increment qty-btn | py-2 px-4 border  rounded border-secondary-900" @click.prevent="props.increment">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <g id="remix-icons/line/system/add-line" clip-path="url(#clip0_1108_24455)">
+                                            <g id="Group">
+                                            <path id="Vector" d="M11 11V5H13V11H19V13H13V19H11V13H5V11H11Z" fill="#30261A"/>
+                                            </g>
+                                            </g>
+                                            <defs>
+                                            <clipPath id="clip0_1108_24455">
+                                            <rect width="24" height="24" fill="white"/>
+                                            </clipPath>
+                                            </defs>
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="w-full border-t border-neutral-0/25 pt-4 mt-4">
+                                    <button data-cart-add-async class="btn | w-full py-button-y px-button-x rounded-lg text-center text-button font-normal flex items-center justify-center relative cursor-pointer bg-primary-900 text-secondary-900 hover:bg-secondary-900 hover:text-tertiary-900  | lg:text-button-lg | transition-all duration-animation-speed">
+                                        Add to Cart
+                                        <template v-if="props.selectedVariant">
+
+                                            <p v-if="props.selectedVariant.compare_at_price > props.selectedVariant.price" class="price | text-body-large | lg:text-body-large-lg pointer-events-none">
+                                                <del class="opacity-25 pointer-events-none">&nbsp ${ props.formatCurrency(props.selectedVariant.compare_at_price) }</del> ${ props.formatCurrency(props.selectedVariant.price) }
+                                            </p>
+                                            <p v-else class="price | text-body-large | lg:text-body-large-lg pointer-events-none">&nbsp ${ props.formatCurrency(props.selectedVariant.price) }</p>
+
+                                        </template>
+                                    </button>
+                                </div>
+                            </template>
+                            <template v-else>
+                                <button disabled class="btn | w-full py-button-y px-button-x rounded-lg text-center text-button flex items-center justify-center relative cursor-pointer | lg:text-button-lg bg-secondary-900 text-tertiary-900 opacity-30 | transition-all duration-animation-speed | disabled">Sold Out</button>
+                            </template>
+
+                        </form>
+
+                    </template>
+
+                    <div>
+                        {% assign accodrion_items = product.metafields.custom.accordion | remove: '["' | remove: '"]' | split: '","' %}
+                        {% for accodrion_item in accodrion_items %}
+                            <div class="mb-4 border-b border-b-neutral-200">
+                                {% assign value = accodrion_item | split: '|' %}
+                                
+                                
+                                <a href="#" data-dropdown class="title | font-headline font-semibold text-headline-6 mb-4 w-full flex justify-between items-center | lg:text-headline-6-lg | transition-all duration-animation-speed" data-add-class="mb-2" data-remove-class="mb-4">
+                                    {{ value[0] }}
+                                    <span class="material-symbols-outlined | leading-6 font-light inline-block rotate-0 | transition-all duration-animation-speed" data-add-class="rotate-180" data-remove-class="rotate-0">expand_more</span>
+                                </a>
+                            
+                                <div class="content | max-h-0 overflow-hidden text-body-large | lg:text-body-large-lg | transition-all duration-animation-speed" data-add-class="max-h-[800px] pb-4" data-remove-class="max-h-0">
+                                    {{ value[1] }}
+                                </div>            
+
+                            </div>
+                        {% endfor %}
+                    </div>
+
+
+                </div>
+
+            </template>
+        </product-card>
+    </div>
+</section>
+
+<div id="payment-buttons" style="display:none">
+    {% if additional_checkout_buttons %}
+    {% comment %}
+        <div class="additional-checkout-buttons">
+            {{ content_for_additional_checkout_buttons }}
+        </div>
+    {% endcomment %}
+    {% form "product", product %}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" >
+        <p class="express-msg text-center mt-4">Or express checkout with</p>
+        <div class="additional-checkout-buttons">
+            {{ form | payment_button }}
+        </div>    
+    {%endform%}
+    {% endif %}
+</div>
+{% comment %}
+    Dynamic video popup section
+{% endcomment %}
+{% render 'dynamic-video-popup' %}
+
+
+{% schema %}
+  {
+    "name": "Product Template",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Background Colours"
+        },
+        {
+            "type": "select",
+            "id": "bg_color",
+            "options": [
+                {
+                                "value": "bg-primary",
+                                "label": "Teal"
+                            },
+                            {
+                                "value": "bg-secondary",
+                                "label": "Brown"
+                            },
+                            {
+                                "value": "bg-neutral",
+                                "label": "White"
+                            },
+                            {
+                                "value": "bg-transparent ",
+                                "label": "None"
+                            }, {
+                                "value": "bg-tertiary",
+                                "label": "Beige"
+                            }, {
+                                "value": "bg-yellow",
+                                "label": "Yellow"
+                            }, {
+                                "value": "bg-blue",
+                                "label": "Blue"
+                            }, {
+                                "value": "bg-orange ",
+                                "label": "Orange"
+                            }, {
+                                "value": "bg-salmon",
+                                "label": "Salmon"
+                            }
+            ],
+            "label": "Background color"
+        },
+        {
+            "type": "range",
+            "id": "bg_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Background color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        },
+        {
+            "type": "select",
+            "id": "text-align",
+            "options": [
+                { "value": "text-center justify-center", "label": "Center"},
+                { "value": "text-left justify-start", "label": "Left"},
+                { "value": "text-right justify-end", "label": "Right"}
+            ],
+            "label": "Text alignment"
+        },
+        {
+            "type": "header",
+            "content": "Text Colours"
+        },
+        {
+            "type": "select",
+            "id": "pc_text_color",
+            "options": [
+                { "value": "text-primary", "label": "Teal"},
+                { "value": "text-secondary", "label": "Brown"},
+                { "value": "text-neutral", "label": "White"}                       
+            ],
+            "label": "Text color"
+        },
+        {
+            "type": "range",
+            "id": "pc_text_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Text color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        },
+        {
+            "type": "header",
+            "content": "Product detail Colours"
+        },
+        {
+            "type": "select",
+            "id": "border_color",
+            "options": [
+            {
+                "value": "border-primary",
+                "label": "Teal"
+            },
+            {
+                "value": "border-secondary",
+                "label": "Brown"
+            },
+            {
+                "value": "border-neutral",
+                "label": "Neutral (white\/grey\/black)"
+            }
+            ],
+            "label": "Border color"
+        },
+        {
+            "type": "range",
+            "id": "border_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Border color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        },
+        {
+            "type": "header",
+            "content": "Button content"
+        },
+        {
+            "type": "text",
+            "id": "pc_buy_now",
+            "label": "Add to cart btn"
+        },
+        {
+            "type": "select",
+            "id": "pc_btn_color",
+            "options": [
+            {
+                "value": "bg-primary",
+                "label": "Teal"
+            },
+            {
+                "value": "bg-secondary",
+                "label": "Brown"
+            },
+            {
+                "value": "bg-neutral",
+                "label": "Neutral (white\/grey\/black)"
+            },
+            {
+                "value": "bg-transparent",
+                "label": "None"
+            }
+            ],
+            "label": "Button color"
+        },
+        {
+            "type": "range",
+            "id": "pc_btn_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Background color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        },
+        {
+            "type": "select",
+            "id": "pc_btn_border_color",
+            "options": [
+                { "value": "border-primary", "label": "Border Teal"},
+                { "value": "border-secondary", "label": "Border Brown"},
+                { "value": "border-neutral", "label": "Border White"},
+                { "value": "border-transparent ", "label": "None"}
+            ],
+            "label": "Button border color"
+        },
+        {
+            "type": "range",
+            "id": "pc_btn_border_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Button border color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        },
+        {
+            "type": "select",
+            "id": "pc_btn_text_color",
+            "options": [
+            {
+                "value": "text-primary",
+                "label": "Teal"
+            },
+            {
+                "value": "text-secondary",
+                "label": "Brown"
+            },
+            {
+                "value": "text-neutral",
+                "label": "Neutral (white\/grey\/black)"
+            }
+            ],
+            "label": "Button text color"
+        },
+        {
+            "type": "range",
+            "id": "pc_btn_text_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Background color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        },
+        {
+            "type": "header",
+            "content": "button hover styles"
+        },
+        {
+            "type": "select",
+            "id": "pc_btn_hover_color",
+            "options": [
+            {
+                "value": "hover:bg-primary",
+                "label": "Teal"
+            },
+            {
+                "value": "hover:bg-secondary",
+                "label": "Brown"
+            },
+            {
+                "value": "hover:bg-neutral",
+                "label": "Neutral (white\/grey\/black)"
+            },
+            {
+                "value": "hover:bg-transparent",
+                "label": "None"
+            }
+            ],
+            "label": "Button hover color"
+        },
+        {
+            "type": "range",
+            "id": "pc_btn_hover_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Background color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        },
+        {
+            "type": "select",
+            "id": "pc_btn_hover_border_color",
+            "options": [
+                { "value": "hover:border-primary", "label": "Border Teal"},
+                { "value": "hover:border-secondary", "label": "Border Brown"},
+                { "value": "hover:border-neutral", "label": "Border White"},
+                { "value": "hover:border-transparent ", "label": "None"}
+            ],
+            "label": "Button border color"
+        },
+        {
+            "type": "range",
+            "id": "pc_btn_hover_border_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Button border color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        },
+        {
+            "type": "select",
+            "id": "pc_btn_hover_text_color",
+            "options": [
+            {
+                "value": "hover:text-primary",
+                "label": "Teal"
+            },
+            {
+                "value": "hover:text-secondary",
+                "label": "Brown"
+            },
+            {
+                "value": "hover:text-neutral",
+                "label": "Neutral (white\/grey\/black)"
+            }
+            ],
+            "label": "Button text color"
+        },
+        {
+            "type": "range",
+            "id": "pc_btn_hover_text_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Background color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        },
+        {
+            "type": "text",
+            "id": "quantity",
+            "label": "Quantity select label",
+            "default": "Quantity"
+        },
+        {
+            "type": "text",
+            "id": "delivery_fee_msg",
+            "label": "Delivery Fee Message",
+            "default": "Buy more than one to receive a discount. Free delivery for orders over £30.00"
+        },
+        {
+            "type": "text",
+            "id": "express_msg",
+            "label": "Express Checkout message",
+            "default": "Or express checkout with"
+        }
+    ]
+
+  }
+{% endschema %}

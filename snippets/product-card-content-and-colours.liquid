@@ -1,0 +1,33 @@
+<script>
+
+    window.productCardColors = {
+        bg_color: '{{ settings.pc_bg_color }}-{{ settings.pc_bg_color_shade }}',
+        text_color: '{{ settings.pc_text_color }}-{{ settings.pc_text_color_shade }}',
+        btn_color: '{{ settings.pc_btn_color }}-{{ settings.pc_btn_color_shade }}',
+        btn_border_color: '{{ settings.pc_btn_border_color }}-{{ settings.pc_btn_border_color_shade }}',
+        btn_text_color: '{{ settings.pc_btn_text_color }}-{{ settings.pc_btn_text_color_shade }}',
+        btn_hover_color: '{{ settings.pc_btn_hover_color }}-{{ settings.pc_btn_hover_color_shade }}',
+        btn_hover_border_color: '{{ settings.pc_btn_hover_border_color }}-{{ settings.pc_btn_hover_border_color_shade }}',
+        btn_hover_text_color: '{{ settings.pc_btn_hover_text_color }}-{{ settings.pc_btn_hover_text_color_shade }}',
+        modal_bg_color: '{{ settings.pc_modal_bg_color }}-{{ settings.pc_modal_bg_color_shade }}',
+        modal_text_color: '{{ settings.pc_modal_text_color }}-{{ settings.pc_modal_text_color_shade }}',
+        modal_border_color: '{{ settings.pc_modal_select_border_color }}-{{ settings.pc_modal_select_border_shade }}',
+        modal_stroke_color: '{{ settings.pc_modal_select_border_color | replace: "border", "stroke" }}-{{ settings.pc_modal_select_border_shade }}'
+    }
+    {% assign variant_exclusion_list = settings.variant_exclusion_list | newline_to_br | strip_newlines | split: '<br />'  %} 
+    window.productCardContent = {
+        buy_now: '{{ settings.pc_buy_now }}',
+        quick_buy: '{{ settings.pc_quick_buy }}',
+        one_time: '{{ settings.one_time }}',
+        subscription: '{{ settings.subscription }}',
+        no_subscription: '{{ settings.no_subscription }}',
+        subscription_key_points: '{{ settings.subscription_key_points }}',
+        free_delivery:'{{ settings.free_delivery }}',
+        free_delivery_override:'{{ settings.free_delivery_override }}',
+        free_shipping_threshold:'{{ settings.free_shipping_threshold }}',
+        variant_exclusion_list: [{% for exclusion in variant_exclusion_list %}
+                {%if forloop.last %}
+                    '{{ exclusion | downcase }}'{%else%}'{{ exclusion | downcase }}',{%endif%}
+            {%endfor%}]
+    }
+</script>

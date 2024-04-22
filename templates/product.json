@@ -1,0 +1,123 @@
+{
+  "sections": {
+    "product_template": {
+      "type": "product-template",
+      "settings": {
+        "bg_color": "bg-tertiary",
+        "bg_color_shade": 900,
+        "text-align": "text-center justify-center",
+        "pc_text_color": "text-secondary",
+        "pc_text_color_shade": 900,
+        "border_color": "border-secondary",
+        "border_shade": 300,
+        "pc_buy_now": "Add to cart",
+        "pc_btn_color": "bg-primary",
+        "pc_btn_color_shade": 500,
+        "pc_btn_border_color": "border-primary",
+        "pc_btn_border_color_shade": 500,
+        "pc_btn_text_color": "text-neutral",
+        "pc_btn_text_color_shade": 0,
+        "pc_btn_hover_color": "hover:bg-primary",
+        "pc_btn_hover_color_shade": 500,
+        "pc_btn_hover_border_color": "hover:border-primary",
+        "pc_btn_hover_border_color_shade": 500,
+        "pc_btn_hover_text_color": "hover:text-primary-500",
+        "pc_btn_hover_text_color_shade": 500,
+        "quantity": "Quantity",
+        "delivery_fee_msg": "Buy more than one to receive a discount. Free delivery for orders over £30.00",
+        "express_msg": "Or express checkout with"
+      }
+    },
+    "ae1eaeb2-8f87-44af-908e-3653fc63e661": {
+      "type": "product-information-card",
+      "settings": {}
+    },
+    "cfd8ffcd-5d2c-4d83-830b-7e50f2c303ec": {
+      "type": "product-spotlight",
+      "settings": {}
+    },
+    "e409d27d-e61d-4f53-af33-5fa7bbe467da": {
+      "type": "brewing-methods",
+      "blocks": {
+        "011fd113-6fd7-47d5-9eb6-9298e55cac0f": {
+          "type": "brewing-method",
+          "repeater": "{{ product.metafields.product_details.brewing_methods.value }}",
+          "settings": {
+            "image": "{{ block.repeater.image.value }}",
+            "bg_color": "{{ block.repeater.background_color.value }}",
+            "bg_color_shade": "{{ block.repeater.background_color_shade.value }}",
+            "title": "{{ block.repeater.title.value }}",
+            "coffee_weight": "{{ block.repeater.coffee_weight.value }}",
+            "grind_level": "{{ block.repeater.grind_level.value }}",
+            "water": "{{ block.repeater.water.value }}",
+            "time": "{{ block.repeater.time.value }}",
+            "cta_text": "{{ block.repeater.cta_text.value }}",
+            "vimeo_id": "{{ block.repeater.vimeo_id.value }}"
+          }
+        }
+      },
+      "block_order": [
+        "011fd113-6fd7-47d5-9eb6-9298e55cac0f"
+      ],
+      "settings": {
+        "id": "",
+        "title": "",
+        "subtitle": "",
+        "bg_color": "bg-neutral",
+        "bg_color_shade": 900
+      }
+    },
+    "9eb047a0-4363-4707-8f04-3d6e968550d2": {
+      "type": "product-reviews-header",
+      "settings": {
+        "title": "RAVE REVIEWS",
+        "copy": "<p>The people have spoken. Check out what they have to say.<\/p>"
+      }
+    },
+    "1687883126fbbf4a28": {
+      "type": "apps",
+      "blocks": {
+        "c2e0e962-264f-451c-a702-4df5b9e26291": {
+          "type": "shopify:\/\/apps\/product-reviews\/blocks\/reviews\/bae150af-8da8-48b2-9867-398188115e5f",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "c2e0e962-264f-451c-a702-4df5b9e26291"
+      ],
+      "settings": {}
+    },
+    "related_template": {
+      "type": "related-products",
+      "settings": {
+        "bg_color": "bg-neutral",
+        "bg_color_shade": 900,
+        "text-align": "text-center justify-center",
+        "title": "You'll love these",
+        "title_typeface": "font-headline",
+        "title_size": "text-display lg:text-display-lg",
+        "title_weight": "font-normal",
+        "title_color": "text-secondary",
+        "title_color_shade": 900,
+        "subtitle": "<p>Good vibes for every occasion, great flavours for every taste.<\/p>",
+        "subtitle_typeface": "font-body",
+        "subtitle_size": "text-body-large lg:text-body-large-lg",
+        "subtitle_weight": "font-normal",
+        "subtitle_color": "text-secondary",
+        "subtitle_color_shade": 900,
+        "limit": 20,
+        "autoplay": true,
+        "loop": false
+      }
+    }
+  },
+  "order": [
+    "product_template",
+    "ae1eaeb2-8f87-44af-908e-3653fc63e661",
+    "cfd8ffcd-5d2c-4d83-830b-7e50f2c303ec",
+    "e409d27d-e61d-4f53-af33-5fa7bbe467da",
+    "9eb047a0-4363-4707-8f04-3d6e968550d2",
+    "1687883126fbbf4a28",
+    "related_template"
+  ]
+}

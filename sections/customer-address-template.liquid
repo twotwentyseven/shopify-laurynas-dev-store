@@ -1,0 +1,787 @@
+{% assign ss = section.settings %}
+<section class="w-full px-container-gutter flex flex-col pb-10 bg-tertiary-900 lg:px-container-gutter-lg lg:pb-20">
+    
+    <h1 class="font-headline text-headline-1 mb-6 | lg:text-headline-1-lg">{{ ss.title }}</h1>
+    
+    <div class="flex flex-wrap w-full | lg:flex-nowrap lg:-mx-gutter-lg lg:relative">
+        <div class="w-full order-2 | lg:order-1 lg:mx-gutter-lg lg:w-[calc(33.33%-1.5rem)]">
+            {% for address in customer.addresses %}
+            <div class="mb-4 p-6 shadow-md shadow-black/30 border rounded-2xl border-secondary-900 | lg:mb-gutter-lg | {% if address == customer.default_address %}bg-secondary-900{% endif %}">
+                <p class="uppercase font-semibold {% if address == customer.default_address %}text-neutral-0{% else %}text-secondary-900{% endif %} text-body-large mb-6 lg:text-body-large-lg">{{ address.first_name }} {{ address.last_name }}</p>
+                <div class="{% if address == customer.default_address %}text-neutral-0{% else %}text-secondary-900{% endif %} text-body-small mb-4 lg:text-body-small-lg">
+                    <p class="mb-1">{{ address.address1 }}</p>
+                    <p class="mb-1">{{ address.address2 }}</p>
+                    <p class="mb-1">{{ address.city }}, {{ address.country }}</p>
+                    <p class="mb-1">{{ address.zip}}</p>
+                    <p class="mb-1">{{ address.phone }}</p>
+                </div>
+                <a data-toggle-visibility="{{ address.id }}" class="{% if address == customer.default_address %}text-neutral-0{% else %}text-secondary-900{% endif %} inline-flex items-center font-semibold mr-4" href="/account/addresses#"><span class="material-symbols-outlined mr-1.5 text-body-medium lg:text-body-large-lg">edit</span><span class="underline">{{ settings.edit }}</a>
+                <form data-delete-address="{{ settings.delete_confirmation }}" class="address-delete-form | inline-flex" method="post" action="/account/addresses/{{ address.id }}">
+                    <input type="hidden" name="_method" value="delete">
+                    <button type="submit" class="{% if address == customer.default_address %}text-neutral-0{% else %}text-secondary-900{% endif %} flex items-center font-semibold" href="/account/addresses#">
+                        <span class="material-symbols-outlined mr-1.5 text-body-large lg:text-body-large-lg">delete</span><span class="underline">{{ settings.delete }}</span>
+                    </button>
+                </form>
+            </div>
+            <div class="w-full hidden pt-6 pb-10 lg:py-0 lg:mx-gutter-lg lg:w-[calc(66.66%-1.5rem)] lg:absolute lg:right-0 lg:top-0" data-add-class="block" data-remove-class="hidden" data-toggle-wrapper="{{ address.id }}">
+                <h2 class="font-headline text-headline-6 w-full mb-4 | lg:mb-6 lg:text-headline-6-lg">{{ ss.edit_address }}</h2>
+
+                <div data-address-id="{{ address.id }}">
+
+                    {% form 'customer_address', address %}
+
+                    <div class="flex flex-wrap lg:-mx-gutter-lg">
+
+                        <div class="field-wrap | w-full mb-4 | lg:mx-gutter-lg lg:w-[calc(50%-1.5rem)]">
+
+                            <label class="text-body-small | lg:text-body-small-lg">{{ settings.first_name }}</label>
+                            <input class="w-full border-secondary-900 border rounded-lg py-3 px-2 text-body-medium placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-medium-lg" type="text" id="AddressFirstName_{{ form.id }}" name="address[first_name]" value="{{ form.first_name }}" placeholder="{{ settings.first_name }}">
+
+                        </div>
+
+                        <div class="field-wrap | w-full mb-4 | lg:mx-gutter-lg lg:w-[calc(50%-1.5rem)]">
+
+                            <label class="text-body-small | lg:text-body-small-lg">{{ settings.last_name }}</label>
+                            <input class="w-full border-secondary-900 border rounded-lg py-3 px-2 text-body-medium placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-medium-lg" type="text" id="AddressLastName_{{ form.id }}" name="address[last_name]" value="{{ form.last_name }}" placeholder="{{ settings.last_name }}">
+
+                        </div>
+
+                        <div class="field-wrap | w-full mb-4 | lg:mx-gutter-lg lg:w-[calc(50%-1.5rem)]">
+
+                            <label class="text-body-small | lg:text-body-small-lg">{{ settings.address_1 }}</label>
+                            <input class="w-full border-secondary-900 border rounded-lg py-3 px-2 text-body-medium placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-medium-lg" type="text" id="AddressAddress1_{{ form.id }}" name="address[address1]" value="{{ form.address1 }}" placeholder="{{ settings.address_1 }}">
+
+                        </div>
+
+                        <div class="field-wrap | w-full mb-4 | lg:mx-gutter-lg lg:w-[calc(50%-1.5rem)]">
+
+                            <label class="text-body-small | lg:text-body-small-lg">{{ settings.address_2 }}</label>
+                            <input class="w-full border-secondary-900 border rounded-lg py-3 px-2 text-body-medium placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-medium-lg" type="text" id="AddressAddress2_{{ form.id }}" name="address[address2]" value="{{ form.address2 }}" placeholder="{{ settings.address_2 }}">
+
+                        </div>
+
+                        <div class="field-wrap | w-full mb-4 | lg:mx-gutter-lg lg:w-[calc(50%-1.5rem)]">
+
+                            <label class="text-body-small | lg:text-body-small-lg">{{ settings.city }}</label>
+                            <input class="w-full border-secondary-900 border rounded-lg py-3 px-2 text-body-medium placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-medium-lg" type="text" id="AddressCity_{{ form.id }}" name="address[city]" value="{{ form.city }}" placeholder="{{ settings.city }}">
+
+                        </div>
+
+                        <div data-vue-app class="field-wrap selector-wrapper | border-secondary-900 bg-tertiary-900 w-full mb-4 relative | lg:mx-gutter-lg lg:w-[calc(50%-1.5rem)]">
+
+                            <label class="text-body-small | lg:text-body-small-lg">{{ settings.country }}</label>
+
+                            <styleable-dropdown :default-to-first-option="true" required name="address[country]">
+                                {% if form.country != blank %}
+                                <option selected value="{{ form.country }}">{{ form.country }}</option>
+                                {% else %}
+                                <option disabled hidden selected="selected" value="{{ settings.country }}">{{ settings.country  }}</option>
+                                {% endif %}
+                                {{ all_country_option_tags }}
+                            </styleable-dropdown>
+                    
+                            {% comment %} <div class="selectCustom js-selectCustom text-body-medium placeholder:text-secondary-900 focus:outline-none !h-12 !bg-primary-0 !top-6 | lg:text-body-medium-lg" aria-hidden="true">
+                                <div class="selectCustom-trigger !py-3 !px-2 !border-neutral-200 !border !rounded !text-body-medium | lg:!text-body-medium-lg">{{ form.country }}</div>
+                                <div class="selectCustom-options !top-auto">
+                                    {{ all_country_option_tags | replace: 'option', 'div class="selectCustom-option"' | replace: 'value', 'data-value' }}
+                                </div>
+                            </div>
+
+                            <select class="js-selectNative selectNative border-neutral-200 border rounded py-3 px-2  text-body-medium placeholder:text-secondary-900 focus:outline-none !h-12 !bg-primary-0 | lg:text-body-medium-lg" id="AddressCountry_{{ form.id }}" name="address[country]" data-default="{{ form.country }}">
+                                {{ all_country_option_tags }}
+                            </select> {% endcomment %}
+                        </div>
+
+
+
+                        <div class="field-wrap | w-full mb-4 | lg:mx-gutter-lg lg:w-[calc(50%-1.5rem)]">
+
+                            <label class="text-body-small | lg:text-body-small-lg">{{ settings.postcode }}</label>
+                            <input class="w-full border-secondary-900 border rounded-lg py-3 px-2 text-body-medium placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-medium-lg" type="text" id="AddressZip_{{ form.id }}" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters" placeholder="{{ settings.postcode }}">
+
+                        </div>
+
+                        <div class="field-wrap | w-full mb-4 | lg:mx-gutter-lg lg:w-[calc(50%-1.5rem)]">
+
+                            <label class="text-body-small | lg:text-body-small-lg">{{ settings.company }}</label>
+                            <input class="w-full border-secondary-900 border rounded-lg py-3 px-2 text-body-medium placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-medium-lg" type="text" id="AddressCompany_{{ form.id }}" name="address[company]" value="{{ form.company }}" placeholder="{{ settings.company }}">
+
+                        </div>
+
+                        {% comment %} <div class="field-wrap | w-full mb-4 | lg:mx-gutter-lg lg:w-[calc(50%-1.5rem)]">
+
+                            <label class="text-body-small | lg:text-body-small-lg">{{ settings.phone }}</label>
+                            <input class="w-full border-secondary-900 border rounded-lg py-3 px-2 text-body-medium placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-medium-lg" type="text" id="AddressPhone_{{ form.id }}" name="address[phone]" value="{{ form.phone }}" placeholder="{{ settings.phone }}">
+
+                        </div>
+
+                        <div class="field-wrap | w-full mb-4 | lg:mx-gutter-lg lg:w-[calc(50%-1.5rem)]">
+
+                            <label class="text-body-small | lg:text-body-small-lg">{{ settings.email }}</label>
+                            <input class="w-full border-secondary-900 border rounded-lg py-3 px-2 text-body-medium placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-medium-lg" type="text" id="AddressEmail_{{ form.id }}" name="address[email]" value="{{ form.email }}" placeholder="{{ settings.email }}">
+
+                        </div> {% endcomment %}
+
+
+                        <div class="field-wrap | w-full mb-4 | lg:mx-gutter-lg">
+                            {{ form.set_as_default_checkbox | replace: '<input', '<input class="peer hidden"' }}
+                            <label for="address_default_address_{{ form.id }}" id="set_default_new_address"
+                                class="relative block pl-6 text-body-medium-lg cursor-pointer | transition-all duration-animation-speed lg:my-2 before:absolute before:left-0 before:top-1/2 before:translate-y-[-50%] before:w-4 before:h-4 before:border before:border-neutral-900 after:opacity-0 after:border-b after:absolute after:left-1 after:top-1.5 after:border-l after:border-b-primary-500 after:border-l-secondary-900 after:-rotate-45 after:transition-all after:duration-animation-speedfirst-letter peer-checked:after:opacity-100 peer-checked:before:border-secondary-900  peer-checked:after:w-2 peer-checked:after:h-1">
+                                {{ settings.default }}
+                            </label>
+                        </div>
+
+
+                        <div class="button-wrap | w-full flex justify-end">
+                            {% render 'button' 
+                            element: 'a', 
+                            border_color: ss.alt_btn_color, 
+                            border_color_shade: ss.alt_btn_color_shade, 
+                            border_width: 'border', 
+                            bg_color: ss.alt_btn_color, 
+                            bg_color_shade: ss.alt_btn_color_shade, 
+                            text_color: ss.alt_btn_text_color, 
+                            text_color_shade: ss.alt_btn_text_color_shade, 
+                            hover_bg: ss.alt_btn_hover_color, 
+                            hover_bg_shade: ss.alt_btn_hover_color_shade, 
+                            hover_text: ss.alt_btn_hover_text_color, 
+                            hover_text_shade: ss.alt_btn_hover_text_color_shade, 
+                            content: ss.btn_cancel, 
+                            custom_class: 'mx-2 w-1/4 font-headline border-secondary-900', 
+                            before_icon: '', 
+                            after_icon: '' %}
+
+                            {% render 'button' 
+                            element: 'button', 
+                            type: 'submit', 
+                            border_color: ss.btn_color, 
+                            border_width: 'border', 
+                            bg_color: ss.btn_color, 
+                            bg_color_shade: ss.btn_color_shade, 
+                            text_color: ss.btn_text_color, 
+                            text_color_shade: ss.btn_text_color_shade, 
+                            hover_bg: ss.btn_hover_color, 
+                            hover_bg_shade: ss.btn_hover_color_shade, 
+                            hover_text: ss.btn_hover_text_color, 
+                            hover_text_shade: ss.btn_hover_text_color_shade, 
+                            content: ss.btn_update, 
+                            custom_class: 'mx-2 w-1/4 font-headline border-secondary-900', 
+                            before_icon: '', 
+                            after_icon: '' %}
+                        </div>
+
+
+                    </div>
+
+                    {% endform %}
+
+                </div>
+
+            </div>
+            {% endfor %}
+            {% render 'button' 
+            element: 'a', 
+            href: '#', 
+            data: 'toggle-visibility="new-address"', 
+            border_color: ss.btn_color, 
+            border_width: 'border', 
+            bg_color: ss.btn_color, 
+            bg_color_shade: ss.btn_color_shade, 
+            text_color: ss.btn_text_color, 
+            text_color_shade: ss.btn_text_color_shade, 
+            hover_bg: ss.btn_hover_color, 
+            hover_bg_shade: ss.btn_hover_color_shade, 
+            hover_text: ss.btn_hover_text_color, 
+            hover_text_shade: ss.btn_hover_text_color_shade, 
+            content: ss.btn_text, 
+            custom_class: 'w-full flex justify-between font-headline border-secondary-900', 
+            before_icon: '', 
+            after_icon: 'add' %}
+        </div>
+
+        <div class="w-full order-1 block pb-10 lg:pb-0 lg:order-2 lg:mx-gutter-lg lg:w-[calc(66.66%-1.5rem)]" data-add-class="block" data-remove-class="hidden" data-toggle-wrapper="new-address" data-new-address>
+            
+            <h2 class="font-headline text-headline-6 font-semibold w-full mb-4 | lg:mb-6 lg:text-headline-6-lg">{{ ss.add_address }}</h2>
+
+            {% form 'customer_address', customer.new_address %}
+
+                <div class="flex flex-wrap  lg:-mx-gutter-lg">
+
+                    <div class="field-wrap | w-full mb-4 | lg:mx-gutter-lg lg:w-[calc(50%-1.5rem)]">
+
+                        <label class="text-body-small | lg:text-body-small-lg">{{ settings.first_name }}</label>
+                        <input class="w-full border-secondary-900 border rounded-lg py-3 px-2 text-body-medium placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-medium-lg" type="text" id="AddressFirstName_{{ form.id }}" name="address[first_name]" value="{{ form.first_name }}" placeholder="{{ settings.first_name }}">
+
+                    </div>
+
+                    <div class="field-wrap | w-full mb-4 | lg:mx-gutter-lg lg:w-[calc(50%-1.5rem)]">
+
+                        <label class="text-body-small | lg:text-body-small-lg">{{ settings.last_name }}</label>
+                        <input class="w-full border-secondary-900 border rounded-lg py-3 px-2 text-body-medium placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-medium-lg" type="text" id="AddressLastName_{{ form.id }}" name="address[last_name]" value="{{ form.last_name }}" placeholder="{{ settings.last_name }}">
+
+                    </div>
+
+                    <div class="field-wrap | w-full mb-4 | lg:mx-gutter-lg lg:w-[calc(50%-1.5rem)]">
+
+                        <label class="text-body-small | lg:text-body-small-lg">{{ settings.address_1 }}</label>
+                        <input class="w-full border-secondary-900 border rounded-lg py-3 px-2 text-body-medium placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-medium-lg" type="text" id="AddressAddress1_{{ form.id }}" name="address[address1]" value="{{ form.address1 }}" placeholder="{{ settings.address_1 }}">
+
+                    </div>
+
+                    <div class="field-wrap | w-full mb-4 | lg:mx-gutter-lg lg:w-[calc(50%-1.5rem)]">
+
+                        <label class="text-body-small | lg:text-body-small-lg">{{ settings.address_2 }}</label>
+                        <input class="w-full border-secondary-900 border rounded-lg py-3 px-2 text-body-medium placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-medium-lg" type="text" id="AddressAddress2_{{ form.id }}" name="address[address2]" value="{{ form.address2 }}" placeholder="{{ settings.address_2 }}">
+
+                    </div>
+
+                    <div class="field-wrap | w-full mb-4 | lg:mx-gutter-lg lg:w-[calc(50%-1.5rem)]">
+
+                        <label class="text-body-small | lg:text-body-small-lg">{{ settings.city }}</label>
+                        <input class="w-full border-secondary-900 border rounded-lg py-3 px-2 text-body-medium placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-medium-lg" type="text" id="AddressCity_{{ form.id }}" name="address[city]" value="{{ form.city }}" placeholder="{{ settings.city }}">
+
+                    </div>
+ 
+                    <div data-vue-app class="field-wrap | border-secondary-900 bg-tertiary-900 w-full mb-4 | lg:mx-gutter-lg lg:w-[calc(50%-1.5rem)]">
+
+                        <label class="text-body-small | lg:text-body-small-lg">{{ settings.country }}</label>
+
+                        <styleable-dropdown :default-to-first-option="true" required name="address[country]">
+                            <option hidden disabled selected="selected" value="">{{ settings.country }}</option>
+                            {{ all_country_option_tags }}
+                        </styleable-dropdown>
+                        
+
+                        {% comment %} <div class="selectCustom js-selectCustom text-body-medium placeholder:text-secondary-900 focus:outline-none !h-12 !bg-primary-0 !top-6 | lg:text-body-medium-lg" aria-hidden="true">
+                            <div class="selectCustom-trigger !py-3 !px-2 !border-neutral-200 !border !rounded !text-body-medium | lg:!text-body-medium-lg">{{settings.country}}</div>
+                            <div class="selectCustom-options !top-auto">
+                                {{ all_country_option_tags | replace: 'option', 'div class="selectCustom-option"' | replace: 'value', 'data-value' }}
+                            </div>
+                        </div>
+
+                        <select class="js-selectNative selectNative border-neutral-200 border rounded py-3 px-2  text-body-medium placeholder:text-secondary-900 focus:outline-none !h-12 !bg-primary-0 | lg:text-body-medium-lg" id="AddressCountry_{{ form.id }}" name="address[country]" data-default="{{ form.country }}">
+                            {{ all_country_option_tags }}
+                        </select> {% endcomment %}
+                    </div>
+
+                    <div class="field-wrap | w-full mb-4 | lg:mx-gutter-lg lg:w-[calc(50%-1.5rem)]">
+
+                        <label class="text-body-small | lg:text-body-small-lg">{{ settings.postcode }}</label>
+                        <input class="w-full border-secondary-900 border rounded-lg py-3 px-2 text-body-medium placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-medium-lg" type="text" id="AddressZip_{{ form.id }}" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters" placeholder="{{ settings.postcode }}">
+
+                    </div>
+
+                    <div class="field-wrap | w-full mb-4 | lg:mx-gutter-lg lg:w-[calc(50%-1.5rem)]">
+
+                        <label class="text-body-small | lg:text-body-small-lg">{{ settings.company }}</label>
+                        <input class="w-full border-secondary-900 border rounded-lg py-3 px-2 text-body-medium placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-medium-lg" type="text" id="AddressCompany_{{ form.id }}" name="address[company]" value="{{ form.company }}" placeholder="{{ settings.company }}">
+
+                    </div>
+
+                    {% comment %} <div class="field-wrap | w-full mb-4 | lg:mx-gutter-lg lg:w-[calc(50%-1.5rem)]">
+
+                        <label class="text-body-small | lg:text-body-small-lg">{{ settings.phone }}</label>
+                        <input class="w-full border-secondary-900 border rounded-lg py-3 px-2 text-body-medium placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-medium-lg" type="text" id="AddressPhone_{{ form.id }}" name="address[phone]" value="{{ form.phone }}" placeholder="{{ settings.phone }}">
+
+                    </div>
+
+                    <div class="field-wrap | w-full mb-4 | lg:mx-gutter-lg lg:w-[calc(50%-1.5rem)]">
+
+                        <label class="text-body-small | lg:text-body-small-lg">{{ settings.email }}</label>
+                        <input class="w-full border-secondary-900 border rounded-lg py-3 px-2 text-body-medium placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-medium-lg" type="text" id="AddressEmail_{{ form.id }}" name="address[email]" value="{{ form.email }}" placeholder="{{ settings.email }}">
+
+                    </div> {% endcomment %}
+
+
+                    <div class="field-wrap | w-full mb-4 | lg:mx-gutter-lg">
+                        {{ form.set_as_default_checkbox | replace: '<input', '<input class="peer hidden"' }}
+                        <label for="address_default_address_{{ form.id }}" id="set_default_new_address"
+                            class="relative block pl-6 text-body-medium-lg cursor-pointer | transition-all duration-animation-speed lg:my-2 before:absolute before:left-0 before:top-1/2 before:translate-y-[-50%] before:w-4 before:h-4 before:border before:border-secondary-900 after:opacity-0 after:border-b after:absolute after:left-1 after:top-1.5 after:border-l after:border-b-secondary-900 after:border-l-secondary-900 after:-rotate-45 after:transition-all after:duration-animation-speedfirst-letter peer-checked:after:opacity-100 peer-checked:before:border-secondary-900  peer-checked:after:w-2 peer-checked:after:h-1">
+                            {{ settings.default }}
+                        </label>
+                    </div>
+
+
+                    <div class="button-wrap | w-full flex justify-end">
+                        {% render 'button' 
+                        element: 'a', 
+                        border_color: ss.alt_btn_color, 
+                        border_width: 'border', 
+                        bg_color: ss.alt_btn_color, 
+                        bg_color_shade: ss.alt_btn_color_shade, 
+                        text_color: ss.alt_btn_text_color, 
+                        text_color_shade: ss.alt_btn_text_color_shade, 
+                        hover_bg: ss.alt_btn_hover_color, 
+                        hover_bg_shade: ss.alt_btn_hover_color_shade, 
+                        hover_text: ss.alt_btn_hover_text_color, 
+                        hover_text_shade: ss.alt_btn_hover_text_color_shade, 
+                        content: ss.btn_cancel, 
+                        custom_class: 'mx-2 w-1/4 font-headline border-secondary-900', 
+                        before_icon: '', 
+                        after_icon: '' %}
+                        
+                        {% render 'button' 
+                        element: 'button', 
+                        type: 'submit', 
+                        border_color: ss.btn_color, 
+                        border_width: 'border', 
+                        bg_color: ss.btn_color, 
+                        bg_color_shade: ss.btn_color_shade, 
+                        text_color: ss.btn_text_color, 
+                        text_color_shade: ss.btn_text_color_shade, 
+                        hover_bg: ss.btn_hover_color, 
+                        hover_bg_shade: ss.btn_hover_color_shade, 
+                        hover_text: ss.btn_hover_text_color, 
+                        hover_text_shade: ss.btn_hover_text_color_shade, 
+                        content: ss.btn_save, 
+                        custom_class: 'mx-2 w-1/4 font-headline border-secondary-900', 
+                        before_icon: '', 
+                        after_icon: '' %}
+                    </div>
+
+
+                </div>
+
+            {% endform %}
+
+        </div>
+
+    </div>
+    
+</section>
+
+{% schema %}
+    {
+        "name": "Account Addresses",
+        "settings": [
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title"
+            },
+            {
+                "type": "text",
+                "id": "edit_address",
+                "label": "Edit Address title"
+            },
+            {
+                "type": "text",
+                "id": "add_address",
+                "label": "Add Address title"
+            },
+            {
+                "type": "header",
+                "content": "button 1 styles"
+            },
+            {
+                "type": "text",
+                "id": "btn_text",
+                "label": "Add New Address"
+            },
+            {
+                "type": "text",
+                "id": "btn_save",
+                "label": "Save Address"
+            },
+            {
+                "type": "text",
+                "id": "btn_update",
+                "label": "Update Address"
+            }, 
+            {
+                "type": "select",
+                "id": "btn_color",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "bg-tertiary",
+                        "label": "Tertiary"
+                    },
+                    {
+                        "value": "bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "bg-salmon",
+                        "label": "Salmon"
+                    }, {
+                        "value": "bg-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "bg-blue",
+                        "label": "Blue"
+                    }, {
+                        "value": "bg-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button color"
+            },
+            {
+                "type": "range",
+                "id": "btn_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            },
+            {
+                "type": "select",
+                "id": "btn_text_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "text-neutral",
+                        "label": "White"
+                    },
+                    {
+                        "value": "text-tertiary",
+                        "label": "Tertiary"
+                    }, {
+                        "value": "text-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "text-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "text-blue",
+                        "label": "blue"
+                    }, {
+                        "value": "text-salmon",
+                        "label": "Salmon"
+                    }
+                ],
+                "label": "Button text color"
+            },
+            {
+                "type": "range",
+                "id": "btn_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            },
+            {
+                "type": "header",
+                "content": "button 1 hover styles"
+            },
+            {
+                "type": "select",
+                "id": "btn_hover_color",
+                "options": [
+                    {
+                        "value": "hover:bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "hover:bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "hover:bg-tertiary",
+                        "label": "Tertiary"
+                    },
+                    {
+                        "value": "hover:bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "hover:bg-salmon",
+                        "label": "Salmon"
+                    }, {
+                        "value": "hover:bg-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "hover:bg-blue",
+                        "label": "Blue"
+                    }, {
+                        "value": "hover:bg-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button hover color"
+            },
+            {
+                "type": "range",
+                "id": "btn_hover_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            },
+            {
+                "type": "select",
+                "id": "btn_hover_text_color",
+                "options": [
+                    {
+                        "value": "hover:text-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "hover:text-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "hover:text-neutral",
+                        "label": "White"
+                    },
+                    {
+                        "value": "hover:text-tertiary",
+                        "label": "Tertiary"
+                    }, {
+                        "value": "hover:text-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "hover:text-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "hover:text-blue",
+                        "label": "blue"
+                    }, {
+                        "value": "hover:text-salmon",
+                        "label": "Salmon"
+                    }
+                ],
+                "label": "Button hover text color"
+            },
+            {
+                "type": "range",
+                "id": "btn_hover_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button hover text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            },
+            {
+                "type": "header",
+                "content": "button 2 styles"
+            },
+            {
+                "type": "text",
+                "id": "btn_cancel",
+                "label": "Cancel"
+            },
+            {
+                "type": "select",
+                "id": "alt_btn_color",
+                "options": [
+                   {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "bg-tertiary",
+                        "label": "Tertiary"
+                    },
+                    {
+                        "value": "bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "bg-salmon",
+                        "label": "Salmon"
+                    }, {
+                        "value": "bg-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "bg-blue",
+                        "label": "Blue"
+                    }, {
+                        "value": "bg-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "",
+                        "label": "None"
+                    }
+                ],
+                "label": "Alt button color"
+            },
+            {
+                "type": "range",
+                "id": "alt_btn_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            },
+            {
+                "type": "select",
+                "id": "alt_btn_text_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "text-neutral",
+                        "label": "White"
+                    },
+                    {
+                        "value": "text-tertiary",
+                        "label": "Tertiary"
+                    }, {
+                        "value": "text-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "text-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "text-blue",
+                        "label": "blue"
+                    }, {
+                        "value": "text-salmon",
+                        "label": "Salmon"
+                    }
+                ],
+                "label": "Button text color"
+            }, {
+                "type": "range",
+                "id": "alt_btn_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            },
+            {
+                "type": "header",
+                "content": "button 2 hover styles"
+            },
+            {
+                "type": "select",
+                "id": "alt_btn_hover_color",
+                "options": [
+                    {
+                        "value": "hover:bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "hover:bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "hover:bg-tertiary",
+                        "label": "Tertiary"
+                    },
+                    {
+                        "value": "hover:bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "hover:bg-salmon",
+                        "label": "Salmon"
+                    }, {
+                        "value": "hover:bg-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "hover:bg-blue",
+                        "label": "Blue"
+                    }, {
+                        "value": "hover:bg-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button hover color"
+            },
+            {
+                "type": "range",
+                "id": "alt_btn_hover_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            },
+            {
+                "type": "select",
+                "id": "alt_btn_hover_text_color",
+                "options": [
+                    {
+                        "value": "hover:text-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "hover:text-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "hover:text-neutral",
+                        "label": "White"
+                    },
+                    {
+                        "value": "hover:text-tertiary",
+                        "label": "Tertiary"
+                    }, {
+                        "value": "hover:text-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "hover:text-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "hover:text-blue",
+                        "label": "blue"
+                    }, {
+                        "value": "hover:text-salmon",
+                        "label": "Salmon"
+                    }
+                ],
+                "label": "Button hover text color"
+            },
+            {
+                "type": "range",
+                "id": "alt_btn_hover_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button hover text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }
+        ],
+        "presets": [
+            {
+                "name": "Account Addresses"
+            }
+        ]
+
+    }
+{% endschema %}

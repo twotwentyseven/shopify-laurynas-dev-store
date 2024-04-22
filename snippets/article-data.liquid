@@ -1,0 +1,43 @@
+{
+"id":{{ article.id | json }},
+"blog_id": {{ article.blog_id | json }},
+"title":{{ article.title | json | remove: "\n" }},
+"created_at": {{ article.created_at | json }},
+"published_at": "{{ article.published_at | date: '%d %b %y' }}",
+"body_html": {{ article.body_html | json | remove: "\n" }},
+"summary_html": {{ article.summary_html | json | remove: "\n" }},
+"handle":{{ article.handle | json }},
+"author": {{ article.author | json }},
+"excerpt": {{ article.excerpt | strip_html | json }},
+"metafields": {%- render "metafield-loop", name_space: "article", object: article -%} ,
+"images":{
+                            "alt":{{ article.image.alt | json }},
+"id":{{ article.image.id | json }},
+"src":{{ article.image | img_url: '500x' | json }},
+"originalSrc":{{ article.image | img_url: 'master' | json }}
+},
+"tags": [
+{% assign product = false %}
+{% for tag in article.tags %}
+    {{ tag | json | remove: "\n" }}{% unless forloop.last %},{% endunless %}
+    {% if tag contains 'product:' %}
+        {% assign product = tag | remove: 'product:' %}
+    {% endif %}
+{% endfor %}
+],
+{%- if product -%}
+    "product": {
+    "title": {{ all_products[product].title | json }},
+    "images":{
+                        "alt":{{ all_products[product].featured_image.alt | json }},
+    "id":{{ all_products[product].featured_image.id | json }},
+    "src":{{ all_products[product].featured_image | img_url: '500x' | json }},
+    "originalSrc":{{ all_products[product].featured_image | img_url: 'master' | json }}
+    },
+    "id":{{ all_products[product].id | json }},
+    "url":{{ all_products[product].url | json }}
+    },
+{% endif %}
+"url":{{ article.url | json }}
+
+}

@@ -1,0 +1,103 @@
+{% assign active_filters = false %}
+{
+    "collection_filters": [
+        {% for filter in collection.filters %}
+            {% if filter.active_values.size > 0 %}
+                {% assign active_filters = true %}
+            {% endif %}
+            {
+                {% if filter.type == 'price_range'%}
+                "max_value":{
+                    "param_name":{{ filter.max_value.param_name | json }},
+                    "value":{{ filter.max_value.value | json }},
+                    "value_money_without_trailing_zeros":{% if filter.min_value.value != blank %}{{ filter.max_value.value | money_without_trailing_zeros | json }}{% else %}null{% endif %},
+                    "value_money_without_currency":{% if filter.min_value.value != blank %}{{ filter.max_value.value | money_without_currency | replace: ',', '' | json }}{% else %}null{% endif %}
+                    {% if filter.min_value.value != blank %}
+                        {% assign active_filters = true %}
+                    {% endif %}
+                },
+                "min_value":{
+                    "param_name":{{ filter.min_value.param_name | json }},
+                    "value":{{ filter.min_value.value | json }},
+                    "value_money_without_trailing_zeros":{% if filter.min_value.value != blank %}{{ filter.min_value.value | money_without_trailing_zeros | json }}{% else %}null{% endif %},
+                    "value_money_without_currency":{% if filter.min_value.value != blank %}{{ filter.min_value.value | money_without_currency | replace: ',', '' | json }}{% else %}null{% endif %}
+                    {% if filter.min_value.value != blank %}
+                        {% assign active_filters = true %}
+                    {% endif %}
+                },
+                "range_max":{{ filter.range_max | json }},
+                "range_max_without_trailing_zeros":{{ filter.range_max | money_without_trailing_zeros | json }},
+                "range_max_money_without_currency":{{ filter.range_max | money_without_currency | replace: ',', '' | json }},
+                {% endif %}
+                "param_name":{{ filter.param_name | json }},
+                "type":{{ filter.type | json }},
+                "values":[
+                    {% for fv in filter.values %}
+                        {
+                            "active":{{fv.active | json }},
+                            "count":{{fv.count | json }},
+                            "label":{{fv.label | json }},
+                            "param_name":{{fv.param_name | json }},
+                            "url_to_add":{{fv.url_to_add | json }},
+                            "url_to_remove":{{fv.url_to_remove | json }},
+                            "value":{{fv.value | json }}
+                        }{% unless forloop.last %},{% endunless %}
+                    {% endfor %}
+                ],                
+                "active_values":[
+                    {% for fv in filter.active_values %}
+                        {
+                            "active":{{fv.active | json }},
+                            "count":{{fv.count | json }},
+                            "label":{{fv.label | json }},
+                            "param_name":{{fv.param_name | json }},
+                            "url_to_add":{{fv.url_to_add | json }},
+                            "url_to_remove":{{fv.url_to_remove | json }},
+                            "value":{{fv.value | json }}
+                        }{% unless forloop.last %},{% endunless %}
+                    {% endfor %}
+                ],
+                "inactive_values":[
+                    {% for fv in filter.inactive_values %}
+                        {
+                            "active":{{fv.active | json }},
+                            "count":{{fv.count | json }},
+                            "label":{{fv.label | json }},
+                            "param_name":{{fv.param_name | json }},
+                            "url_to_add":{{fv.url_to_add | json }},
+                            "url_to_remove":{{fv.url_to_remove | json }},
+                            "value":{{fv.value | json }}
+                        }{% unless forloop.last %},{% endunless %}
+                    {% endfor %}
+                ],
+                "label":{{ filter.label | json }},
+                "url_to_remove":{{ filter.url_to_remove | remove: "view=all_data" | remove: "view=product_data" | json }}
+            },
+        {% endfor %}
+        {
+            "sort_options": [
+                {% for option in collection.sort_options %}
+                    {
+                        "name":{{ option.name | json }},
+                        "value":{{ option.value | json }}
+                    }{% unless forloop.last %},{% endunless %}
+                {% endfor %}
+            ],
+            "label": "sort_by"
+        }
+    ],
+    "collection": {{ collection | json }},
+    "products_count": {{ collection.products_count | json }},
+    "collection_url": {{ collection.url | json }},
+    {% comment %} Tags that are currently applied to a filtered collection, built from products of that collection {% endcomment %}
+    "collection_tags": {{ collection.tags | json }},
+    {% comment %} Sort order applied to the collection by the sort_by URL parameter. none = "" {% endcomment %}
+    "sort_by": {{ collection.sort_by | json }},
+    {% comment %} Default sort order of the collection {% endcomment %}
+    "default_sort_by": {{ collection.default_sort_by | json }},
+    {% if active_filters %}
+        "active": true
+    {% else %}
+        "active": false
+    {% endif %}
+}

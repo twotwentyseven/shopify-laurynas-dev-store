@@ -1,0 +1,425 @@
+{% comment %} Script has been moved to app.js {% endcomment %}
+{% assign ss = section.settings %}
+
+{% if ss.enable %}
+
+    <section
+        data-cookie-modal
+        class="cookie-modal transition-all duration-500 z-[200] fixed -top-[101vh] left-0 h-screen w-screen bg-neutral-900 bg-opacity-40"
+        data-add-class="top-0"
+        data-remove-class="-top-[101vh]">
+
+        <div data-cookie-modal-inner
+            class="modal transition-all duration-500 p-6 fixed right-4 left-4 -bottom-[50rem] rounded-2xl bg-secondary-900 | md:right-6 md:left-auto md:max-w-[400px] "
+            data-add-class="bottom-6"
+            data-remove-class="-bottom-[50rem]">
+
+            {% comment %}
+            <i data-close-cookie-modal class="close-icon ri-close-circle-line | text-tertiary-900 text-headline-2 absolute z-10 right-4 top-4 leading-none active cursor-pointer"></i>
+        {% endcomment %}
+
+            <div class="content text-left mx-auto max-w-[35.75rem]">
+
+                {% if ss.title != blank %}
+                    <p class="title text-tertiary-900 font-headline text-headline-4 mb-2 mx-auto | lg:text-headline-4-lg">{{ ss.title }}</p>
+                {% endif %}
+
+                {% if ss.content != blank %}
+                    <div class="mb-5 text-body-large text-tertiary-900">
+                        {{ ss.content }}
+                    </div>
+                {% endif %}
+
+                <div class="flex justify-center">
+                    {% comment %}
+                {% render 'button' element: 'button', data: 'cookie-accept', border_color: ss.btn_border_color, border_color_shade: ss.btn_border_color_shade, border_width: 'border', bg_color: ss.btn_color, bg_color_shade: ss.btn_color_shade, text_color: ss.btn_text_color, text_color_shade: ss.btn_text_color_shade, hover_bg: ss.btn_hover_color, hover_bg_shade: ss.btn_hover_color_shade, hover_border_color: ss.btn_hover_border_color, hover_border_color_shade: ss.btn_border_hover_color_shade, hover_text: ss.btn_hover_text_color, hover_text_shade: ss.btn_hover_text_color_shade, content: ss.accept, custom_class: 'mx-gutter w-full lg:w-auto', before_icon: '', after_icon: '' %}
+                {% render 'button' element: 'button', data: 'cookie-reject', border_color: ss.alt_btn_border_color, border_color_shade: ss.alt_btn_border_color_shade, border_width: 'border', bg_color: ss.alt_btn_color, bg_color_shade: ss.alt_btn_color_shade, text_color: ss.alt_btn_text_color, text_color_shade: ss.alt_btn_text_color_shade, hover_bg: ss.alt_btn_hover_color, hover_bg_shade: ss.alt_btn_hover_color_shade, hover_border_color: ss.alt_btn_hover_border_color, hover_border_color_shade: ss.alt_btn_border_hover_color_shade, hover_text: ss.alt_btn_hover_text_color, hover_text_shade: ss.alt_btn_hover_text_color_shade content: ss.reject, custom_class: 'mx-gutter w-full lg:w-auto', before_icon: '', after_icon: '' %}  
+                {% endcomment %}
+
+                    <button class="btn | flex-grow py-3 px-button-x rounded-lg	font-headline text-center text-button flex items-center justify-center relative cursor-pointer | lg:text-button-lg mr-gutter w-full lg:w-auto border-tertiary-900 border bg-secondary-900 | text-tertiary-500 | hover:border-secondary-600 | hover:bg-tertiary-900 | hover:text-secondary-900 | transition-all duration-animation-speed" data-cookie-reject>
+                        {{ ss.reject }}
+                    </button>
+                    <button class="btn | flex-grow py-3 px-button-x rounded-lg	font-headline text-center text-button flex items-center justify-center relative cursor-pointer | lg:text-button-lg ml-gutter w-full lg:w-auto border-primary-900 border bg-primary-900 | text-secondary-900 | hover:border-secondary-600 | hover:bg-tertiary-900 | hover:text-secondary-900 | transition-all duration-animation-speed" data-cookie-accept>
+                        {{ ss.accept }}
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+{% endif %}
+
+{% schema %}
+    {
+        "name": "Cookie modal",
+
+        "settings": [
+            {
+                "type": "checkbox",
+                "id": "enable",
+                "label": "To turn Cookie Modal on or off",
+                "info": "This should never be off unless doing some kind of testing"
+            },
+            {
+                "type": "image_picker",
+                "id": "logo",
+                "label": "Logo"
+            },
+            {
+                "type": "textarea",
+                "id": "title",
+                "label": "Title"
+            },
+            {
+                "type": "richtext",
+                "id": "content",
+                "label": "Disclaimer"
+            }, {
+                "type": "text",
+                "id": "accept",
+                "label": "Accept Button"
+            }, {
+                "type": "select",
+                "id": "btn_color",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "bg-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Accept Button color"
+            }, {
+                "type": "range",
+                "id": "btn_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Accept Button color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "btn_border_color",
+                "options": [
+                    {
+                        "value": "border-primary",
+                        "label": "Border Teal"
+                    }, {
+                        "value": "border-secondary",
+                        "label": "Border Brown"
+                    }, {
+                        "value": "border-neutral",
+                        "label": "Border White"
+                    }, {
+                        "value": "border-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Accept Button border color"
+            }, {
+                "type": "range",
+                "id": "btn_border_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Accept Button border color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "btn_text_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "text-neutral",
+                        "label": "White"
+                    }
+                ],
+                "label": "Accept Button text color"
+            }, {
+                "type": "range",
+                "id": "btn_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Accept Button text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "header",
+                "content": "Accept button 1 hover styles"
+            }, {
+                "type": "select",
+                "id": "btn_hover_color",
+                "options": [
+                    {
+                        "value": "hover:bg-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "hover:bg-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "hover:bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "hover:bg-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Accept Button hover color"
+            }, {
+                "type": "range",
+                "id": "btn_hover_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Accept Button color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "btn_hover_border_color",
+                "options": [
+                    {
+                        "value": "hover:border-primary",
+                        "label": "Border Teal"
+                    }, {
+                        "value": "hover:border-secondary",
+                        "label": "Border Brown"
+                    }, {
+                        "value": "hover:border-neutral",
+                        "label": "Border White"
+                    }, {
+                        "value": "hover:border-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Accept Button hover border color"
+            }, {
+                "type": "range",
+                "id": "btn_hover_border_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Accept Button hover color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "btn_hover_text_color",
+                "options": [
+                    {
+                        "value": "hover:text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "hover:text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "hover:text-neutral",
+                        "label": "White"
+                    }
+                ],
+                "label": "Accept Button hover text color"
+            }, {
+                "type": "range",
+                "id": "btn_hover_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Accept Button hover text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "text",
+                "id": "reject",
+                "label": "Reject Button"
+            }, {
+                "type": "select",
+                "id": "alt_btn_color",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "bg-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Reject button color"
+            }, {
+                "type": "range",
+                "id": "alt_btn_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Reject Button color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "alt_btn_border_color",
+                "options": [
+                    {
+                        "value": "border-primary",
+                        "label": "Border Teal"
+                    }, {
+                        "value": "border-secondary",
+                        "label": "Border Brown"
+                    }, {
+                        "value": "border-neutral",
+                        "label": "Border White"
+                    }, {
+                        "value": "border-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Reject Button border color"
+            }, {
+                "type": "range",
+                "id": "alt_btn_border_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Reject Button color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "alt_btn_text_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "text-neutral",
+                        "label": "White"
+                    }
+                ],
+                "label": "Reject Button text color"
+            }, {
+                "type": "range",
+                "id": "alt_btn_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Reject button text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "header",
+                "content": "Reject button 2 hover styles"
+            }, {
+                "type": "select",
+                "id": "alt_btn_hover_color",
+                "options": [
+                    {
+                        "value": "hover:bg-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "hover:bg-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "hover:bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "hover:bg-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Reject Button hover color"
+            }, {
+                "type": "range",
+                "id": "alt_btn_hover_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Reject Button hover color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "alt_btn_hover_border_color",
+                "options": [
+                    {
+                        "value": "hover:border-primary",
+                        "label": "Border Teal"
+                    }, {
+                        "value": "hover:border-secondary",
+                        "label": "Border Brown"
+                    }, {
+                        "value": "hover:border-neutral",
+                        "label": "Border White"
+                    }, {
+                        "value": "hover:border-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Reject Button hover border color"
+            }, {
+                "type": "range",
+                "id": "alt_btn_hover_border_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Reject Button hover border color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "alt_btn_hover_text_color",
+                "options": [
+                    {
+                        "value": "hover:text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "hover:text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "hover:text-neutral",
+                        "label": "White"
+                    }
+                ],
+                "label": "Reject Button hover text color"
+            }, {
+                "type": "range",
+                "id": "alt_btn_hover_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Reject Button hover text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }
+
+
+        ]
+
+    }
+{% endschema %}

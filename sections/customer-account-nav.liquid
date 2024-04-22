@@ -1,0 +1,59 @@
+{% assign full_url = request.host | append: request.path %}
+{% assign active_subscription = false %}
+{% for tag in customer.tags %}
+    {% if tag == 'Active Subscriber' or tag == 'Inactive Subscriber' %}
+        {% assign active_subscription = true %}
+        {% break %}
+    {% endif %}
+{% endfor %}
+
+<section class="w-full pl-container-gutter lg:px-container-gutter-lg pt-10 pb-6 bg-tertiary-900">
+    <nav class="border-b border-b-secondary-900 w-full overflow-auto">
+        <ul class="flex">
+            <li>
+                <a
+                    class="py-2 px-4 rounded-t whitespace-nowrap block uppercase text-body-large hover:font-semibold {% if template.name == 'account' %}text-neutral-0 bg-secondary-900 font-semibold{% else %}text-secondary-900{% endif %} | lg:text-body-large-lg | transition-all duration-animation-speed"
+                    {% if template.name == 'account' %}data-toggle-visibility="overview"{% endif %}
+                    data-add-class="text-neutral-0 bg-secondary-900 font-semibold"
+                    data-remove-class="text-secondary-900"
+                    {% if template.name == 'account' %}href="#overview"{% else %}href="/account"{% endif %}>
+                    {{ settings.overview }}
+                </a>
+            </li>
+            <li>
+                <a
+                    class="py-2 px-4 rounded-t whitespace-nowrap block uppercase text-body-large hover:font-semibold {% if template.name == 'order' %}text-neutral-0 bg-secondary-900 font-semibold{% else %}text-secondary-900{% endif %}  | lg:text-body-large-lg"
+                    {% if template.name == 'account' %}data-toggle-visibility="order-history"{% endif %}
+                    data-add-class="text-neutral-0 bg-secondary-900 font-semibold | transition-all duration-animation-speed"
+                    data-remove-class="text-secondary-900"
+                    {% if template.name == 'account' %}href="#order-history"{% else %}href="/account#order-history"{% endif %}>
+                    {{ settings.order_history }}
+                </a>
+            </li>
+            <li>
+                <a class="py-2 px-4 rounded-t whitespace-nowrap block uppercase text-body-large hover:font-semibold | lg:text-body-large-lg {% if template.name == 'addresses' %}text-neutral-0 bg-secondary-900 font-semibold{% else %}text-secondary-900{% endif %} | transition-all duration-animation-speed" href="/account/addresses">
+                    {{ settings.details }}
+                </a>
+            </li>
+            {% if active_subscription %}
+                <li>
+                    <a class="py-2 px-4 rounded-t whitespace-nowrap block uppercase text-body-large | lg:text-body-large-lg {% if full_url contains "tools/recurring/portal" %}text-neutral-0 bg-secondary-900 font-semibold {%endif%}" href="/tools/recurring/login/">Manage subscriptions</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</section>
+
+
+{% schema %}
+    {
+        "name": "Account Nav",
+        "settings": [],
+        "presets": [
+            {
+                "name": "Account Nav"
+            }
+        ]
+
+    }
+{% endschema %}

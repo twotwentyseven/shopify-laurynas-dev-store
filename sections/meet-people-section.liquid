@@ -1,0 +1,1485 @@
+{% assign ss = section.settings %}
+    <section class="meet-the-people | | py-16 px-container-gutter | lg:py-20 lg:px-container-gutter-lg">
+    {%- comment -%}Title{%- endcomment -%}
+    <div class="title-wrapper text-center">
+        {% if ss.title != blank %}
+            <h2 class="title | mb-10 | {{ ss.title_typeface }} {{ ss.title_weight }} {{ ss.title_color }}-{{ ss.title_color_shade }} {{ ss.title_size }}">
+                {{ ss.title }}
+            </h2>
+        {% endif %}
+        {%- comment -%}Sub-Title{%- endcomment -%}
+        {% if ss.subtitle != blank %}
+            <div class="content | mb-10 | lg:mb-10 | {{ ss.subtitle_typeface }} {{ ss.subtitle_size }} {{ ss.subtitle_weight }} {{ ss.subtitle_color }}-{{ ss.subtitle_color_shade }}">
+                {{ ss.subtitle | newline_to_br }}
+            </div>
+        {% endif %}
+        <div class="button-wrapper | relative flex gap-6 justify-end my-6 | lg:hidden">
+
+            <div class="swiper-button-prev !left-0 !h-6 !top-auto !mt-0 !relative after:!content-none | ">
+
+                <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <g id="remix-icons/line/system/arrow-left-line" clip-path="url(#clip0_1174_311)">
+                        <g id="Group">
+                            <path
+                                id="Vector"
+                                d="M7.828 13H20V11H7.828L13.192 5.63601L11.778 4.22202L4 12L11.778 19.778L13.192 18.364L7.828 13Z"
+                                class="fill-{{ ss.title_color | remove: 'text-'  }}-{{ ss.title_color_shade }}" />
+                        </g>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_1174_311">
+                            <rect
+                                width="24"
+                                height="24"
+                                fill="black"
+                                transform="matrix(1 0 0 -1 0 24)" />
+                        </clipPath>
+                    </defs>
+                </svg>
+            </div>
+
+            <div class="swiper-button-next !right-0 !h-6 !top-auto !mt-0 !relative after:!content-none |">
+                <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <g id="remix-icons/line/system/arrow-right-line" clip-path="url(#clip0_1174_316)">
+                        <g id="Group">
+                            <path
+                                id="Vector"
+                                d="M16.172 13L10.808 18.364L12.222 19.778L20 12L12.222 4.22202L10.808 5.63601L16.172 11H4V13H16.172Z"
+                                class="fill-{{ ss.title_color | remove: 'text-'  }}-{{ ss.title_color_shade }}" />
+                        </g>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_1174_316">
+                            <rect
+                                width="24"
+                                height="24"
+                                fill="black"
+                                transform="matrix(1 0 0 -1 0 24)" />
+                        </clipPath>
+                    </defs>
+                </svg>
+            </div>
+
+        </div>
+    </div>
+
+
+    {%- comment -%}Card Grid wrapper{%- endcomment -%}
+    <div
+        data-swiper-meet-people
+        data-swiper-settings='{"spaceBetween": 24, "centeredSlides": true, "threshold": "20", "speed": 400, "slidesPerView": "auto", "navigation": { "nextEl": ".meet-the-people .swiper-button-next", "prevEl": ".meet-the-people .swiper-button-prev" } }'
+        class="w-full swiper">
+
+        <div class="grid-wrapper swiper-wrapper | lg:flex lg:gap-6 lg:flex-wrap lg:justify-center lg:max-w-[1440px] lg:mx-auto lg:pt-20">
+
+            {% for block in section.blocks %}
+                {% assign bs = block.settings %}
+                {%- comment -%}Card{%- endcomment -%}
+                {% if bs.image != blank %}
+                    <div data-flip-card class="card swiper-slide | !w-80 relative | lg:basis-[calc(33.33%_-_3rem)] lg:flex-grow lg:[&:nth-child(3n+2)]:-mt-20 ">
+
+                        {%- comment -%}Card Inner{%- endcomment -%}
+                        <div class="card-inner | cursor-pointer " data-flip-card-toggle>
+
+                            <div class="card-front |">
+                                {%- comment -%}Card Image{%- endcomment -%}
+                                {% if bs.image %}
+
+                                    {% render 'responsive-image' with image: bs.image, image_class: 'image h-full w-full object-cover rounded-2xl absolute top-0 left-0', wrapper_class: 'image-wrapper relative w-full pt-[calc(500_/_300_*_100%)] lg:pt-[calc(560_/_416_*_100%)]' %}
+
+                                {% endif %}
+
+                                {% if bs.title != blank %}
+                                    <div class="title-role-wrapper | absolute bottom-16 w-full mx-auto text-center">
+                                        <{{bs.title_tag}}
+                                            class="title | mb-4 text-center|  {{ bs.title_typeface }} {{ bs.title_weight }} {{ bs.title_color }}-{{ bs.title_color_shade }} {{ bs.title_size }}">
+                                            {{ bs.title }}
+                                        </{{bs.title_tag}}>
+                                        {%- comment -%}Role{%- endcomment -%}
+                                        {% if bs.subtitle != blank %}
+                                            <div class="subtitle | uppercase | {{ bs.subtitle_typeface }} {{ bs.subtitle_weight }} {{ bs.subtitle_color }}-{{ bs.subtitle_color_shade }} {{ bs.subtitle_size }}">
+                                                {{ bs.subtitle }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+
+                                <div class="trigger-button | absolute bottom-6 right-6 z-[3] cursor-pointer" data-flip-card-toggle>
+                                    <svg
+                                        data-flip-card-toggle
+                                        width="32"
+                                        height="32"
+                                        viewBox="0 0 32 32"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="">
+                                        <rect
+                                            x="0.5"
+                                            y="0.5"
+                                            width="31"
+                                            height="31"
+                                            rx="15.5"
+                                            fill="#F6F1E7" />
+                                        <g clip-path="url(#clip0_1174_255)">
+                                            <path d="M15 15V9H17V15H23V17H17V23H15V17H9V15H15Z" fill="#30261A" />
+                                        </g>
+                                        <defs>
+                                            <clipPath id="clip0_1174_255">
+                                                <rect
+                                                    width="24"
+                                                    height="24"
+                                                    fill="white"
+                                                    transform="translate(4 4)"></clipPath>
+                                            </defs>
+                                        </svg>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="card-back | rounded-2xl p-6 {{ bs.bg_color }}-{{ bs.bg_color_shade }}">
+                                    {%- comment -%}Content{%- endcomment -%}
+                                    {%- comment -%}Name{%- endcomment -%}
+                                        <div class="title-role-wrapper | absolute bottom-16 left-0 w-full mx-auto {{ bs.text-align }}"> {% if bs.title != blank %}
+                                            <{{bs.title_tag}} class="title | mb-4 |  {{ bs.title_typeface }} font-normal {{ bs.title_color_back }}-{{ bs.title_color_shade_back }} {{ bs.title_size }}">
+                                                {{ bs.title }}
+                                            </{{bs.title_tag}}>
+                                        {% endif %}
+                                        {%- comment -%}Role{%- endcomment -%}
+                                        {% if bs.subtitle != blank %}
+                                            <div class="subtitle | uppercase | {{ bs.subtitle_typeface }} {{ bs.subtitle_weight }} {{ bs.subtitle_color_back }}-{{ bs.subtitle_color_shade_back }} {{ bs.subtitle_size }}">
+                                                {{ bs.subtitle }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="h-3/4 overflow-y-auto overflow-x-hidden">
+                                        {% if bs.copy != blank %}
+                                            <div class="subtitle  | {{ bs.copy_typeface }} {{ bs.copy_weight }} {{ bs.copy_color }}-{{ bs.copy_color_shade }} {{ bs.copy_size }}">
+                                                {{ bs.copy | newline_to_br }}
+                                            </div>
+                                        {% endif %}
+                                        {%- comment -%} cta {%- endcomment -%}
+                                        <div class="btn-wrapper | -mx-gutter flex text-center justify-start">
+                                            {% if bs.btn_url != blank %}
+                                                {% render 'button' element: 'a', type: '', href: bs.btn_url, target: '', border_color: bs.btn_border_color, border_color_shade: bs.btn_border_color_shade, border_width: 'border', bg_color: bs.btn_color, bg_color_shade: bs.btn_color_shade, text_color: bs.btn_text_color, text_color_shade: bs.btn_text_color_shade, hover_bg: bs.btn_hover_color, hover_bg_shade: bs.btn_hover_color_shade, hover_border_color: bs.btn_hover_border_color, hover_border_color_shade: bs.btn_border_hover_color_shade, hover_text: bs.btn_hover_text_color, hover_text_shade: bs.btn_hover_text_color_shade, content: bs.btn_text, custom_class: 'mx-gutter pt-[12px] mt-4 font-headline text-body-large rounded-lg w-fit', before_icon: '', after_icon: '' %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="flip-card-close | absolute bottom-6 right-6 z-[3] cursor-pointer" data-flip-card-toggle>
+                                        <svg
+                                            data-flip-card-toggle
+                                            width="32"
+                                            height="32"
+                                            viewBox="0 0 32 32"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="">
+
+                                            <rect
+                                                x="0.5"
+                                                y="0.5"
+                                                width="31"
+                                                height="31"
+                                                rx="15.5"
+                                                fill="#F6F1E7" />
+                                            <g clip-path="url(#clip0_1174_243)">
+                                                <path d="M9 15H23V17H9V15Z" fill="#30261A" />
+                                            </g>
+                                            <defs>
+                                                <clipPath id="clip0_1174_243">
+                                                    <rect
+                                                        width="24"
+                                                        height="24"
+                                                        fill="white"
+                                                        transform="translate(4 4)" />
+                                                </clipPath>
+                                            </defs>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        {% if forloop.last %}
+                            {% assign is_even = forloop.index | modulo: 2 %}
+                            {% assign divisible_by_three = forloop.index | modulo: 3 %}
+                                {% if is_even == 0 %}
+                                {%- comment -%}If last card is an even number add one spacer{%- endcomment -%}
+                                <div class="card swiper-slide spacer | !w-80 !hidden relative | lg:!block  lg:basis-[calc(33.33%_-_3rem)] lg:flex-grow lg:[&:nth-child(3n+2)]:-mt-20 "></div>
+
+                            {% elsif divisible_by_three != 0 and is_even != 0 %}
+                                {%- comment -%}If last card is an odd number but not divisible by 3 add two spacers{%- endcomment -%}
+                                <div class="card swiper-slide spacer | !w-80 !hidden relative | lg:!block  lg:basis-[calc(33.33%_-_3rem)] lg:flex-grow lg:[&:nth-child(3n+2)]:-mt-20 "></div>
+                                <div class="card swiper-slide spacer | !w-80 !hidden relative | lg:!block  lg:basis-[calc(33.33%_-_3rem)] lg:flex-grow lg:[&:nth-child(3n+2)]:-mt-20 "></div>
+
+                            {% endif %}
+
+                        {% endif %}
+
+
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        const swiperElement = document.querySelector('[data-swiper-meet-people]')
+
+        // json parse dataset
+        let carouselSettings = JSON.parse(swiperElement.dataset.swiperSettings)
+
+        // init swiper
+        let carousel = new Swiper(swiperElement, carouselSettings);
+        const desktop = window.matchMedia('(min-width:64rem)');
+        if (carousel && desktop.matches) {
+            carousel.destroy(true, true)
+        }
+
+    })
+</script>
+
+{% schema %}
+    {
+        "name": "meet-people",
+        "settings": [
+            {
+                "type": "header",
+                "content": "background color (if media is not used)"
+            },
+            {
+                "type": "select",
+                "id": "bg_color",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "bg-tertiary",
+                        "label": "Beige (yellowish)"
+                    },
+                    {
+                        "value": "bg-neutral",
+                        "label": "Neutral (white/grey/black)"
+                    }, {
+                        "value": "bg-transparent",
+                        "label": "Transparent"
+                    }, {
+                        "value": "bg-blue",
+                        "label": "Blue"
+                    }, {
+                        "value": "bg-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "bg-salmon",
+                        "label": "Salmon"
+                    }, {
+                        "value": "bg-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "",
+                        "label": "None"
+                    }
+                ],
+                "label": "Background color"
+            },
+            {
+                "type": "range",
+                "id": "bg_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            },
+            {
+                "type": "header",
+                "content": "Column Background media"
+            }, {
+                "type": "select",
+                "id": "text-align",
+                "options": [
+                    {
+                        "value": "text-center",
+                        "label": "Center"
+                    }, {
+                        "value": "text-left",
+                        "label": "Left"
+                    }, {
+                        "value": "text-right",
+                        "label": "Right"
+                    }
+                ],
+                "label": "Text alignment"
+            }, {
+                "type": "header",
+                "content": "Fonts & Copy"
+            }, {
+                "type": "textarea",
+                "id": "title",
+                "label": "Title"
+            }, {
+                "type": "select",
+                "id": "title_typeface",
+                "options": [
+                    {
+                        "value": "font-headline",
+                        "label": "Headline"
+                    }, {
+                        "value": "font-body",
+                        "label": "Body"
+                    }
+                ],
+                "label": "Title font"
+            }, {
+                "type": "select",
+                "id": "title_size",
+                "options": [
+                    {
+                        "value": "text-headline-6 lg:text-headline-6-lg",
+                        "label": "Heading 6"
+                    },
+                    {
+                        "value": "text-headline-5 lg:text-headline-5-lg",
+                        "label": "Heading 5"
+                    },
+                    {
+                        "value": "text-headline-4 lg:text-headline-4-lg",
+                        "label": "Heading 4"
+                    },
+                    {
+                        "value": "text-headline-3 lg:text-headline-3-lg",
+                        "label": "Heading 3"
+                    }, {
+                        "value": "text-headline-2 lg:text-headline-2-lg",
+                        "label": "Heading 2"
+                    }, {
+                        "value": "text-headline-1 lg:text-headline-1-lg",
+                        "label": "Heading 1"
+                    }, {
+                        "value": "text-display lg:text-display-lg",
+                        "label": "Display"
+                    }
+                ],
+                "label": "Title heading size"
+            }, {
+                "type": "select",
+                "id": "title_weight",
+                "options": [
+                    {
+                        "value": "font-bold",
+                        "label": "Bold"
+                    },
+                    {
+                        "value": "font-semibold",
+                        "label": "Semibold"
+                    },
+                    {
+                        "value": "font-medium",
+                        "label": "Medium"
+                    },
+                    {
+                        "value": "font-normal",
+                        "label": "Normal"
+                    }, {
+                        "value": "font-light",
+                        "label": "Light"
+                    }, {
+                        "value": "font-extralight",
+                        "label": "Extralight"
+                    }, {
+                        "value": "font-thin",
+                        "label": "Thin"
+                    }
+                ],
+                "label": "Title weight"
+            }, {
+                "type": "select",
+                "id": "title_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "text-tertiary",
+                        "label": "Beige"
+                    },
+                    {
+                        "value": "text-blue",
+                        "label": "Blue"
+                    }, {
+                        "value": "text-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "text-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "text-salmon",
+                        "label": "Salmon"
+                    }, {
+                        "value": "text-neutral",
+                        "label": "Neutral (white/grey/black)"
+                    }
+                ],
+                "label": "Title color"
+            }, {
+                "type": "range",
+                "id": "title_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Title color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "richtext",
+                "id": "subtitle",
+                "label": "Subtitle"
+            }, {
+                "type": "select",
+                "id": "subtitle_typeface",
+                "options": [
+                    {
+                        "value": "font-headline",
+                        "label": "Headline"
+                    }, {
+                        "value": "font-body",
+                        "label": "Body"
+                    }
+                ],
+                "label": "Subtitle font",
+                "default": "font-headline"
+            }, {
+                "type": "select",
+                "id": "subtitle_size",
+                "options": [
+                    {
+                        "value": "text-body-small lg:text-body-small-lg",
+                        "label": "Body Small"
+                    },
+                    {
+                        "value": "text-body-medium lg:text-body-medium-lg",
+                        "label": "Body Medium"
+                    },
+                    {
+                        "value": "text-body-large lg:text-body-large-lg",
+                        "label": "Body Large"
+                    },
+                    {
+                        "value": "text-headline-6 lg:text-headline-6-lg",
+                        "label": "Heading 6"
+                    }, {
+                        "value": "text-headline-5 lg:text-headline-5-lg",
+                        "label": "Heading 5"
+                    }, {
+                        "value": "text-headline-4 lg:text-headline-4-lg",
+                        "label": "Heading 4"
+                    }, {
+                        "value": "text-headline-3 lg:text-headline-3-lg",
+                        "label": "Heading 3"
+                    }, {
+                        "value": "text-headline-2 lg:text-headline-2-lg",
+                        "label": "Heading 2"
+                    }, {
+                        "value": "text-headline-1 lg:text-headline-1-lg",
+                        "label": "Heading 1"
+                    }, {
+                        "value": "text-display lg:text-display-lg",
+                        "label": "Display"
+                    }
+                ],
+                "label": "Subtitle heading size",
+                "default": "text-body-large lg:text-body-large-lg"
+            }, {
+                "type": "select",
+                "id": "subtitle_weight",
+                "options": [
+                    {
+                        "value": "font-bold",
+                        "label": "Bold"
+                    },
+                    {
+                        "value": "font-semibold",
+                        "label": "Semibold"
+                    },
+                    {
+                        "value": "font-medium",
+                        "label": "Medium"
+                    },
+                    {
+                        "value": "font-normal",
+                        "label": "Normal"
+                    }, {
+                        "value": "font-light",
+                        "label": "Light"
+                    }, {
+                        "value": "font-extralight",
+                        "label": "Extralight"
+                    }, {
+                        "value": "font-thin",
+                        "label": "Thin"
+                    }
+                ],
+                "label": "Title weight",
+                "default": "font-semibold"
+            }, {
+                "type": "select",
+                "id": "subtitle_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "text-tertiary",
+                        "label": "Beige"
+                    },
+                    {
+                        "value": "text-blue",
+                        "label": "Blue"
+                    }, {
+                        "value": "text-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "text-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "text-salmon",
+                        "label": "Salmon"
+                    }, {
+                        "value": "text-neutral",
+                        "label": "Neutral (white/grey/black)"
+                    }
+                ],
+                "label": "Subtitle color",
+                "default": "text-tertiary"
+            }, {
+                "type": "range",
+                "id": "subtitle_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Subtitle color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }
+        ],
+        "blocks": [
+            {
+                "type": "person",
+                "name": "Person",
+                "settings": [
+                    {
+                        "type": "header",
+                        "content": "background media"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "image",
+                        "label": "Image",
+                        "info": "Recommended size: 1440x800px"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "image_mob",
+                        "label": "Image (mobile)",
+                        "info": "Recommended size: 375x460"
+                    },
+                    {
+                        "type": "header",
+                        "content": "background color (if media is not used)"
+                    }, {
+                        "type": "select",
+                        "id": "bg_color",
+                        "options": [
+                            {
+                                "value": "bg-primary",
+                                "label": "Teal"
+                            },
+                            {
+                                "value": "bg-secondary",
+                                "label": "Brown"
+                            },
+                            {
+                                "value": "bg-tertiary",
+                                "label": "Beige"
+                            },
+                            {
+                                "value": "bg-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            }, {
+                                "value": "bg-salmon",
+                                "label": "Salmon"
+                            }, {
+                                "value": "bg-yellow",
+                                "label": "Yellow"
+                            }, {
+                                "value": "bg-blue",
+                                "label": "Blue"
+                            }, {
+                                "value": "bg-orange",
+                                "label": "Orange"
+                            }, {
+                                "value": "",
+                                "label": "None"
+                            }
+                        ],
+                        "label": "Background color"
+                    }, {
+                        "type": "range",
+                        "id": "bg_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Background color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "header",
+                        "content": "Content Position"
+                    }, {
+                        "type": "select",
+                        "id": "text-align",
+                        "options": [
+                            {
+                                "value": "text-center justify-center",
+                                "label": "Center"
+                            }, {
+                                "value": "text-left justify-start",
+                                "label": "Left"
+                            }, {
+                                "value": "text-right justify-end",
+                                "label": "Right"
+                            }
+                        ],
+                        "label": "Text alignment"
+                    }, {
+                        "type": "header",
+                        "content": "Fonts & Copy"
+                    }, {
+                        "type": "textarea",
+                        "id": "title",
+                        "label": "Name"
+                    }, {
+                        "type": "select",
+                        "id": "title_typeface",
+                        "options": [
+                            {
+                                "value": "font-headline",
+                                "label": "Headline"
+                            }, {
+                                "value": "font-body",
+                                "label": "Body"
+                            }
+                        ],
+                        "label": "Title font"
+                    }, {
+                        "type": "select",
+                        "id": "title_size",
+                        "options": [
+                            {
+                                "value": "text-headline-6 lg:text-headline-6-lg",
+                                "label": "Heading 6"
+                            },
+                            {
+                                "value": "text-headline-5 lg:text-headline-5-lg",
+                                "label": "Heading 5"
+                            },
+                            {
+                                "value": "text-headline-4 lg:text-headline-4-lg",
+                                "label": "Heading 4"
+                            },
+                            {
+                                "value": "text-headline-3 lg:text-headline-3-lg",
+                                "label": "Heading 3"
+                            }, {
+                                "value": "text-headline-2 lg:text-headline-2-lg",
+                                "label": "Heading 2"
+                            }, {
+                                "value": "text-headline-1 lg:text-headline-1-lg",
+                                "label": "Heading 1"
+                            }, {
+                                "value": "text-display lg:text-display-lg",
+                                "label": "Display"
+                            }
+                        ],
+                        "label": "Title heading size",
+                        "default": "text-headline-2 lg:text-headline-2-lg"
+                    }, {
+                        "type": "select",
+                        "id": "title_tag",
+                        "options": [
+                            {
+                                "value": "h1",
+                                "label": "H1"
+                            }, {
+                                "value": "h2",
+                                "label": "H2"
+                            }, {
+                                "value": "h3",
+                                "label": "H3"
+                            }, {
+                                "value": "div",
+                                "label": "DIV (not headline)"
+                            }
+                        ],
+                        "default": "h1",
+                        "label": "Title headline tag"
+                    }, {
+                        "type": "select",
+                        "id": "title_weight",
+                        "options": [
+                            {
+                                "value": "font-bold",
+                                "label": "Bold"
+                            },
+                            {
+                                "value": "font-semibold",
+                                "label": "Semibold"
+                            },
+                            {
+                                "value": "font-medium",
+                                "label": "Medium"
+                            },
+                            {
+                                "value": "font-normal",
+                                "label": "Normal"
+                            }, {
+                                "value": "font-light",
+                                "label": "Light"
+                            }, {
+                                "value": "font-extralight",
+                                "label": "Extralight"
+                            }, {
+                                "value": "font-thin",
+                                "label": "Thin"
+                            }
+                        ],
+                        "label": "Title weight"
+                    }, {
+                        "type": "select",
+                        "id": "title_color",
+                        "options": [
+                            {
+                                "value": "text-primary",
+                                "label": "Teal"
+                            },
+                            {
+                                "value": "text-secondary",
+                                "label": "Brown"
+                            },
+                            {
+                                "value": "text-tertiary",
+                                "label": "Beige"
+                            },
+                            {
+                                "value": "text-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            }, {
+                                "value": "text-salmon",
+                                "label": "Salmon"
+                            }, {
+                                "value": "text-yellow",
+                                "label": "Yellow"
+                            }, {
+                                "value": "text-orange",
+                                "label": "Orange"
+                            }, {
+                                "value": "text-blue",
+                                "label": "Blue"
+                            }
+                        ],
+                        "label": "Title color Front",
+                        "default": "text-tertiary"
+                    }, {
+                        "type": "range",
+                        "id": "title_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Title color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "select",
+                        "id": "title_color_back",
+                        "options": [
+                            {
+                                "value": "text-primary",
+                                "label": "Teal"
+                            },
+                            {
+                                "value": "text-secondary",
+                                "label": "Brown"
+                            },
+                            {
+                                "value": "text-tertiary",
+                                "label": "Beige"
+                            },
+                            {
+                                "value": "text-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            }, {
+                                "value": "text-salmon",
+                                "label": "Salmon"
+                            }, {
+                                "value": "text-yellow",
+                                "label": "Yellow"
+                            }, {
+                                "value": "text-orange",
+                                "label": "Orange"
+                            }, {
+                                "value": "text-blue",
+                                "label": "Blue"
+                            }
+                        ],
+                        "label": "Title color Back of the card",
+                        "default": "text-secondary"
+                    }, {
+                        "type": "range",
+                        "id": "title_color_shade_back",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Title color shade back",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "richtext",
+                        "id": "subtitle",
+                        "label": "Role"
+                    }, {
+                        "type": "select",
+                        "id": "subtitle_typeface",
+                        "options": [
+                            {
+                                "value": "font-headline",
+                                "label": "Headline"
+                            }, {
+                                "value": "font-body",
+                                "label": "Body"
+                            }
+                        ],
+                        "label": "Subtitle font",
+                        "default": "font-body"
+                    }, {
+                        "type": "select",
+                        "id": "subtitle_size",
+                        "options": [
+                            {
+                                "value": "text-body-small lg:text-body-small-lg",
+                                "label": "Body Small"
+                            },
+                            {
+                                "value": "text-body-medium lg:text-body-medium-lg",
+                                "label": "Body Medium"
+                            },
+                            {
+                                "value": "text-body-large lg:text-body-large-lg",
+                                "label": "Body Large"
+                            },
+                            {
+                                "value": "text-headline-6 lg:text-headline-6-lg",
+                                "label": "Heading 6"
+                            }, {
+                                "value": "text-headline-5 lg:text-headline-5-lg",
+                                "label": "Heading 5"
+                            }, {
+                                "value": "text-headline-4 lg:text-headline-4-lg",
+                                "label": "Heading 4"
+                            }, {
+                                "value": "text-headline-3 lg:text-headline-3-lg",
+                                "label": "Heading 3"
+                            }, {
+                                "value": "text-headline-2 lg:text-headline-2-lg",
+                                "label": "Heading 2"
+                            }, {
+                                "value": "text-headline-1 lg:text-headline-1-lg",
+                                "label": "Heading 1"
+                            }, {
+                                "value": "text-display lg:text-display-lg",
+                                "label": "Display"
+                            }
+                        ],
+                        "label": "Subtitle heading size",
+                        "default": "text-body-large lg:text-body-large-lg"
+                    }, {
+                        "type": "select",
+                        "id": "subtitle_weight",
+                        "options": [
+                            {
+                                "value": "font-bold",
+                                "label": "Bold"
+                            },
+                            {
+                                "value": "font-semibold",
+                                "label": "Semibold"
+                            },
+                            {
+                                "value": "font-medium",
+                                "label": "Medium"
+                            },
+                            {
+                                "value": "font-normal",
+                                "label": "Normal"
+                            }, {
+                                "value": "font-light",
+                                "label": "Light"
+                            }, {
+                                "value": "font-extralight",
+                                "label": "Extralight"
+                            }, {
+                                "value": "font-thin",
+                                "label": "Thin"
+                            }
+                        ],
+                        "label": "Title weight",
+                        "default": "font-semibold"
+                    }, {
+                        "type": "select",
+                        "id": "subtitle_color",
+                        "options": [
+                            {
+                                "value": "text-primary",
+                                "label": "Teal"
+                            },
+                            {
+                                "value": "text-secondary",
+                                "label": "Brown"
+                            },
+                            {
+                                "value": "text-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            },
+                            {
+                                "value": "text-tertiary",
+                                "label": "Beige"
+                            }, {
+                                "value": "text-salmon",
+                                "label": "Salmon"
+                            }, {
+                                "value": "text-yellow",
+                                "label": "Yellow"
+                            }, {
+                                "value": "text-orange",
+                                "label": "Orange"
+                            }, {
+                                "value": "text-blue",
+                                "label": "Blue"
+                            }
+                        ],
+                        "label": "Role color front of the card",
+                        "default": "text-tertiary"
+                    }, {
+                        "type": "range",
+                        "id": "subtitle_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Role color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "select",
+                        "id": "subtitle_color_back",
+                        "options": [
+                            {
+                                "value": "text-primary",
+                                "label": "Teal"
+                            },
+                            {
+                                "value": "text-secondary",
+                                "label": "Brown"
+                            },
+                            {
+                                "value": "text-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            },
+                            {
+                                "value": "text-tertiary",
+                                "label": "Beige"
+                            }, {
+                                "value": "text-salmon",
+                                "label": "Salmon"
+                            }, {
+                                "value": "text-yellow",
+                                "label": "Yellow"
+                            }, {
+                                "value": "text-orange",
+                                "label": "Orange"
+                            }, {
+                                "value": "text-blue",
+                                "label": "Blue"
+                            }
+                        ],
+                        "label": "Role color back of card"
+                    }, {
+                        "type": "range",
+                        "id": "subtitle_color_shade_back",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Role color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "textarea",
+                        "id": "copy",
+                        "label": "copy"
+                    }, {
+                        "type": "select",
+                        "id": "copy_typeface",
+                        "options": [
+                            {
+                                "value": "font-headline",
+                                "label": "Headline"
+                            }, {
+                                "value": "font-body",
+                                "label": "Body"
+                            }
+                        ],
+                        "label": "copy font"
+                    }, {
+                        "type": "select",
+                        "id": "copy_size",
+                        "options": [
+                            {
+                                "value": "text-body-small lg:text-body-small-lg",
+                                "label": "Body Small"
+                            },
+                            {
+                                "value": "text-body-medium lg:text-body-medium-lg",
+                                "label": "Body Medium"
+                            },
+                            {
+                                "value": "text-body-large lg:text-body-large-lg",
+                                "label": "Body Large"
+                            },
+                            {
+                                "value": "text-headline-6 lg:text-headline-6-lg",
+                                "label": "Heading 6"
+                            }, {
+                                "value": "text-headline-5 lg:text-headline-5-lg",
+                                "label": "Heading 5"
+                            }, {
+                                "value": "text-headline-4 lg:text-headline-4-lg",
+                                "label": "Heading 4"
+                            }, {
+                                "value": "text-headline-3 lg:text-headline-3-lg",
+                                "label": "Heading 3"
+                            }, {
+                                "value": "text-headline-2 lg:text-headline-2-lg",
+                                "label": "Heading 2"
+                            }, {
+                                "value": "text-headline-1 lg:text-headline-1-lg",
+                                "label": "Heading 1"
+                            }, {
+                                "value": "text-display lg:text-display-lg",
+                                "label": "Display"
+                            }
+                        ],
+                        "label": "copy heading size"
+                    }, {
+                        "type": "select",
+                        "id": "copy_weight",
+                        "options": [
+                            {
+                                "value": "font-bold",
+                                "label": "Bold"
+                            },
+                            {
+                                "value": "font-semibold",
+                                "label": "Semibold"
+                            },
+                            {
+                                "value": "font-medium",
+                                "label": "Medium"
+                            },
+                            {
+                                "value": "font-normal",
+                                "label": "Normal"
+                            }, {
+                                "value": "font-light",
+                                "label": "Light"
+                            }, {
+                                "value": "font-extralight",
+                                "label": "Extralight"
+                            }, {
+                                "value": "font-thin",
+                                "label": "Thin"
+                            }
+                        ],
+                        "label": "Copy weight"
+                    }, {
+                        "type": "select",
+                        "id": "copy_color",
+                        "options": [
+                            {
+                                "value": "text-primary",
+                                "label": "Teal"
+                            },
+                            {
+                                "value": "text-secondary",
+                                "label": "Brown"
+                            },
+                            {
+                                "value": "text-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            },
+                            {
+                                "value": "text-tertiary",
+                                "label": "Beige"
+                            }, {
+                                "value": "text-salmon",
+                                "label": "Salmon"
+                            }, {
+                                "value": "text-yellow",
+                                "label": "Yellow"
+                            }, {
+                                "value": "text-orange",
+                                "label": "Orange"
+                            }, {
+                                "value": "text-blue",
+                                "label": "Blue"
+                            }
+                        ],
+                        "label": "Description color"
+                    }, {
+                        "type": "range",
+                        "id": "copy_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Description color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "header",
+                        "content": "button 1"
+                    }, {
+                        "type": "text",
+                        "id": "btn_text",
+                        "label": "Button text"
+                    }, {
+                        "type": "url",
+                        "id": "btn_url",
+                        "label": "Button URL"
+                    }, {
+                        "type": "select",
+                        "id": "btn_color",
+                        "options": [
+                            {
+                                "value": "bg-primary",
+                                "label": "Teal"
+                            },
+                            {
+                                "value": "bg-secondary",
+                                "label": "Brown"
+                            },
+                            {
+                                "value": "bg-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            },
+                            {
+                                "value": "bg-tertiary",
+                                "label": "Beige"
+                            }, {
+                                "value": "bg-blue ",
+                                "label": "Blue"
+                            }, {
+                                "value": "bg-orange ",
+                                "label": "Orange"
+                            }, {
+                                "value": "bg-yellow ",
+                                "label": "Yellow"
+                            }, {
+                                "value": "bg-salmon ",
+                                "label": "Salmon"
+                            }, {
+                                "value": "bg-transparent ",
+                                "label": "None"
+                            }
+                        ],
+                        "label": "Button color"
+                    }, {
+                        "type": "range",
+                        "id": "btn_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Button color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "select",
+                        "id": "btn_border_color",
+                        "options": [
+                            {
+                                "value": "border-primary",
+                                "label": "Border Teal"
+                            },
+                            {
+                                "value": "border-secondary",
+                                "label": "Border Brown"
+                            },
+                            {
+                                "value": "border-neutral",
+                                "label": "Border Neutral (white/grey/black)"
+                            },
+                            {
+                                "value": "border-tertiary",
+                                "label": "Beige"
+                            }, {
+                                "value": "border-yellow",
+                                "label": "Yellow"
+                            }, {
+                                "value": "border-orange",
+                                "label": "Orange"
+                            }, {
+                                "value": "border-blue",
+                                "label": "Blue"
+                            }, {
+                                "value": "border-salmon",
+                                "label": "Salmon"
+                            }, {
+                                "value": "border-transparent ",
+                                "label": "None"
+                            }
+
+                        ],
+                        "label": "Button border color"
+                    }, {
+                        "type": "range",
+                        "id": "btn_border_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Button border color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "select",
+                        "id": "btn_text_color",
+                        "options": [
+                            {
+                                "value": "text-primary",
+                                "label": "Teal"
+                            },
+                            {
+                                "value": "text-secondary",
+                                "label": "Brown"
+                            },
+                            {
+                                "value": "text-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            },
+                            {
+                                "value": "text-tertiary",
+                                "label": "Beige"
+                            }, {
+                                "value": "text-yellow",
+                                "label": "Yellow"
+                            }, {
+                                "value": "text-orange",
+                                "label": "Orange"
+                            }, {
+                                "value": "text-blue",
+                                "label": "blue"
+                            }, {
+                                "value": "text-salmon",
+                                "label": "Salmon"
+                            }
+                        ],
+                        "label": "Button text color"
+                    }, {
+                        "type": "range",
+                        "id": "btn_text_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Button text color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "header",
+                        "content": "button 1 hover styles"
+                    }, {
+                        "type": "select",
+                        "id": "btn_hover_color",
+                        "options": [
+                            {
+                                "value": "hover:bg-primary",
+                                "label": "Teal"
+                            },
+                            {
+                                "value": "hover:bg-secondary",
+                                "label": "Brown"
+                            },
+                            {
+                                "value": "hover:bg-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            },
+                            {
+                                "value": "hover:bg-tertiary",
+                                "label": "Beige"
+                            }, {
+                                "value": "hover:bg-transparent ",
+                                "label": "None"
+                            }, {
+                                "value": "hover:bg-blue ",
+                                "label": "Blue"
+                            }, {
+                                "value": "hover:bg-orange ",
+                                "label": "Orange"
+                            }, {
+                                "value": "hover:bg-yellow ",
+                                "label": "Yellow"
+                            }, {
+                                "value": "hover:bg-salmon ",
+                                "label": "Salmon"
+                            }
+                        ],
+                        "label": "Button hover color"
+                    }, {
+                        "type": "range",
+                        "id": "btn_hover_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Button color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "select",
+                        "id": "btn_hover_border_color",
+                        "options": [
+                            {
+                                "value": "hover:border-primary",
+                                "label": "Border Teal"
+                            },
+                            {
+                                "value": "hover:border-secondary",
+                                "label": "Border Brown"
+                            },
+                            {
+                                "value": "hover:border-neutral",
+                                "label": "Border Neutral (white/grey/black)"
+                            },
+                            {
+                                "value": "hover:border-transparent ",
+                                "label": "None"
+                            }, {
+                                "value": "hover:border-tertiary",
+                                "label": "Border Beige"
+                            }, {
+                                "value": "hover:border-yellow",
+                                "label": "Border Yellow"
+                            }, {
+                                "value": "hover:border-blue",
+                                "label": "Blue"
+                            }, {
+                                "value": "hover:border-orange ",
+                                "label": "Orange"
+                            }, {
+                                "value": "hover:border-salmon",
+                                "label": "Border salmon"
+                            }
+                        ],
+                        "label": "Button hover border color"
+                    }, {
+                        "type": "range",
+                        "id": "btn_hover_border_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Button hover color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "select",
+                        "id": "btn_hover_text_color",
+                        "options": [
+                            {
+                                "value": "hover:text-primary",
+                                "label": "Teal"
+                            },
+                            {
+                                "value": "hover:text-secondary",
+                                "label": "Brown"
+                            },
+                            {
+                                "value": "hover:text-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            },
+                            {
+                                "value": "hover:text-tertiary",
+                                "label": "Beige"
+                            }, {
+                                "value": "hover:text-yellow",
+                                "label": "Yellow"
+                            }, {
+                                "value": "hover:text-orange",
+                                "label": "Orange"
+                            }, {
+                                "value": "hover:text-blue",
+                                "label": "Blue"
+                            }, {
+                                "value": "hover:text-salmon",
+                                "label": "Salmon"
+                            }
+                        ],
+                        "label": "Button hover text color"
+                    }, {
+                        "type": "range",
+                        "id": "btn_hover_text_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Button hover text color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }
+                ]
+
+            }
+
+        ],
+        "presets": [
+            {
+                "name": "Meet the people"
+            }
+        ]
+
+    }
+{% endschema %}

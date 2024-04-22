@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "main": {
+      "type": "blog-listing-template",
+      "settings": {
+        "title": "BLOG",
+        "description": "<p>Consider this your access-all-areas pass. Pull up a pew and get to know our party people, pooches and practices.<\/p>",
+        "image": "shopify:\/\/shop_images\/desal.jpg",
+        "listings_title": ""
+      }
+    },
+    "a1d271f2-b5d9-4a94-840e-9879cee966a3": {
+      "type": "blog-listing",
+      "settings": {
+        "title": "What's New"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "a1d271f2-b5d9-4a94-840e-9879cee966a3"
+  ]
+}

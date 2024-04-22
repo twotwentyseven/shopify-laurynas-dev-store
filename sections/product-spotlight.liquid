@@ -1,0 +1,49 @@
+{% comment %}
+    product spotlight metaobject
+{% endcomment %}
+{% assign product_spotlight = "" %}
+{% liquid
+    if product.metafields.custom.product_spotlight != blank
+        assign product_spotlight = product.metafields.custom.product_spotlight.value
+    endif
+%}
+
+
+
+{% if product_spotlight != blank %}
+    <section
+        class="spotlight-meta-block | py-16 px-container-gutter flex flex-wrap gap-10 | lg:py-20 lg:px-container-gutter-lg lg:flex-nowrap lg:gap-20 lg:max-w-[1440px] lg:mx-auto lg:items-center">
+
+        <div
+            class="w-full text-left order-2 | lg:order-1 lg:w-2/5">
+            <div
+                class="title | text-display font-headline | lg;text-display-lg">
+                {{ product_spotlight.title }}
+            </div>
+            <div
+                class="copy | mt-10 text-body-large | lg:text-body-large-lg ">
+                {{ product_spotlight.copy.value.children[0].children[0].value }}
+            </div>
+            {% if product_spotlight.cta_url != blank %}
+                {% render 'button' element: 'a', type: '', href: product_spotlight.cta_url, target: '', bg_color: 'bg-secondary', bg_color_shade: '900', text_color: 'text-tertiary', text_color_shade: '900', hover_bg: 'hover:bg-secondary', hover_bg_shade: '700', hover_text: 'hover:text-tertiary', hover_text_shade: '700', content: product_spotlight.cta_copy, custom_class: ' mt-4 rounded-lg w-fit font-headline ', before_icon: '', after_icon: '' %}
+            {% endif %}
+        </div>
+
+        {% render 'responsive-image' with image: product_spotlight.image, mobile_image: product_spotlight.mobile_image, wrapper_class: "img-wrap h-full w-full pointer-events-none rounded-2xl z-[3] relative | lg:order-2 lg:w-3/5", image_class: "primary-img object-contain w-full h-full rounded-2xl" %}
+
+    </section>
+{% endif %}
+
+
+{% schema %}
+    {
+        "name": "Product spotlight block",
+        "settings": [],
+        "presets": [
+            {
+                "name": "Product spotlight block (metaobject)"
+            }
+        ]
+
+    }
+{% endschema %}

@@ -1,0 +1,285 @@
+{% assign ss = section.settings %}
+
+{% if section.blocks != blank %}
+    <div
+        class="{{ss.bg_color}}-{{ss.bg_color_shade}} w-full h-full">
+        <section
+            {% if ss.id != empty %}
+                id="{{ss.id}}"
+            {% else %}
+                id="brewing-methods"
+            {% endif %}
+            class="brewing-methods | relative w-full px-container-gutter pt-10 pb-16 mx-auto text-center | lg:py-20 lg:px-container-gutter-lg">
+
+            {% if ss.title != blank %}
+                <h2
+                    class="title | mb-4 font-headline font-normal text-secondary-900 text-display lg:text-display-lg ">
+                    {{ ss.title }}
+                </h2>
+            {% endif %}
+
+            {% if ss.subtitle != blank %}
+                <div
+                    class="content | mb-10 max-w-[550px] w-full mx-auto | lg:mb-10 | text-body-large lg:text-body-large-lg text-secondary-900">
+                    {{ ss.subtitle }}
+                </div>
+            {% endif %}
+
+            <div
+                class="carousel-controls-mobile | flex justify-end gap-4 basis-[10%] h-[32px] mb-6 items-end | lg:hidden">
+                <div
+                    class="swiper-button-prev !static !justify-start after:!content-none !w-auto !h-[32px] | md:!block">
+
+                    <i
+                        class="ri-arrow-left-line text-headline-5 text-secondary-900"></i>
+
+                </div>
+                <div
+                    class="swiper-button-next !static !justify-start after:!content-none !w-auto !h-[32px] | md:!block">
+                    <i
+                        class="ri-arrow-right-line text-headline-5 text-secondary-900"></i>
+                </div>
+            </div>
+
+            <div
+                class=" relative overflow-visible">
+                <div
+                    class="swiper-button-prev !hidden absolute top-1/2 !left-[-36px] after:!content-none !w-auto !h-[32px] | md:!block">
+
+                    <i
+                        class="ri-arrow-left-line text-headline-5 text-secondary-900"></i>
+
+                </div>
+                <div
+                    class="swiper-button-next !hidden absolute top-1/2 !right-[-36px] after:!content-none !w-auto !h-[32px] | md:!block">
+                    <i
+                        class="ri-arrow-right-line text-headline-5 text-secondary-900"></i>
+                </div>
+                <div
+                    data-swiper-brewing-methods
+                    data-swiper
+                    data-swiper-settings='{ "spaceBetween": 24, "grabCursor": true, "noSwipingSelector": "button", "a11y": false, "runCallbacksOnInit": true , "observer": true , "centeredSlides": true, "speed": 500, "threshold": "20", {%if section.blocks.size > 2 %} "initialSlide":1 , {%endif%}  "navigation": { "nextEl": ".brewing-methods .swiper-button-next", "prevEl": ".brewing-methods .swiper-button-prev" }, "slidesPerView": "auto", "breakpoints": { "768":{"centeredSlides": true , "slidesPerView": "auto"},"1024": { "slidesPerView": 4, "spaceBetween": 24, "loop": false, "centeredSlides": true }}, {% if autoplay %}"autoplay": { "delay": 2500, "disableOnInteraction": false },{% endif %} "draggable": true }'
+                    class="swiper">
+
+                    <div
+                        class="swiper-wrapper">
+
+                        {% for block in section.blocks %}
+                            {% assign bs = block.settings %}
+                            <div
+                                class="swiper-slide | flex flex-col p-6 items-center justify-between gap-4 rounded-2xl max-w-[clamp(320px,350px,380px)] | md:w-6/12 lg:w-4/12 | bg-{{ bs.bg_color }}-{{ bs.bg_color_shade }}">
+
+                                <h4
+                                    class="brewing-title | text-headline-4 font-headline | lg:text-headline-4-lg">
+                                    {{ bs.title }}
+                                </h4>
+
+                                {% render 'responsive-image' with image: bs.image, image_class: 'image h-full w-full object-contain rounded-2xl absolute top-0 left-0 ', wrapper_class: 'image-wrapper relative pt-[calc(225_/_258_*_100%)] w-full' %}
+
+                                {% if bs.coffee_weight != blank %}
+                                    <div
+                                        class="field-one | flex justify-between w-full">
+                                        <p
+                                            class="label | text-body-large ">Coffee</p>
+                                        <p
+                                            class="details | text-body-large font-semibold ">{{ bs.coffee_weight }}</p>
+                                    </div>
+                                {% endif %}
+                                {% if bs.grind_level != blank %}
+                                    <div
+                                        class="field-two | flex justify-between w-full">
+                                        <p
+                                            class="label | text-body-large ">Grind</p>
+                                        <p
+                                            class="details | text-body-large font-semibold ">{{ bs.grind_level }}</p>
+                                    </div>
+                                {% endif %}
+                                {% if bs.water != blank %}
+                                    <div
+                                        class="field-three | flex justify-between w-full">
+                                        <p
+                                            class="label | text-body-large ">Water</p>
+                                        <p
+                                            class="details | text-body-large font-semibold ">{{ bs.water }}</p>
+                                    </div>
+                                {% endif %}
+                                {% if bs.time != blank %}
+                                    <div
+                                        class="field-four | flex justify-between w-full">
+                                        <p
+                                            class="label | text-body-large ">Time</p>
+                                        <p
+                                            class="details | text-body-large font-semibold ">{{ bs.time }}</p>
+                                    </div>
+                                {% endif %}
+
+
+                                {% if bs.vimeo_id != blank %}
+                                    <button
+                                        class="nav-link | w-full rounded-lg bg-secondary-900 text-tertiary-900 uppercase flex items-center justify-center px-4 py-3 z-[11] text-body-medium-lg transition-all font-headline | hover:bg-tertiary-900 hover:text-secondary-900"
+                                        data-video-overlay-trigger
+                                        data-video-id="{{ bs.vimeo_id }}">
+                                        {{ bs.cta_text }}
+                                    </button>
+                                {% endif %}
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </section>
+    </div>
+{% endif %}
+
+
+{% schema %}
+    {
+        "name": "Brewing methods",
+        "settings": [
+            {
+                "type": "text",
+                "id": "id",
+                "label": "Unique ID",
+                "info": "Used in sub nav"
+            },
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title"
+            },
+            {
+                "type": "text",
+                "id": "subtitle",
+                "label": "Sub-title"
+            },
+            {
+                "type": "select",
+                "id": "bg_color",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Primary"
+                    },
+                    {
+                        "value": "bg-secondary",
+                        "label": "Secondary"
+                    },
+                    {
+                        "value": "bg-tertiary",
+                        "label": "Tertiary"
+                    },
+                    {
+                        "value": "bg-neutral",
+                        "label": "Neutral (white/grey/black)"
+                    }, {
+                        "value": "bg-salmon",
+                        "label": "Salmon"
+                    }, {
+                        "value": "bg-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "bg-blue",
+                        "label": "Blue"
+                    }, {
+                        "value": "bg-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "",
+                        "label": "None"
+                    }
+                ],
+                "label": "Background color",
+                "default": "bg-tertiary"
+            }, {
+                "type": "range",
+                "id": "bg_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }
+        ],
+        "blocks": [
+            {
+                "type": "brewing-method",
+                "name": "Brewing method",
+                "settings": [
+                    {
+                        "type": "image_picker",
+                        "id": "image",
+                        "label": "Illustration Image",
+                        "info": "recommended size 516x450"
+
+                    },
+                    {
+                        "type": "text",
+                        "id": "bg_color",
+                        "label": "Background color"
+                    },
+                    {
+                        "type": "text",
+                        "id": "bg_color_shade",
+                        "label": "Background color shade"
+
+                    },
+                    {
+                        "type": "header",
+                        "content": "Information"
+
+                    }, {
+                        "type": "text",
+                        "id": "title",
+                        "label": "Title"
+
+                    }, {
+                        "type": "text",
+                        "id": "coffee_weight",
+                        "label": "Coffee weight"
+
+                    }, {
+                        "type": "text",
+                        "id": "grind_level",
+                        "label": "Grind level"
+
+                    }, {
+                        "type": "text",
+                        "id": "water",
+                        "label": "Water"
+
+                    }, {
+                        "type": "text",
+                        "id": "time",
+                        "label": "Time"
+
+                    }, {
+                        "type": "text",
+                        "id": "cta_text",
+                        "label": "CTA text",
+                        "default": "Watch video"
+
+                    }, {
+                        "type": "text",
+                        "id": "vimeo_id",
+                        "label": "Vimeo ID"
+
+                    }
+
+                ]
+
+            }
+        ],
+        "presets": [
+            {
+                "name": "Brewing methods"
+            }
+        ]
+    }
+{% endschema %}

@@ -1,0 +1,14 @@
+{% layout none %}
+{% paginate collection.products by settings.collection_limit %}
+{
+	"products": {{ collection.products | json }},
+	"metafields": [
+		{% for product in collection.products %}
+			{% render 'metafield-loop' object: product %}
+			{% unless forloop.last %},{% endunless %}
+		{% endfor %}
+	],
+	"filters": {% render 'collection-filters' %},
+	"pagination": {{ paginate | json }}
+}
+{% endpaginate %}

@@ -1,0 +1,590 @@
+{% assign ss = section.settings %}
+<section
+    data-toggle-wrapper="order-history"
+    class="w-full px-container-gutter bg-tertiary-900 lg:px-container-gutter-lg pb-20 hidden"
+    data-add-class="block"
+    data-remove-class="hidden">
+    <h2 class="font-headline text-headline-1 mb-6 | lg:text-headline-1-lg">{{ ss.intro }}</h2>
+    <h3 class="font-headline text-headline-6 mb-6 | lg:text-headline-6-lg">{{ ss.subtitle }}</h3>
+    {% paginate customer.orders by 2 -%}
+        {% for order in customer.orders %}
+            {% assign status = 0 %}
+
+            {% if order.financial_status == 'pending' or order.financial_status == 'expired' or order.financial_status == 'unpaid' or order.financial_status == 'voided' %}
+                {% assign status = 0 %}
+            {% elsif order.financial_status == 'partially_paid' %}
+                {% if order.fulfillment_status == 'unfulfilled' %}
+                    {% assign status = 1 %}
+                {% elsif order.fulfillment_status == 'fulfilled' %}
+                    {% assign status = 2 %}
+                {% elsif order.fulfillment_status == 'completed' %}
+                    {% assign status = 3 %}
+                {% endif %}
+            {% elsif order.financial_status == 'partially_refunded' %}
+                {% if order.fulfillment_status == 'unfulfilled' %}
+                    {% assign status = 1 %}
+                {% elsif order.fulfillment_status == 'fulfilled' %}
+                    {% assign status = 2 %}
+                {% elsif order.fulfillment_status == 'completed' %}
+                    {% assign status = 5 %}
+                {% endif %}
+            {% elsif order.financial_status == 'authorized' %}
+                {% if order.fulfillment_status == 'unfulfilled' %}
+                    {% assign status = 1 %}
+                {% elsif order.fulfillment_status == 'fulfilled' %}
+                    {% assign status = 2 %}
+                {% elsif order.fulfillment_status == 'completed' %}
+                    {% assign status = 3 %}
+                {% endif %}
+            {% elsif order.financial_status == 'paid' %}
+                {% if order.fulfillment_status == 'unfulfilled' %}
+                    {% assign status = 1 %}
+                {% elsif order.fulfillment_status == 'fulfilled' %}
+                    {% assign status = 2 %}
+                {% elsif order.fulfillment_status == 'completed' %}
+                    {% assign status = 3 %}
+                {% endif %}
+            {% elsif order.financial_status == 'refunded' %}
+                {% if order.fulfillment_status == 'unfulfilled' %}
+                    {% assign status = 5 %}
+                {% elsif order.fulfillment_status == 'fulfilled' %}
+                    {% assign status = 1 %}
+                {% elsif order.fulfillment_status == 'completed' %}
+                    {% assign status = 2 %}
+                {% elsif order.fulfillment_status == 'restocked' %}
+                    {% assign status = 3 %}
+                {% endif %}
+            {% endif %}
+
+            <div class="bg-neutral-0 shadow-md shadow-black/30 rounded-2xl mb-4 py-6 px-4 flex items-center justify-between flex-wrap lg:flex-nowrap">
+                <div class="w-full lg:max-w-[15rem]">
+                    <p class="uppercase font-semibold text-body-large mb-2 | lg:text-body-large-lg">Order #{{ order.order_number }}</p>
+                    <p class="mb-4 text-secondary-900 text-body-medium | lg:text-body-medium-lg">Ordered on {{ order.created_at | date: '%b %d, %Y' }}</p>
+                    <p class="uppercase font-semibold text-body-medium mb-2 | lg:text-body-medium-lg">STATUS</p>
+                    {% if status == 0 %}
+                        {% capture status_bar %}
+                            <!--nothing-->
+                        {% endcapture %}
+                    {% elsif status == 1 %}
+                        {% capture status_bar %}
+                            after:bg-secondary-900 after:absolute after:top-0 after:left-0 after:rounded-full after:h-full after:w-1/3
+                        {% endcapture %}
+                    {% elsif status == 2 %}
+                        {% capture status_bar %}
+                            after:bg-secondary-900 after:absolute after:top-0 after:left-0 after:rounded-full after:h-full after:w-2/3
+                        {% endcapture %}
+                    {% elsif status == 3 %}
+                        {% capture status_bar %}
+                            after:bg-success-500 after:absolute after:top-0 after:left-0 after:rounded-full after:h-full after:w-full
+                        {% endcapture %}
+                    {% elsif status == 4 %}
+                        {% capture status_bar %}
+                            after:bg-error-500 after:absolute after:top-0 after:left-0 after:rounded-full after:h-full after:w-full
+                        {% endcapture %}
+                    {% elsif status == 5 %}
+                        {% capture status_bar %}
+                            after:bg-neutral-500 after:absolute after:top-0 after:left-0 after:rounded-full after:h-full after:w-full
+                        {% endcapture %}
+                    {% endif %}
+
+                    <div class="w-full h-1.5 bg-secondary-200 rounded-full relative mb-2 {{ status_bar }}"></div>
+
+                    <p>
+                        {% unless order.financial_status == 'refunded' or order.financial_status == 'pending' or order.financial_status == 'expired' or order.financial_status == 'unpaid' or order.financial_status == 'voided' %}
+                            {{ order.fulfillment_status_label }}
+                            {% unless order.financial_status == 'paid' %}
+                                &
+                            {% endunless %}
+                        {% endunless %}
+
+                        {% unless order.financial_status == 'paid' %}
+                            {{ order.financial_status_label }}
+                        {% endunless %}
+                    </p>
+
+                </div>
+
+                <div class="flex items-center w-full  justify-end flex-wrap | lg:w-1/2 lg:flex-nowrap">
+                    <div class="flex w-full my-6 lg:m-0 lg:justify-end">
+                        {% for line_item in order.line_items limit: 4 %}
+                            {% if order.item_count > 4 %}
+                                {%- capture orderCount -%}
+                                    count="+{{ order.item_count | minus: 4 }}"
+                                {%- endcapture -%}
+                            {% endif %}
+                            {% if forloop.index == 4 %}
+                                {%- capture wrapper -%}
+                                    h-16 w-16 lg:h-24 lg:w-24 mx-1 relative
+                                    {% if order.item_count > 4 %}
+                                        after:content-[attr(count)] after:z-10 after:text-neutral-0 after:bg-neutral-900/30 after:h-full after:w-full after:absolute after:top-0 after:left-0 after:flex after:justify-center after:items-center{% endif %}
+                                {%- endcapture -%}
+                            {% else %}
+                                {% assign wrapper = 'h-16 w-16 lg:h-24 lg:w-24 mx-1 relative' %}
+                            {% endif %}
+                            {% render 'responsive-image' with image: line_item.product.featured_image, link: line_item.url, wrapper_class: wrapper image_class: 'absolute top-0 left-0 object-cover w-full h-full' wrapper_attributes: orderCount %}
+                        {% endfor %}
+                    </div>
+                    <div class="w-full | lg:ml-4 lg:max-w-[9rem]">
+                        {% render 'button' element: 'a', href: order.customer_url, border_color: ss.btn_color, border_width: 'border', bg_color: ss.btn_color, bg_color_shade: ss.btn_color_shade, text_color: ss.btn_text_color, text_color_shade: ss.btn_text_color_shade, hover_bg: ss.btn_hover_color, hover_bg_shade: ss.btn_hover_color_shade, hover_text: ss.btn_hover_text_color, hover_text_shade: ss.btn_hover_text_color_shade, content: ss.btn_text, custom_class: 'my-1 w-full', before_icon: '', after_icon: '' %}
+                        <form>
+                            <input
+                                class="hidden"
+                                hidden
+                                bundle
+                                value='[
+                            {%- for line_item in order.line_items -%}
+                                {"id": "{{ line_item.variant_id }}","quantity": "{{ line_item.quantity }}"{% if line_item.properties != blank %}, "properties": {{ line_item.properties | json }}{% endif %}
+                                }{% unless forloop.last %},{% endunless %}
+                            {%- endfor -%}
+                            ]'>
+                            {% render 'button' element: 'button', data: 'cart-add-bundle-async', type: 'submit', border_color: ss.alt_btn_color, border_width: 'border', bg_color: ss.alt_btn_color, bg_color_shade: ss.alt_btn_color_shade, text_color: ss.alt_btn_text_color, text_color_shade: ss.alt_btn_text_color_shade, hover_bg: ss.alt_btn_hover_color, hover_bg_shade: ss.alt_btn_hover_color_shade, hover_text: ss.alt_btn_hover_text_color, hover_text_shade: ss.alt_btn_hover_text_color_shade, content: ss.alt_btn_text, custom_class: 'my-1 w-full', before_icon: '', after_icon: '' %}
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        {% endfor %}
+
+        {% if paginate.pages > 1 %}
+
+            <ul class="pagination flex justify-center mt-10 -mx-1 lg:justify-end">
+
+                <li>
+                    <a href="{{ paginate.previous.url }}#order-history" class="h-12 w-12 mx-1 rounded border flex justify-center items-center font-semibold {% if paginate.previous.is_link %}border-primary-500{% else %}bg-neutral-200 border-neutral-200 text-neutral-300{% endif %}">
+                        <span class="material-symbols-outlined text-body-large lg:text-body-large-lg">arrow_back_ios_new</span>
+                    </a>
+                </li>
+
+                {% for part in paginate.parts %}
+                    {% if part.is_link %}
+                        <li class="">
+                            <a class="h-12 w-12 mx-1 rounded border border-primary-500 flex justify-center items-center font-semibold text-neutral-900" href="{{ part.url }}#order-history">{{ part.title }}</a>
+                        </li>
+                    {% else %}
+                        {% if part.title == paginate.current_page %}
+                            <li class="">
+                                <a href="#" class="active h-12 w-12 mx-1 rounded border border-primary-500 flex justify-center items-center font-semibold bg-primary-500 text-neutral-0">{{ part.title }}</a>
+                            </li>
+                        {% else %}
+                            <li class="">
+                                <a href="#" class="h-12 w-12 mx-1 rounded border border-primary-500 flex justify-center items-center font-semibold elipsis">{{ part.title }}</a>
+                            </li>
+                        {% endif %}
+
+                    {% endif %}
+                {% endfor %}
+
+                <li class="">
+                    <a href="{{ paginate.next.url }}#order-history" class="h-12 w-12 mx-1 rounded border flex justify-center items-center font-semibold {% if paginate.next.is_link %}border-primary-500{% else %}bg-neutral-200 border-neutral-200 text-neutral-300{% endif %}">
+                        <span class="material-symbols-outlined text-body-large lg:text-body-large-lg">arrow_forward_ios</span>
+                    </a>
+                </li>
+
+            </ul>
+            <!-- pagination -->
+
+        {% endif %}
+    {% endpaginate %}
+</section>
+
+{% schema %}
+    {
+        "name": "Account Order History",
+        "settings": [
+            {
+                "type": "text",
+                "id": "intro",
+                "label": "Title"
+            },
+            {
+                "type": "text",
+                "id": "subtitle",
+                "label": "Subtitle"
+            },
+            {
+                "type": "header",
+                "content": "button 1"
+            },
+            {
+                "type": "text",
+                "id": "btn_text",
+                "label": "View Order Button text"
+            }, {
+                "type": "select",
+                "id": "btn_color",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "bg-tertiary",
+                        "label": "Beige"
+                    },
+                    {
+                        "value": "bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "bg-salmon",
+                        "label": "Salmon"
+                    }, {
+                        "value": "bg-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "bg-blue",
+                        "label": "Blue"
+                    }, {
+                        "value": "bg-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button color"
+            }, {
+                "type": "range",
+                "id": "btn_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "btn_text_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "text-neutral",
+                        "label": "White"
+                    },
+                    {
+                        "value": "text-tertiary",
+                        "label": "Beige"
+                    }, {
+                        "value": "text-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "text-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "text-blue",
+                        "label": "blue"
+                    }, {
+                        "value": "text-salmon",
+                        "label": "Salmon"
+                    }
+                ],
+                "label": "Button text color"
+            }, {
+                "type": "range",
+                "id": "btn_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "header",
+                "content": "button 1 hover styles"
+            }, {
+                "type": "select",
+                "id": "btn_hover_color",
+                "options": [
+                    {
+                        "value": "hover:bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "hover:bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "hover:bg-tertiary",
+                        "label": "Beige"
+                    },
+                    {
+                        "value": "hover:bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "hover:bg-salmon",
+                        "label": "Salmon"
+                    }, {
+                        "value": "hover:bg-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "hover:bg-blue",
+                        "label": "Blue"
+                    }, {
+                        "value": "hover:bg-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button hover color"
+            }, {
+                "type": "range",
+                "id": "btn_hover_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "btn_hover_text_color",
+                "options": [
+                    {
+                        "value": "hover:text-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "hover:text-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "hover:text-neutral",
+                        "label": "White"
+                    },
+                    {
+                        "value": "hover:text-tertiary",
+                        "label": "Beige"
+                    }, {
+                        "value": "hover:text-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "hover:text-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "hover:text-blue",
+                        "label": "blue"
+                    }, {
+                        "value": "hover:text-salmon",
+                        "label": "Salmon"
+                    }
+                ],
+                "label": "Button hover text color"
+            }, {
+                "type": "range",
+                "id": "btn_hover_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button hover text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "header",
+                "content": "button 2"
+            }, {
+                "type": "text",
+                "id": "alt_btn_text",
+                "label": "Buy Again button text"
+            }, {
+                "type": "select",
+                "id": "alt_btn_color",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "bg-tertiary",
+                        "label": "Beige"
+                    },
+                    {
+                        "value": "bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "bg-salmon",
+                        "label": "Salmon"
+                    }, {
+                        "value": "bg-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "bg-blue",
+                        "label": "Blue"
+                    }, {
+                        "value": "bg-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "",
+                        "label": "None"
+                    }
+                ],
+                "label": "Alt button color"
+            }, {
+                "type": "range",
+                "id": "alt_btn_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "alt_btn_text_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "text-neutral",
+                        "label": "White"
+                    },
+                    {
+                        "value": "text-tertiary",
+                        "label": "Beige"
+                    }, {
+                        "value": "text-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "text-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "text-blue",
+                        "label": "blue"
+                    }, {
+                        "value": "text-salmon",
+                        "label": "Salmon"
+                    }
+                ],
+                "label": "Button text color"
+            }, {
+                "type": "range",
+                "id": "alt_btn_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "header",
+                "content": "button 2 hover styles"
+            }, {
+                "type": "select",
+                "id": "alt_btn_hover_color",
+                "options": [
+                    {
+                        "value": "hover:bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "hover:bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "hover:bg-tertiary",
+                        "label": "Beige"
+                    },
+                    {
+                        "value": "hover:bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "hover:bg-salmon",
+                        "label": "Salmon"
+                    }, {
+                        "value": "hover:bg-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "hover:bg-blue",
+                        "label": "Blue"
+                    }, {
+                        "value": "hover:bg-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button hover color"
+            }, {
+                "type": "range",
+                "id": "alt_btn_hover_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "alt_btn_hover_text_color",
+                "options": [
+                    {
+                        "value": "hover:text-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "hover:text-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "hover:text-neutral",
+                        "label": "White"
+                    },
+                    {
+                        "value": "hover:text-tertiary",
+                        "label": "Beige"
+                    }, {
+                        "value": "hover:text-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "hover:text-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "hover:text-blue",
+                        "label": "blue"
+                    }, {
+                        "value": "hover:text-salmon",
+                        "label": "Salmon"
+                    }
+                ],
+                "label": "Button hover text color"
+            }, {
+                "type": "range",
+                "id": "alt_btn_hover_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button hover text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }
+        ],
+        "presets": [
+            {
+                "name": "Account Order History"
+            }
+        ]
+
+    }
+{% endschema %}

@@ -1,0 +1,69 @@
+{%- assign t = template | split: '.' | first -%}
+
+{%- case t -%}
+    {%- when 'page' -%}
+    {% assign content = 'page' %}
+    {% assign url = page.url %}
+    {%- when 'product' -%}
+    {% assign content = 'product' %}
+    {% assign url = product.url %}
+    {%- when 'collection' -%}
+    {% assign content = 'collection' %}
+    {% assign url = collection.url %}
+    {%- when 'blog' -%}
+    {% assign content = 'blog' %}
+    {% assign url = blog.url %}
+    {%- when 'article' -%}
+    {% assign content = 'article' %}
+    {% assign url = article.url %}
+{%- endcase -%}
+<div class="share-wrapper | w-full flex justify-end relative">
+    
+    <div class="share-dialog hidden absolute  top-full right-0 z-40" data-add-class="block" data-remove-class="hidden">
+        <a class="close-button fixed top-0 left-0 h-full w-full -z-10"></a>
+        <div class="bg-neutral-0 p-4">
+
+            <div class="w-full">
+                <h3 class="dialog-title font-body text-body-medium font-semibold mb-4 uppercase | lg:text-body-medium-lg">Share via</h3>
+            </div>
+
+            <div class="targets flex justify-between -mx-gutter">
+
+                <a data-copy class="button mx-gutter text-body-medium w-full cursor-pointer | lg:text-body-medium-lg">
+                    {% comment %} {% render 'copy' %} {% endcomment %}
+                    <input class="hidden" readonly type="text" value="{{ shop.url }}{{ url }}">
+                    <span class="copy-link whitespace-nowrap">Copy Link</span>
+                </a>
+                <a href="http://www.facebook.com/share.php?u={{ shop.url }}{{ url }}" target="_blank"
+                    class="button mx-gutter text-body-medium w-full cursor-pointer | lg:text-body-medium-lg">
+                    {% comment %} {% render 'facebook' %} {% endcomment %}
+                    <span>Facebook</span>
+                </a>
+                
+                <a href="https://twitter.com/intent/tweet?text={{ settings.twitter_share }} {{ shop.url }}{{ url }}" target="_blank" 
+                    class="button mx-gutter text-body-medium w-full cursor-pointer | lg:text-body-medium-lg">
+                    {% comment %} {% render 'twitter' %} {% endcomment %}
+                    <span>Twitter</span>
+                </a>
+                
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ shop.url }}{{ url }}" target="_blank"
+                    class="button mx-gutter text-body-medium w-full cursor-pointer | lg:text-body-medium-lg">
+                    {% comment %} {% render 'linkedin' %} {% endcomment %}
+                    <span>LinkedIn</span>
+                </a>
+                
+                <a href="mailto:?subject={{settings.email_title}}&body={{ shop.url }}{{ url }} {{ settings.email_body }}" class="button mx-gutter text-body-medium w-full cursor-pointer | lg:text-body-medium-lg">
+                    {% comment %} {% render 'email' %} {% endcomment %}
+                    <span>Email</span>
+                </a>
+
+            </div>
+        </div>
+    </div>
+
+    <button class="share-button | flex items-center text-body-small-lg" type="button" title="Share this {{ content }}" data-url="{{ shop.url }}{{ url }}" data-title="Share this {{ content }}">
+        <span class="material-symbols-outlined mr-1 text-body-medium">share</span>
+        <span>Share</span>
+    </button>
+
+</div>

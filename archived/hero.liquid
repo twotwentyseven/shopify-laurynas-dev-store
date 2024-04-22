@@ -1,0 +1,941 @@
+<section class="hero | w-full ">
+    {% comment %} swiper settings are passed through as json and parsed in app.js, all handles need to be wrapped in double quotes. {% endcomment %}
+    <div
+        data-swiper
+        data-swiper-settings='{"loop": true, "spaceBetween": 0, "centeredSlides": true, "speed": 500, "threshold": "20", "slidesPerView": 1, "autoplay": { "delay": 5000, "disableOnInteraction": true }, "draggable": true, "pagination": { "el": ".hero .swiper-pagination", "clickable": true, "bulletClass": "rounded-sm mx-0.5 inline-block border h-2 w-6 leading-3 border-secondary-500", "bulletActiveClass": "bg-secondary-500" }}'
+        class="swiper bg-primary-900">
+
+        <div class="swiper-wrapper pb-container-gutter-lg ">
+
+            {% for block in section.blocks %}
+
+                {% assign bs = block.settings %}
+                <div class="swiper-slide | {{ bs.bg_color }}-{{ bs.bg_color_shade }} | p-container-gutter lg:p-container-gutter-lg w-full min-h-[798px] | lg:min-h-[600px]">
+                    {% if bs.video != blank %}
+                        <div class="video-wrapper overflow-hidden pointer-events-none absolute h-full w-full left-0 top-0 z-[2] md:pt-[56.25%] pt-[133%]">
+                            {{ bs.video | video_tag: image_size: '1440x', autoplay: false, loop: true, muted: true, controls: false, class: 'w-full h-full absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%]' }}
+                        </div>
+                    {% else %}
+                        {% if bs.vimeo_id != blank %}
+
+                            <div class="video-wrapper overflow-hidden pointer-events-none absolute h-full w-full left-0 top-0 z-[2] md:pt-[56.25%] pt-[133%]">
+
+                                <iframe
+                                    id="vimeo-{{ block.id }}"
+                                    class="w-full h-full absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%]"
+                                    src=""
+                                    frameborder="0"
+                                    allow="autoplay; fullscreen"
+                                    allowfullscreen></iframe>
+
+                            </div>
+
+                            <script>
+
+                                window.addEventListener('DOMContentLoaded', function() {
+
+                                    const video_{{ block.id | replace: '-', '_' }} = document.querySelector('#vimeo-{{ block.id }}');
+
+                                    function whichVideo() {
+                                        if (window.innerWidth < 1024) {
+                                            video_{{ block.id | replace: '-', '_' }}.setAttribute('src', 'https://player.vimeo.com/video/{{ bs.vimeo_id_mob }}?api=1&player_id=banner_player&autopause=0&autoplay=1&badge=0&byline=0&portrait=0&title=0&background=1&loop=1&muted=1');
+                                        } else {
+                                            video_{{ block.id | replace: '-', '_' }}.setAttribute('src', 'https://player.vimeo.com/video/{{ bs.vimeo_id }}?api=1&player_id=banner_player&autopause=0&autoplay=1&badge=0&byline=0&portrait=0&title=0&background=1&loop=1&muted=1');
+                                        }
+                                    }
+
+                                    whichVideo();
+
+                                    window.addEventListener("resize", whichVideo);
+
+                                });
+                            </script>
+
+                        {% else %}
+
+                            {% if bs.image != blank %}
+                                {% assign wrapper_classes = bs.img_x_position | prepend: 'image-wrapper h-full w-full top-0 overflow-hidden z-[1] | lg:absolute ' %}
+                                {% assign image_classes = bs.img_fit | prepend: 'image h-full w-full pointer-events-none ' %}
+                                {% render 'responsive-image' with image: bs.image, mobile_image: bs.image_mob, image_class: image_classes, wrapper_class: wrapper_classes %}
+
+                            {% endif %}
+
+                        {% endif %}
+
+                    {% endif %}
+
+                    <div class="{{ bs.x_position }} {{ bs.y_position }} {{ bs.x_position_mob }} {{ bs.y_position_mob }} {{ bs.text-align }} absolute w-full max-w-2xl p-container-gutter z-[3] h-fit | lg:p-container-gutter-lg">
+
+                        {% if bs.title != blank %}
+                            <{{bs.title_tag}} class="title | mb-4 |  {{ bs.title_typeface }} {{ bs.title_weight }} {{ bs.title_color }}-{{ bs.title_color_shade }} {{ bs.title_size }} | lg:mb-16">
+                                {{ bs.title }}
+                            </{{bs.title_tag}}>
+                        {% endif %}
+
+                        {% if bs.subtitle != blank %}
+                            <div class="subtitle | mb-6 | {{ bs.subtitle_typeface }} {{ bs.subtitle_weight }} {{ bs.subtitle_color }}-{{ bs.subtitle_color_shade }} {{ bs.subtitle_size }}">
+                                {{ bs.subtitle }}
+                            </div>
+                        {% endif %}
+
+                        <div class="btn-wrapper | -mx-gutter flex {{ bs.text-align }}">
+
+                            {% if bs.btn_url != blank %}
+                                {% render 'button' element: 'a', type: '', href: bs.btn_url, target: '', border_color: bs.btn_border_color, border_color_shade: bs.btn_border_color_shade, border_width: 'border', bg_color: bs.btn_color, bg_color_shade: bs.btn_color_shade, text_color: bs.btn_text_color, text_color_shade: bs.btn_text_color_shade, hover_bg: bs.btn_hover_color, hover_bg_shade: bs.btn_hover_color_shade, hover_border_color: bs.btn_hover_border_color, hover_border_color_shade: bs.btn_border_hover_color_shade, hover_text: bs.btn_hover_text_color, hover_text_shade: bs.btn_hover_text_color_shade, content: bs.btn_text, custom_class: 'mx-gutter rounded-lg w-full lg:w-auto flex-[0_1_50%]', before_icon: '', after_icon: '' %}
+                            {% endif %}
+
+                            {% if bs.alt_btn_url != blank %}
+                                {% render 'button' element: 'a', type: '', href: bs.alt_btn_url, target: '', border_color: bs.alt_btn_border_color, border_color_shade: bs.alt_btn_border_color_shade, border_width: 'border', bg_color: bs.alt_btn_color, bg_color_shade: bs.alt_btn_color_shade, text_color: bs.alt_btn_text_color, text_color_shade: bs.alt_btn_text_color_shade, hover_bg: bs.alt_btn_hover_color, hover_bg_shade: bs.alt_btn_hover_color_shade, hover_border_color: bs.alt_btn_hover_border_color, hover_border_color_shade: bs.alt_btn_border_hover_color_shade, hover_text: bs.alt_btn_hover_text_color, hover_text_shade: bs._alt_btn_hover_text_color_shade content: bs.alt_btn_text, custom_class: 'mx-gutter rounded-lg w-full flex-[0_1_50%] lg:w-auto', before_icon: '', after_icon: '' %}
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+        <div class="swiper-pagination h-3 leading-3 !bottom-[5%] flex px-container-gutter | lg:!bottom-[15%] lg:px-container-gutter-lg"></div>
+
+
+
+    </div>
+
+</section>
+
+
+{% schema %}
+    {
+        "name": "hero",
+        "settings": [],
+        "blocks": [
+            {
+                "type": "slide",
+                "name": "Slide",
+                "settings": [
+                    {
+                        "type": "header",
+                        "content": "background media"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "image",
+                        "label": "Image",
+                        "info": "Recommended size: 1440x800px"
+                    },
+                    {
+                        "type": "select",
+                        "id": "img_x_position",
+                        "options": [
+                            {
+                                "value": "lg:left-1/2 lg:translate-x-[-50%] lg:w-2/3",
+                                "label": "Center"
+                            }, {
+                                "value": "lg:left-0 lg:w-2/3 ",
+                                "label": "Left"
+                            }, {
+                                "value": "lg:right-0 lg:w-2/3 ",
+                                "label": "Right"
+                            }, {
+                                "value": "lg:h-full lg:w-full lg:left-0",
+                                "label": "Center (cover)"
+                            }
+                        ],
+                        "default": "lg:h-full lg:w-full lg:left-0",
+                        "label": "Image desktop horizontal postion"
+                    },
+                    {
+                        "type": "select",
+                        "id": "img_fit",
+                        "options": [
+                            {
+                                "value": "object-cover",
+                                "label": "Cover"
+                            },
+                            {
+                                "value": "object-contain",
+                                "label": "Contain"
+                            },
+                            {
+                                "value": "object-none",
+                                "label": "None"
+                            },
+                            {
+                                "value": "object-scale-down",
+                                "label": "Scale down"
+                            }, {
+                                "value": "object-fill",
+                                "label": "Fill"
+                            }
+                        ],
+                        "default": "object-cover",
+                        "label": "Image fitting"
+                    }, {
+                        "type": "image_picker",
+                        "id": "image_mob",
+                        "label": "Image (mobile)",
+                        "info": "Recommended size: 375x460"
+                    }, {
+                        "type": "video",
+                        "id": "video",
+                        "label": "A Shopify-hosted video"
+                    }, {
+                        "type": "text",
+                        "id": "vimeo_id",
+                        "label": "Video ID",
+                        "info": "Add the vimeo ID from the video URL"
+                    }, {
+                        "type": "text",
+                        "id": "vimeo_id_mob",
+                        "label": "Video ID Mobile",
+                        "info": "Add the vimeo ID from the video URL"
+                    }, {
+                        "type": "header",
+                        "content": "background color (if media is not used)"
+                    }, {
+                        "type": "select",
+                        "id": "bg_color",
+                        "options": [
+                            {
+                                "value": "bg-primary",
+                                "label": "Primary"
+                            }, {
+                                "value": "bg-secondary",
+                                "label": "Secondary"
+                            }, {
+                                "value": "bg-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            }, {
+                                "value": "",
+                                "label": "None"
+                            }
+                        ],
+                        "label": "Background color"
+                    }, {
+                        "type": "range",
+                        "id": "bg_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Background color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "header",
+                        "content": "Content Position"
+                    }, {
+                        "type": "select",
+                        "id": "x_position_mob",
+                        "options": [
+                            {
+                                "value": "left-1/2 translate-x-[-50%]",
+                                "label": "Center"
+                            }, {
+                                "value": "left-0",
+                                "label": "Left"
+                            }, {
+                                "value": "right-0",
+                                "label": "Right"
+                            }
+                        ],
+                        "label": "Horizontal postion (Mobile)"
+                    }, {
+                        "type": "select",
+                        "id": "y_position_mob",
+                        "options": [
+                            {
+                                "value": "top-1/2 translate-y-[-50%]",
+                                "label": "Middle"
+                            }, {
+                                "value": "top-0",
+                                "label": "Top"
+                            }, {
+                                "value": "bottom-0",
+                                "label": "Bottom"
+                            }
+                        ],
+                        "label": "Vertical postion (Mobile)"
+                    }, {
+                        "type": "select",
+                        "id": "x_position",
+                        "options": [
+                            {
+                                "value": "lg:left-1/2 lg:translate-x-[-50%]",
+                                "label": "Center"
+                            }, {
+                                "value": "lg:left-0 lg:translate-x-0 ",
+                                "label": "Left"
+                            }, {
+                                "value": "lg:right-0 lg:translate-x-0 left-auto",
+                                "label": "Right"
+                            }
+                        ],
+                        "label": "Horizontal postion"
+                    }, {
+                        "type": "select",
+                        "id": "y_position",
+                        "options": [
+                            {
+                                "value": "lg:top-1/2 lg:translate-y-[-50%]",
+                                "label": "Middle"
+                            }, {
+                                "value": "lg:top-0 lg:translate-y-0",
+                                "label": "Top"
+                            }, {
+                                "value": "lg:bottom-0 lg:translate-y-0",
+                                "label": "Bottom"
+                            }
+                        ],
+                        "label": "Vertical postion"
+                    }, {
+                        "type": "select",
+                        "id": "text-align",
+                        "options": [
+                            {
+                                "value": "text-center justify-center",
+                                "label": "Center"
+                            }, {
+                                "value": "text-left justify-start",
+                                "label": "Left"
+                            }, {
+                                "value": "text-right justify-end",
+                                "label": "Right"
+                            }
+                        ],
+                        "label": "Text alignment"
+                    }, {
+                        "type": "header",
+                        "content": "Fonts & Copy"
+                    }, {
+                        "type": "textarea",
+                        "id": "title",
+                        "label": "Title"
+                    }, {
+                        "type": "select",
+                        "id": "title_typeface",
+                        "options": [
+                            {
+                                "value": "font-headline",
+                                "label": "Headline"
+                            }, {
+                                "value": "font-body",
+                                "label": "Body"
+                            }
+                        ],
+                        "label": "Title font"
+                    }, {
+                        "type": "select",
+                        "id": "title_size",
+                        "options": [
+                            {
+                                "value": "text-headline-6 lg:text-headline-6-lg",
+                                "label": "Heading 6"
+                            },
+                            {
+                                "value": "text-headline-5 lg:text-headline-5-lg",
+                                "label": "Heading 5"
+                            },
+                            {
+                                "value": "text-headline-4 lg:text-headline-4-lg",
+                                "label": "Heading 4"
+                            },
+                            {
+                                "value": "text-headline-3 lg:text-headline-3-lg",
+                                "label": "Heading 3"
+                            }, {
+                                "value": "text-headline-2 lg:text-headline-2-lg",
+                                "label": "Heading 2"
+                            }, {
+                                "value": "text-headline-1 lg:text-headline-1-lg",
+                                "label": "Heading 1"
+                            }, {
+                                "value": "text-display lg:text-display-lg",
+                                "label": "Display"
+                            }
+                        ],
+                        "label": "Title heading size"
+                    }, {
+                        "type": "select",
+                        "id": "title_tag",
+                        "options": [
+                            {
+                                "value": "h1",
+                                "label": "H1"
+                            }, {
+                                "value": "h2",
+                                "label": "H2"
+                            }, {
+                                "value": "h3",
+                                "label": "H3"
+                            }, {
+                                "value": "div",
+                                "label": "DIV (not headline)"
+                            }
+                        ],
+                        "default": "h1",
+                        "label": "Title headline tag"
+                    }, {
+                        "type": "select",
+                        "id": "title_weight",
+                        "options": [
+                            {
+                                "value": "font-bold",
+                                "label": "Bold"
+                            },
+                            {
+                                "value": "font-semibold",
+                                "label": "Semibold"
+                            },
+                            {
+                                "value": "font-medium",
+                                "label": "Medium"
+                            },
+                            {
+                                "value": "font-normal",
+                                "label": "Normal"
+                            }, {
+                                "value": "font-light",
+                                "label": "Light"
+                            }, {
+                                "value": "font-extralight",
+                                "label": "Extralight"
+                            }, {
+                                "value": "font-thin",
+                                "label": "Thin"
+                            }
+                        ],
+                        "label": "Title weight"
+                    }, {
+                        "type": "select",
+                        "id": "title_color",
+                        "options": [
+                            {
+                                "value": "text-primary",
+                                "label": "Primary"
+                            }, {
+                                "value": "text-secondary",
+                                "label": "Secondary"
+                            }, {
+                                "value": "text-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            }
+                        ],
+                        "label": "Title color"
+                    }, {
+                        "type": "range",
+                        "id": "title_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Title color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "richtext",
+                        "id": "subtitle",
+                        "label": "Subtitle"
+                    }, {
+                        "type": "select",
+                        "id": "subtitle_typeface",
+                        "options": [
+                            {
+                                "value": "font-headline",
+                                "label": "Headline"
+                            }, {
+                                "value": "font-body",
+                                "label": "Body"
+                            }
+                        ],
+                        "label": "Subtitle font"
+                    }, {
+                        "type": "select",
+                        "id": "subtitle_size",
+                        "options": [
+                            {
+                                "value": "text-body-small lg:text-body-small-lg",
+                                "label": "Body Small"
+                            },
+                            {
+                                "value": "text-body-medium lg:text-body-medium-lg",
+                                "label": "Body Medium"
+                            },
+                            {
+                                "value": "text-body-large lg:text-body-large-lg",
+                                "label": "Body Large"
+                            },
+                            {
+                                "value": "text-headline-6 lg:text-headline-6-lg",
+                                "label": "Heading 6"
+                            }, {
+                                "value": "text-headline-5 lg:text-headline-5-lg",
+                                "label": "Heading 5"
+                            }, {
+                                "value": "text-headline-4 lg:text-headline-4-lg",
+                                "label": "Heading 4"
+                            }, {
+                                "value": "text-headline-3 lg:text-headline-3-lg",
+                                "label": "Heading 3"
+                            }, {
+                                "value": "text-headline-2 lg:text-headline-2-lg",
+                                "label": "Heading 2"
+                            }, {
+                                "value": "text-headline-1 lg:text-headline-1-lg",
+                                "label": "Heading 1"
+                            }, {
+                                "value": "text-display lg:text-display-lg",
+                                "label": "Display"
+                            }
+                        ],
+                        "label": "Subtitle heading size"
+                    }, {
+                        "type": "select",
+                        "id": "subtitle_weight",
+                        "options": [
+                            {
+                                "value": "font-bold",
+                                "label": "Bold"
+                            },
+                            {
+                                "value": "font-semibold",
+                                "label": "Semibold"
+                            },
+                            {
+                                "value": "font-medium",
+                                "label": "Medium"
+                            },
+                            {
+                                "value": "font-normal",
+                                "label": "Normal"
+                            }, {
+                                "value": "font-light",
+                                "label": "Light"
+                            }, {
+                                "value": "font-extralight",
+                                "label": "Extralight"
+                            }, {
+                                "value": "font-thin",
+                                "label": "Thin"
+                            }
+                        ],
+                        "label": "Title weight"
+                    }, {
+                        "type": "select",
+                        "id": "subtitle_color",
+                        "options": [
+                            {
+                                "value": "text-primary",
+                                "label": "Primary"
+                            }, {
+                                "value": "text-secondary",
+                                "label": "Secondary"
+                            }, {
+                                "value": "text-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            }
+                        ],
+                        "label": "Subtitle color"
+                    }, {
+                        "type": "range",
+                        "id": "subtitle_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Subtitle color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "header",
+                        "content": "button 1"
+                    }, {
+                        "type": "text",
+                        "id": "btn_text",
+                        "label": "Button text"
+                    }, {
+                        "type": "url",
+                        "id": "btn_url",
+                        "label": "Button URL"
+                    }, {
+                        "type": "select",
+                        "id": "btn_color",
+                        "options": [
+                            {
+                                "value": "bg-primary",
+                                "label": "Primary"
+                            },
+                            {
+                                "value": "bg-secondary",
+                                "label": "Secondary"
+                            },
+                            {
+                                "value": "bg-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            },
+                            {
+                                "value": "bg-blue ",
+                                "label": "Blue"
+                            }, {
+                                "value": "bg-orange ",
+                                "label": "Orange"
+                            }, {
+                                "value": "bg-yellow ",
+                                "label": "Yellow"
+                            }, {
+                                "value": "bg-salmon ",
+                                "label": "Salmon"
+                            }, {
+                                "value": "bg-transparent ",
+                                "label": "None"
+                            }
+                        ],
+                        "label": "Button color"
+                    }, {
+                        "type": "range",
+                        "id": "btn_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Button color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "select",
+                        "id": "btn_border_color",
+                        "options": [
+                            {
+                                "value": "border-primary",
+                                "label": "Border Primary"
+                            }, {
+                                "value": "border-secondary",
+                                "label": "Border Secondary"
+                            }, {
+                                "value": "border-neutral",
+                                "label": "Border Neutral (white/grey/black)"
+                            }, {
+                                "value": "border-transparent ",
+                                "label": "None"
+                            }
+                        ],
+                        "label": "Button border color"
+                    }, {
+                        "type": "range",
+                        "id": "btn_border_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Button border color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "select",
+                        "id": "btn_text_color",
+                        "options": [
+                            {
+                                "value": "text-primary",
+                                "label": "Primary"
+                            }, {
+                                "value": "text-secondary",
+                                "label": "Secondary"
+                            }, {
+                                "value": "text-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            }
+                        ],
+                        "label": "Button text color"
+                    }, {
+                        "type": "range",
+                        "id": "btn_text_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Button text color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "header",
+                        "content": "button 1 hover styles"
+                    }, {
+                        "type": "select",
+                        "id": "btn_hover_color",
+                        "options": [
+                            {
+                                "value": "hover:bg-primary",
+                                "label": "Primary"
+                            },
+                            {
+                                "value": "hover:bg-secondary",
+                                "label": "Secondary"
+                            },
+                            {
+                                "value": "hover:bg-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            },
+                            {
+                                "value": "hover:bg-transparent ",
+                                "label": "None"
+                            }, {
+                                "value": "hover:bg-blue ",
+                                "label": "Blue"
+                            }, {
+                                "value": "hover:bg-orange ",
+                                "label": "Orange"
+                            }, {
+                                "value": "hover:bg-yellow ",
+                                "label": "Yellow"
+                            }, {
+                                "value": "hover:bg-salmon ",
+                                "label": "Salmon"
+                            }
+                        ],
+                        "label": "Button hover color"
+                    }, {
+                        "type": "range",
+                        "id": "btn_hover_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Button color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "select",
+                        "id": "btn_hover_border_color",
+                        "options": [
+                            {
+                                "value": "hover:border-primary",
+                                "label": "Border Primary"
+                            }, {
+                                "value": "hover:border-secondary",
+                                "label": "Border Secondary"
+                            }, {
+                                "value": "hover:border-neutral",
+                                "label": "Border Neutral (white/grey/black)"
+                            }, {
+                                "value": "hover:border-transparent ",
+                                "label": "None"
+                            }
+                        ],
+                        "label": "Button hover border color"
+                    }, {
+                        "type": "range",
+                        "id": "btn_hover_border_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Button hover color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "select",
+                        "id": "btn_hover_text_color",
+                        "options": [
+                            {
+                                "value": "hover:text-primary",
+                                "label": "Primary"
+                            }, {
+                                "value": "hover:text-secondary",
+                                "label": "Secondary"
+                            }, {
+                                "value": "hover:text-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            }
+                        ],
+                        "label": "Button hover text color"
+                    }, {
+                        "type": "range",
+                        "id": "btn_hover_text_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Button hover text color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "header",
+                        "content": "button 2"
+                    }, {
+                        "type": "text",
+                        "id": "alt_btn_text",
+                        "label": "Alt button text"
+                    }, {
+                        "type": "url",
+                        "id": "alt_btn_url",
+                        "label": "Alt button URL"
+                    }, {
+                        "type": "select",
+                        "id": "alt_btn_color",
+                        "options": [
+                            {
+                                "value": "bg-primary",
+                                "label": "Primary"
+                            }, {
+                                "value": "bg-secondary",
+                                "label": "Secondary"
+                            }, {
+                                "value": "bg-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            }, {
+                                "value": "bg-transparent ",
+                                "label": "None"
+                            }
+                        ],
+                        "label": "Alt button color"
+                    }, {
+                        "type": "range",
+                        "id": "alt_btn_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Alt Button color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "select",
+                        "id": "alt_btn_border_color",
+                        "options": [
+                            {
+                                "value": "border-primary",
+                                "label": "Border Primary"
+                            }, {
+                                "value": "border-secondary",
+                                "label": "Border Secondary"
+                            }, {
+                                "value": "border-neutral",
+                                "label": "Border Neutral (white/grey/black)"
+                            }, {
+                                "value": "border-transparent ",
+                                "label": "None"
+                            }
+                        ],
+                        "label": "Alt Button border color"
+                    }, {
+                        "type": "range",
+                        "id": "alt_btn_border_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Alt Button color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "select",
+                        "id": "alt_btn_text_color",
+                        "options": [
+                            {
+                                "value": "text-primary",
+                                "label": "Primary"
+                            }, {
+                                "value": "text-secondary",
+                                "label": "Secondary"
+                            }, {
+                                "value": "text-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            }
+                        ],
+                        "label": "Alt Button text color"
+                    }, {
+                        "type": "range",
+                        "id": "alt_btn_text_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Alt button text color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "header",
+                        "content": "button 2 hover styles"
+                    }, {
+                        "type": "select",
+                        "id": "alt_btn_hover_color",
+                        "options": [
+                            {
+                                "value": "hover:bg-primary",
+                                "label": "Primary"
+                            }, {
+                                "value": "hover:bg-secondary",
+                                "label": "Secondary"
+                            }, {
+                                "value": "hover:bg-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            }, {
+                                "value": "hover:bg-transparent ",
+                                "label": "None"
+                            }
+                        ],
+                        "label": "Button hover color"
+                    }, {
+                        "type": "range",
+                        "id": "alt_btn_hover_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Alt Button hover color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "select",
+                        "id": "alt_btn_hover_border_color",
+                        "options": [
+                            {
+                                "value": "hover:border-primary",
+                                "label": "Border Primary"
+                            }, {
+                                "value": "hover:border-secondary",
+                                "label": "Border Secondary"
+                            }, {
+                                "value": "hover:border-neutral",
+                                "label": "Border Neutral (white/grey/black)"
+                            }, {
+                                "value": "hover:border-transparent ",
+                                "label": "None"
+                            }
+                        ],
+                        "label": "Alt Button hover border color"
+                    }, {
+                        "type": "range",
+                        "id": "alt_btn_hover_border_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Alt Button hover border color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }, {
+                        "type": "select",
+                        "id": "alt_btn_hover_text_color",
+                        "options": [
+                            {
+                                "value": "hover:text-primary",
+                                "label": "Primary"
+                            }, {
+                                "value": "hover:text-secondary",
+                                "label": "Secondary"
+                            }, {
+                                "value": "hover:text-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            }
+                        ],
+                        "label": "Alt Button hover text color"
+                    }, {
+                        "type": "range",
+                        "id": "alt_btn_hover_text_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Alt Button hover text color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 500
+                    }
+                ]
+
+            }
+
+        ],
+        "presets": [
+            {
+                "name": "Hero"
+            }
+        ]
+
+    }
+{% endschema %}

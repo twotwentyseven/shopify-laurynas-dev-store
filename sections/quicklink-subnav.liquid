@@ -1,0 +1,124 @@
+{% assign ss = section.settings %}
+{% if section.blocks != blank %}
+
+    <section
+        class="quicklink-nav | relative | ">
+        <div
+            class="section-wrapper | relative w-full px-container-gutter max-w-[1440px] mx-auto pt-16 | lg:pt-10 lg:px-container-gutter-lg | text-center justify-center bg-neutral-900 fill-neutral-900">
+            {% if ss.title != blank %}
+                <h2
+                    class="title | mb-4 font-headline font-normal text-secondary-900 text-display lg:text-display-lg ">
+                    {{ ss.title }}
+                </h2>
+            {% endif %}
+
+            {% if ss.subtitle != blank %}
+                <div
+                    class="content | mb-6 max-w-[550px] w-full mx-auto | lg:mb-10 | text-body-large lg:text-body-large-lg text-secondary-900">
+                    {{ ss.subtitle }}
+                </div>
+            {% endif %}
+
+            <div
+                class="quicklinks-wrapper | top-site-header-height-announcement opacity-100 left-0 right-0 z-[12] py-4 bg-neutral-900 flex items-center justify-start overflow-x-auto gap-2 w-full flex-grow transition-all duration-animation-speed | lg:justify-center | aria-expanded:fixed aria-expanded:px-4 aria-expanded:lg:px-[7.75rem]"
+                data-quicklink-nav>
+                {% for block in section.blocks %}
+                    {% assign bs = block.settings %}
+                    {% assign block_count = section.blocks | size %}
+                    <div
+                        data-quicklink="{{ bs.handle }}"
+                        style="--block-count: {{block_count}}"
+                        class="quicklink | rounded border border-secondary-900 uppercase flex flex-grow items-center justify-center p-3 z-[11] text-body-medium-lg transition-all whitespace-normal w-[calc(100%_/_var(--block-count)_-_8px)] max-w-[32%] min-w-fit mx-auto cursor-pointer | lg:min-w-[250px] | hover:bg-secondary-900 hover:text-tertiary-900 | aria-pressed:bg-secondary-900 aria-pressed:text-tertiary-900">{{ bs.title }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div
+                class="quicklinks-wrapper-spacer | w-full h-0 pt-[78px] flex-grow transition-all duration-animation-speed | aria-hidden:hidden"
+                data-quicklink-spacer
+                aria-hidden="true"></div>
+
+        </div>
+
+
+    </section>
+{% endif %}
+
+
+<script>/*
+    document.addEventListener("DOMContentLoaded", function() {
+    function scrollTo(element) {
+    window.scroll({behavior: 'smooth', left: 0, top: element.offsetTop});
+    }
+    
+    const subNavLinks = document.querySelectorAll(".quicklink-nav [data-quicklink]");
+    Array.from(subNavLinks).forEach(link => {
+    link.addEventListener("click", function(e) {
+    const section = link.dataset.quicklink;
+    console.log(section);
+    
+    // toggle button and untoggle the previous one
+    Array
+    .from(subNavLinks)
+    .forEach(link => {
+    if (link.hasAttribute("aria-pressed")) {
+    link.removeAttribute("aria-pressed");
+    }
+    })
+    
+    e
+    .target
+    .setAttribute("aria-pressed", true);
+    
+    scrollTo(document.querySelector(`#${section}`));
+    
+    })
+    })
+    
+    // quicklink appearing disappearing nav
+    
+    
+    })*/
+</script>{% schema %}
+{
+    "name": "Quicklink sub navigation",
+    "class": "quicklink--subnav",
+    "settings": [
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+        }, {
+            "type": "text",
+            "id": "subtitle",
+            "label": "Sub-title"
+        }
+    ],
+    "blocks": [
+        {
+            "type": "quicklink",
+            "name": "quicklink",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": "Quicklink title"
+
+                }, {
+                    "type": "textarea",
+                    "id": "handle",
+                    "label": "Section handle",
+                    "info": "This corresponds with the section ID e.g education-videos"
+                }
+            ]
+        }
+    ],
+
+
+    "presets": [
+        {
+            "name": "Quicklink sub navigation"
+        }
+    ]
+}
+{% endschema %}

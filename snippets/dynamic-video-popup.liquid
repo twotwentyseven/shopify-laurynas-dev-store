@@ -1,0 +1,32 @@
+<div data-dynamic-video-popup class="video-popup | fixed invisible top-0 right-0 bottom-0 left-0 w-full h-full scale-0 opacity-50 pointer-events-none | transition-all | aria-expanded:pointer-events-auto aria-expanded:opacity-100 aria-expanded:scale-100 aria-expanded:z-[999] aria-expanded:visible">
+    <button data-close-video-popup class="close-btn | absolute top-8 right-8 z-[10]">
+        <i class="ri-close-line text-neutral-900 text-display"></i>
+    </button>
+    <div class="dynamic-video-popup-overlay | absolute h-full w-full bg-black opacity-70 "></div>
+    <div class="popup-inner | absolute top-1/2 w-full -translate-y-1/2 m-auto ">
+        <div class="video-wrapper-dynamic relative w-full pt-[var(--video-aspect-ratio,_56.25%)]">
+            <div
+                class="video-overlay | absolute top-0 right-0 bottom-0 left-0 width-full h-full bg-black opacity-80 z-[1] | aria-pressed:hidden "
+                data-video-overlay
+                data-add-class="hidden"
+                data-remove-class="block"></div>
+            <button
+                data-vimeo-play
+                class="play-btn | absolute top-1/2 left-1/2 my-auto p-4 z-10 cursor-pointer bg-tertiary-900 rounded-full leading-[normal] pointer-events-auto | -translate-x-1/2 -translate-y-1/2 | lg:p-10 | aria-pressed:hidden"
+                data-add-class="hidden"
+                data-remove-class="block">
+                <i class="ri-play-fill | text-5xl"></i>
+            </button>
+            <iframe
+                id="vimeo-video"
+                class="w-full h-full absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%] max-h-screen"
+                src=""
+                frameborder="0"
+                allow="autoplay; fullscreen"
+                allowfullscreen
+                loading="lazy"
+                ></iframe>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+{% comment %}
+    first draft of button component subject to change.
+{% endcomment %}
+
+<{{element}}
+    class="btn | py-button-y px-button-x rounded-lg	 text-center text-button flex items-center justify-center relative cursor-pointer | lg:text-button-lg {{ custom_class }} {{ border_color }}-{{ border_color_shade }} {{ border_width }} {{ bg_color }}-{{ bg_color_shade }} | {{ text_color }}-{{ text_color_shade }} | {{ hover_border_color }}-{{ hover_border_color_shade }} | {{ hover_bg }}-{{ hover_bg_shade }} | {{ hover_text }}-{{ hover_text_shade }} | transition-all duration-animation-speed"
+    {% if element == 'button' %}
+        type="{{ type }}"
+    {% endif %}
+    {% if element == 'a' %}
+        target="{{ target }}"
+        href="{{ href }}"
+    {% endif %}
+    {% if data != blank %}
+        data-{{data}}
+    {% endif %}>
+    {% if before_icon != blank %}<span class="material-symbols-outlined font-light mr-2 text-button | lg:text-button-lg">{{ before_icon }}</span>{% endif %}
+    {{ content }}
+    {% if after_icon != blank %}<span class="material-symbols-outlined font-light ml-2 text-button | lg:text-button-lg">{{ after_icon }}</span>{% endif %}
+</{{element}}>

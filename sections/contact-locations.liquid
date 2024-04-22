@@ -1,0 +1,136 @@
+{% if section.blocks != blank %}
+
+    <section class="locations-section | py-10 px-container-gutter bg-tertiary-900 | lg:px-container-gutter-lg ">
+
+        <div class="wrapper | | lg:max-w-[1440px] lg:mx-auto">
+
+            {% if section.settings.title != blank %}
+                <h5 class="title | font-headline text-display text-center | lg:text-display-lg ">{{ section.settings.title }}</h5>
+            {% endif %}
+
+        </div>
+
+        <div class="pb-20 flex flex-wrap justify-center | lg:max-w-[1440px] lg:mx-auto">
+
+            {%- for block in section.blocks -%}
+
+                {% assign bs = block.settings %}
+
+                <div class="w-full h-auto md:w-6/12 lg:w-4/12 2xl:w-3/12 py-6 md:px-3">
+
+                    <div class="location-card | flex flex-col h-full justify-between gap-4">
+                        <a href="{{ bs.url }}" class="transition-all hover:opacity-90 ">
+                            {% render 'responsive-image' with image: bs.image, image_class: 'rounded-2xl image object-cover h-full w-full', wrapper_class: "" %}
+                        </a>
+
+                        <div class="location-details | flex flex-col gap-4">
+                            {% if bs.address %}
+                                <div class="location-address | flex items-center gap-2 text-body-large | lg:text-body-large-lg ">
+                                    <i class="ri-map-pin-fill text-headline-5"></i>
+                                    <div>
+                                        Address -
+                                        <a class="underline" href="">{{ bs.address }}</a>
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+                            {% if bs.email %}
+                                <div class="location-email | flex items-center gap-2 text-body-large | lg:text-body-large-lg ">
+                                    <i class="ri-mail-fill text-headline-5"></i>
+                                    <div>
+                                        Email -
+                                        <a class="underline" href="mailto:{{ bs.email }}">{{ bs.email }}</a>
+                                    </div>
+
+                                </div>
+
+                            {% endif %}
+
+                            {% if bs.phone %}
+                                <div class="location-phone | flex items-center gap-2 text-body-large | lg:text-body-large-lg ">
+                                    <i class="ri-phone-fill text-headline-5"></i>
+                                    <div>
+                                        Phone -
+                                        <a class="underline" href="tel:{{ bs.phone }}">{{ bs.phone }}</a>
+                                    </div>
+
+                                </div>
+                            {% endif %}
+                        </div>
+                        {% if bs.cta_url != blank %}
+                            <a class="location-cta | font-headline text-headline-5 w-full py-3 px-4 rounded-lg text-center text-tertiary-900 bg-secondary-900 border border-secondary-900 transition-all | lg:text-headline-5-lg | hover:bg-tertiary-900 hover:text-secondary-900 " href="{{ bs.cta_url }}">{{ bs.cta_text }}
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+            {%- endfor -%}
+
+        </div>
+
+    </section>
+
+{% endif %}
+
+{% schema %}
+    {
+        "name": "Location Blocks",
+
+        "settings": [
+            {
+                "type": "textarea",
+                "id": "title",
+                "label": "Title",
+                "default": "Locations"
+            }
+
+        ],
+        "blocks": [
+            {
+                "type": "location",
+                "name": "Location",
+                "settings": [
+
+                    {
+                        "type": "image_picker",
+                        "id": "image",
+                        "label": "Image"
+                    },
+                    {
+                        "type": "text",
+                        "id": "address",
+                        "label": "Address"
+                    },
+                    {
+                        "type": "text",
+                        "id": "email",
+                        "label": "Email"
+                    },
+                    {
+                        "type": "text",
+                        "id": "phone",
+                        "label": "Phone"
+                    }, {
+                        "type": "text",
+                        "id": "cta_text",
+                        "label": "CTA text"
+                    }, {
+                        "type": "url",
+                        "id": "cta_url",
+                        "label": "URL"
+                    }
+
+                ]
+
+            }
+        ],
+        "presets": [
+            {
+                "name": "locations"
+            }
+        ]
+
+    }
+{% endschema %}

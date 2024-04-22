@@ -1,0 +1,279 @@
+{% assign ss = section.settings %}
+<section class="w-full px-container-gutter lg:px-container-gutter-lg bg-tertiary-900">
+    <a class="text-primary-500 uppercase whitespace-nowrap font-semibold mb-6 flex items-center" href="/account#order-history"><span class="material-symbols-outlined text-body-large mr-3 text-secondary-900 | lg:text-body-large-lg">arrow_back</span><span class="underline text-secondary-900">{{ ss.return }}</span></a>
+    <h2 class="font-headline text-headline-1  mb-6 | lg:text-headline-1-lg">{{ ss.title }}</h2>
+    <h3 class="font-headline text-headline- font-semibold mb-4 | lg:text-headline-6-lg">{{ ss.order }} <span class="font-bold">#{{ order.order_number }}</span></h3>
+    
+    {% for line_item in order.line_items %}
+    <div class="bg-neutral-0 shadow-md shadow-black/30 border rounded-lg mb-4 py-6 px-4 flex items-center justify-between flex-wrap | lg:py-10 lg:flex-nowrap">
+        <div class="flex items-center">
+            {% render 'responsive-image' with image: line_item.product.featured_image, link: line_item.url, wrapper_class: 'h-24 w-24 mr-4 relative shrink-0' image_class: 'absolute top-0 left-0 object-cover w-full h-full' %}
+            <div>
+                <p class="line-title | text-body-large mb-1 | lg:text-body-large-lg">
+                    {{ line_item.title | remove: line_item.variant.title | remove: '-' }}
+                </p>
+                <p class="text-body-medium text-secondary-900 mb-1 | lg:text-body-medium-lg">
+                    {{ line_item.variant.title }}
+                </p>
+                <p class="line-title | text-body-large mb-1 | lg:text-body-large-lg">
+                    {{ line_item.price | money }}
+                </p>
+                <p class="text-body-medium text-secondary-900 mb-1 | lg:text-body-medium-lg">
+                    {{ ss.quantity }}: {{ line_item.quantity }}
+                </p>
+            </div>
+        </div>
+        <form class="w-full mt-6 lg:mt-0 lg:w-auto">
+            <input class="hidden" hidden bundle 
+            value='[{"id": "{{ line_item.variant_id }}","quantity": "{{ line_item.quantity }}"{% if line_item.properties != blank %}, "properties": {{ line_item.properties | json }} {% endif %} }]'>
+            {% render 'button' element: 'button', data: 'cart-add-bundle-async', type: 'submit', border_color: ss.btn_color, border_width: 'border', bg_color: ss.btn_color, bg_color_shade: ss.btn_color_shade, text_color: ss.btn_text_color, text_color_shade: ss.btn_text_color_shade, hover_bg: ss.btn_hover_color, hover_bg_shade: ss.btn_hover_color_shade, hover_text: ss.btn_hover_text_color, hover_text_shade: ss.btn_hover_text_color_shade, content: ss.btn_text, custom_class: 'my-1 w-full', before_icon: '', after_icon: '' %}
+        </form>
+    </div>
+    {% endfor %}
+
+    <div class="order-details | ml-auto flex justify-end flex-wrap lg:w-80 text-right mt-6 pb-10 lg:mt-10 lg:pb-20">
+        <p class="flex mb-2 justify-between text-secondary-500 text-body-medium w-full | lg:text-body-medium-lg"><span>{{ settings.subtotal }}</span><span>{{ order.subtotal_price | money }}<span></p>
+        <p class="flex mb-2 justify-between text-secondary-500 text-body-medium w-full | lg:text-body-medium-lg"><span>{{ settings.discount }}</span><span>{{ order.total_discounts | money }}<span></p>
+        <p class="flex mb-2 justify-between text-secondary-500 text-body-medium w-full | lg:text-body-medium-lg"><span>{{ settings.shipping }}</span><span>{{ order.shipping_price | money }}<span></p>
+        <p class="flex mb-2 justify-between text-secondary-500 text-body-medium w-full | lg:text-body-medium-lg"><span>{{ settings.tax }}</span><span>{{ order.tax_price | money }}<span></p>
+        <p class="flex mb-2 justify-between text-secondary-900 font-semibold text-body-large w-full | lg:text-body-large-lg"><span>{{ settings.total }}</span><span>{{ order.total_price | money }}<span></p>
+
+    </div>
+    
+</section>
+
+{% schema %}
+    {
+        "name": "Account Order",
+        "settings": [
+            {
+                "type": "text",
+                "id": "return",
+                "label": "back to order history",
+                "default": "RETURN TO ORDER HISTORY"
+            },
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title"
+            },
+            {
+                "type": "text",
+                "id": "order",
+                "label": "order label",
+                "default": "Order"
+            },
+            {
+                "type": "text",
+                "id": "quantity",
+                "label": "Quantity label",
+                "default": "Quantity"
+            },
+            {
+                "type": "header",
+                "content": "button"
+            },
+            {
+                "type": "text",
+                "id": "btn_text",
+                "label": "View Order Button text"
+            },
+            {
+                "type": "select",
+                "id": "btn_color",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "bg-tertiary",
+                        "label": "Beige"
+                    },
+                    {
+                        "value": "bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "bg-salmon",
+                        "label": "Salmon"
+                    }, {
+                        "value": "bg-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "bg-blue",
+                        "label": "Blue"
+                    }, {
+                        "value": "bg-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button color"
+            },
+            {
+                "type": "range",
+                "id": "btn_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            },
+            {
+                "type": "select",
+                "id": "btn_text_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "text-neutral",
+                        "label": "White"
+                    },
+                    {
+                        "value": "text-tertiary",
+                        "label": "Beige"
+                    }, {
+                        "value": "text-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "text-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "text-blue",
+                        "label": "blue"
+                    }, {
+                        "value": "text-salmon",
+                        "label": "Salmon"
+                    }
+                ],
+                "label": "Button text color"
+            },
+            {
+                "type": "range",
+                "id": "btn_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            },
+            {
+                "type": "header",
+                "content": "button 1 hover styles"
+            },
+            {
+                "type": "select",
+                "id": "btn_hover_color",
+                "options": [
+                    {
+                        "value": "hover:bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "hover:bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "hover:bg-tertiary",
+                        "label": "Beige"
+                    },
+                    {
+                        "value": "hover:bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "hover:bg-salmon",
+                        "label": "Salmon"
+                    }, {
+                        "value": "hover:bg-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "hover:bg-blue",
+                        "label": "Blue"
+                    }, {
+                        "value": "hover:bg-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button hover color"
+            },
+            {
+                "type": "range",
+                "id": "btn_hover_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            },
+            {
+                "type": "select",
+                "id": "btn_hover_text_color",
+                "options": [
+                    {
+                        "value": "hover:text-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "hover:text-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "hover:text-neutral",
+                        "label": "White"
+                    },
+                    {
+                        "value": "hover:text-tertiary",
+                        "label": "Beige"
+                    }, {
+                        "value": "hover:text-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "hover:text-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "hover:text-blue",
+                        "label": "blue"
+                    }, {
+                        "value": "hover:text-salmon",
+                        "label": "Salmon"
+                    }
+                ],
+                "label": "Button hover text color"
+            },
+            {
+                "type": "range",
+                "id": "btn_hover_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button hover text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }
+        ],
+        "presets": [
+            {
+                "name": "Account Order"
+            }
+        ]
+
+    }
+{% endschema %}

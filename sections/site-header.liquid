@@ -1,0 +1,1180 @@
+{% assign ss = section.settings %}
+
+<header
+    class="site-header | fixed z-[100] top-0 left-0 w-full ">
+
+    {% if ss.announcement_text_one != blank %}
+        <div
+            class="announcement-bar {%if ss.announcement_loop%} marquee {% endif %} | bg-primary-900 px-container-gutter py-gutter text-secondary-900 text-body-medium font-semibold | lg:text-body-medium-lg ">
+            <div
+                class="{%if ss.announcement_loop %}marquee_group {% else %} flex justify-evenly {% endif %} ">
+                <a
+                    href="{{ ss.announcement_url_one }}"
+                    class="{%if ss.announcement_url_one == blank %} pointer-events-none {% endif %}">
+                    {{ ss.announcement_text_one }}
+                </a>
+                <div
+                    class="mx-6">
+                    <svg
+                        width="5"
+                        height="20"
+                        viewBox="0 0 4 4"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M2.00875 3.992C0.92075 3.992 0.04075 3.128 0.04075 2.04C0.04075 0.952 0.92075 0.0719995 2.00875 0.0719995C3.09675 0.0719995 3.96075 0.952 3.96075 2.04C3.96075 3.128 3.09675 3.992 2.00875 3.992Z"
+                            fill="#30261A" />
+                    </svg>
+                </div>
+                {% if ss.announcement_text_two %}
+                    <a
+                        href="{{ ss.announcement_url_two }}"
+                        class="{%if ss.announcement_url_two == blank %} pointer-events-none {% endif %}">
+                        {{ ss.announcement_text_two }}
+                    </a>
+                
+                    <div
+                        class="mx-6">
+                        <svg
+                            width="5"
+                            height="20"
+                            viewBox="0 0 4 4"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M2.00875 3.992C0.92075 3.992 0.04075 3.128 0.04075 2.04C0.04075 0.952 0.92075 0.0719995 2.00875 0.0719995C3.09675 0.0719995 3.96075 0.952 3.96075 2.04C3.96075 3.128 3.09675 3.992 2.00875 3.992Z"
+                                fill="#30261A" />
+                        </svg>
+                    </div>
+                {% endif %}
+                {% if ss.announcement_text_three %}
+                    <a
+                        href="{{ ss.announcement_url_three }}"
+                        class="{%if ss.announcement_url_three == blank %} pointer-events-none {% endif %}">
+                        {{ ss.announcement_text_three }}
+                    </a>
+                    <div
+                        class="mx-6">
+                        <svg
+                            width="5"
+                            height="20"
+                            viewBox="0 0 4 4"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M2.00875 3.992C0.92075 3.992 0.04075 3.128 0.04075 2.04C0.04075 0.952 0.92075 0.0719995 2.00875 0.0719995C3.09675 0.0719995 3.96075 0.952 3.96075 2.04C3.96075 3.128 3.09675 3.992 2.00875 3.992Z"
+                                fill="#30261A" />
+                        </svg>
+                    </div>
+                {% endif %}
+
+            </div>
+
+            {% if ss.announcement_loop %}
+                <div
+                    class=" {%if ss.announcement_loop%}marquee_group{% endif %} ">
+                    <a
+                        href="{{ ss.announcement_url_one }}"
+                        class="{%if ss.announcement_url_one == blank %} pointer-events-none {% endif %}">
+                        {{ ss.announcement_text_one }}
+                    </a>
+                    <div
+                        class="mx-6">
+                        <svg
+                            width="5"
+                            height="20"
+                            viewBox="0 0 4 4"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M2.00875 3.992C0.92075 3.992 0.04075 3.128 0.04075 2.04C0.04075 0.952 0.92075 0.0719995 2.00875 0.0719995C3.09675 0.0719995 3.96075 0.952 3.96075 2.04C3.96075 3.128 3.09675 3.992 2.00875 3.992Z"
+                                fill="#30261A">
+                        </svg>
+                    </div>
+                    
+                    {% if ss.announcement_text_two %}
+                        <a
+                            href="{{ ss.announcement_url_two }}"
+                            class="{%if ss.announcement_url_two == blank %} pointer-events-none {% endif %}">
+                            {{ ss.announcement_text_two }}
+                        </a>
+                    
+                        <div
+                            class="mx-6">
+                            <svg
+                                width="5"
+                                height="20"
+                                viewBox="0 0 4 4"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M2.00875 3.992C0.92075 3.992 0.04075 3.128 0.04075 2.04C0.04075 0.952 0.92075 0.0719995 2.00875 0.0719995C3.09675 0.0719995 3.96075 0.952 3.96075 2.04C3.96075 3.128 3.09675 3.992 2.00875 3.992Z"
+                                    fill="#30261A" />
+                            </svg>
+                        </div>
+                    {% endif %}
+                    {% if ss.announcement_text_three %}
+                        <a
+                            href="{{ ss.announcement_url_three }}"
+                            class="{%if ss.announcement_url_three == blank %} pointer-events-none {% endif %}">
+                            {{ ss.announcement_text_three }}
+                        </a>
+                    
+                        <div
+                            class="mx-6">
+                            <svg
+                                width="5"
+                                height="20"
+                                viewBox="0 0 4 4"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M2.00875 3.992C0.92075 3.992 0.04075 3.128 0.04075 2.04C0.04075 0.952 0.92075 0.0719995 2.00875 0.0719995C3.09675 0.0719995 3.96075 0.952 3.96075 2.04C3.96075 3.128 3.09675 3.992 2.00875 3.992Z"
+                                    fill="#30261A" />
+                            </svg>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div
+                    class=" {%if ss.announcement_loop%}marquee_group{% endif %} ">
+                    <a
+                        href="{{ ss.announcement_url_one }}"
+                        class="{%if ss.announcement_url_one == blank %} pointer-events-none {% endif %}">
+                        {{ ss.announcement_text_one }}
+                    </a>
+                    <div
+                        class="mx-6">
+                        <svg
+                            width="5"
+                            height="20"
+                            viewBox="0 0 4 4"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M2.00875 3.992C0.92075 3.992 0.04075 3.128 0.04075 2.04C0.04075 0.952 0.92075 0.0719995 2.00875 0.0719995C3.09675 0.0719995 3.96075 0.952 3.96075 2.04C3.96075 3.128 3.09675 3.992 2.00875 3.992Z"
+                                fill="#30261A">
+                        </svg>
+                    </div>
+                    {% if ss.announcement_text_two %}
+                        <a
+                            href="{{ ss.announcement_url_two }}"
+                            class="{%if ss.announcement_url_two == blank %} pointer-events-none {% endif %}">
+                            {{ ss.announcement_text_two }}
+                        </a>
+                    
+                        <div
+                            class="mx-6">
+                            <svg
+                                width="5"
+                                height="20"
+                                viewBox="0 0 4 4"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M2.00875 3.992C0.92075 3.992 0.04075 3.128 0.04075 2.04C0.04075 0.952 0.92075 0.0719995 2.00875 0.0719995C3.09675 0.0719995 3.96075 0.952 3.96075 2.04C3.96075 3.128 3.09675 3.992 2.00875 3.992Z"
+                                    fill="#30261A" />
+                            </svg>
+                        </div>
+                    {% endif %}
+                    {% if ss.announcement_text_three %}
+                        <a
+                            href="{{ ss.announcement_url_three }}"
+                            class="{%if ss.announcement_url_three == blank %} pointer-events-none {% endif %}">
+                            {{ ss.announcement_text_three }}
+                        </a>
+                    
+                        <div
+                            class="mx-6">
+                            <svg
+                                width="5"
+                                height="20"
+                                viewBox="0 0 4 4"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M2.00875 3.992C0.92075 3.992 0.04075 3.128 0.04075 2.04C0.04075 0.952 0.92075 0.0719995 2.00875 0.0719995C3.09675 0.0719995 3.96075 0.952 3.96075 2.04C3.96075 3.128 3.09675 3.992 2.00875 3.992Z"
+                                    fill="#30261A" />
+                            </svg>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div
+                    class=" {%if ss.announcement_loop%}marquee_group{% endif %} ">
+                    <a
+                        href="{{ ss.announcement_url_one }}"
+                        class="{%if ss.announcement_url_one == blank %} pointer-events-none {% endif %}">
+                        {{ ss.announcement_text_one }}
+                    </a>
+                    <div
+                        class="mx-6">
+                        <svg
+                            width="5"
+                            height="20"
+                            viewBox="0 0 4 4"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M2.00875 3.992C0.92075 3.992 0.04075 3.128 0.04075 2.04C0.04075 0.952 0.92075 0.0719995 2.00875 0.0719995C3.09675 0.0719995 3.96075 0.952 3.96075 2.04C3.96075 3.128 3.09675 3.992 2.00875 3.992Z"
+                                fill="#30261A">
+                        </svg>
+                    </div>
+                    
+                    {% if ss.announcement_text_two %}
+                        <a
+                            href="{{ ss.announcement_url_two }}"
+                            class="{%if ss.announcement_url_two == blank %} pointer-events-none {% endif %}">
+                            {{ ss.announcement_text_two }}
+                        </a>
+                        <div
+                            class="mx-6">
+                            <svg
+                                width="5"
+                                height="20"
+                                viewBox="0 0 4 4"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M2.00875 3.992C0.92075 3.992 0.04075 3.128 0.04075 2.04C0.04075 0.952 0.92075 0.0719995 2.00875 0.0719995C3.09675 0.0719995 3.96075 0.952 3.96075 2.04C3.96075 3.128 3.09675 3.992 2.00875 3.992Z"
+                                    fill="#30261A" />
+                            </svg>
+                        </div>
+                    {% endif %}
+
+                    {% if ss.announcement_text_three %}
+                        <a
+                            href="{{ ss.announcement_url_three }}"
+                            class="{%if ss.announcement_url_three == blank %} pointer-events-none {% endif %}">
+                            {{ ss.announcement_text_three }}
+                        </a>
+                    
+                        <div
+                            class="mx-6">
+                            <svg
+                                width="5"
+                                height="20"
+                                viewBox="0 0 4 4"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M2.00875 3.992C0.92075 3.992 0.04075 3.128 0.04075 2.04C0.04075 0.952 0.92075 0.0719995 2.00875 0.0719995C3.09675 0.0719995 3.96075 0.952 3.96075 2.04C3.96075 3.128 3.09675 3.992 2.00875 3.992Z"
+                                    fill="#30261A" />
+                            </svg>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+
+        </div>
+
+    {% endif %}
+
+    <div
+        class="site-header-inner | flex items-center justify-between px-container-gutter py-header-padding-y bg-secondary-900 |   lg:px-container-gutter-lg lg:relative lg:justify-center lg:gap-12">
+
+        <a
+            href="/"
+            class="logo | order-2 px-gutter flex items-center justify-center | lg:max-w-[12rem] lg:justify-start lg:mx-4">
+            {% if ss.logo != blank %}
+                <img
+                    alt="{{ shop.name }}-logo"
+                    class="logo-img | mx-auto w-full max-w-[108px] max-h-[52px] object-contain | lg:m-0"
+                    src="{{ ss.logo | img_url: '' }}">
+            {% else %}
+                <img
+                    alt="{{ shop.name }}-logo"
+                    class="logo-img | mx-auto w-full max-w-[108px] max-h-[52px] object-contain | lg:m-0"
+                    src="{{ settings.logo | img_url: '' }}">
+            {% endif %}
+        </a>
+
+        <div
+            class="hidden | lg:block lg:order-1">
+            {% if ss.navigation-left != blank %}
+
+                {% assign nav = ss.navigation-left %}
+
+                {% if linklists[nav].links != blank %}
+
+                    <nav
+                        class="desktop-menu-left | p-container-gutter relative | lg:p-0">
+
+                        <ul
+                            class="text-tertiary-900 | lg:flex lg:items-center lg:gap-6">
+
+                            {% for link in linklists[nav].links %}
+
+                                <li
+                                    class="my-container-gutter | lg:my-0 lg:relative">
+                                    <a
+                                        class="font-headline font-semibold uppercase text-headline-6 relative w-full flex justify-between items-center | lg:!font-body lg:text-body-large-lg lg:py-header-padding-y lg:text-center"
+                                        {% if link.links != blank %}data-close-siblings="true"data-dropdown{% endif %}
+                                        href="{{ link.url }}">
+                                        {% if link.links != blank %}
+                                            <span
+                                                class="material-symbols-outlined | leading-6 font-light opacity-0 hidden">arrow_back</span>
+                                        {% endif %}
+                                        {{ link.title }}
+                                        {% if link.links != blank %}
+                                            <span
+                                                class="material-symbols-outlined | leading-6 font-light inline-block rotate-0 | transition-all duration-animation-speed"
+                                                data-add-class="rotate-180"
+                                                data-remove-class="rotate-0">expand_more</span>
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="24"
+                                                height="16"
+                                                viewBox="0 0 24 16"
+                                                fill="none"
+                                                class="arrow-up-svg | max-h-0 absolute left-1/2 bottom-0 transition-all | -translate-x-1/2 translate-y-4"
+                                                style="clip-path: circle(50% at 50% 100%);"
+                                                data-add-class="max-h-[16px] lg:overflow-visible"
+                                                data-remove-class="max-h-0">
+                                                <path
+                                                    d="M0 8V16H24V8C24 8 18 0 12 0C6 0 0 8 0 8Z"
+                                                    fill="#30261A" />
+
+                                            </svg>
+                                        {% endif %}
+                                    </a>
+
+                                    {% if link.links != blank %}
+
+                                        <ul
+                                            class="bg-primary-900 text-secondary-900 h-full w-full max-h-0 min-w-[200px] overflow-hidden rounded-br-2xl rounded-bl-2xl | lg:absolute lg:h-auto lg:bg-secondary-900 lg:text-tertiary-900 | duration-animation-speed transition-all z-10 left-1/2 right-auto -translate-x-1/2 top-[calc(100%_+_0.885rem)] | "
+                                            data-add-class="max-h-[800px] lg:overflow-visible"
+                                            data-remove-class="max-h-0">
+
+                                            {% for child_link in link.links %}
+
+                                                <li
+                                                    class="mb-gutter | lg:my-0 lg:relative transition-all | hover:bg-primary-900 hover:text-secondary-900 last:rounded-br-2xl last:rounded-bl-2xl ">
+                                                    <a
+                                                        class="px-4 font-body font-semibold uppercase text-body-large relative w-full flex justify-between items-center py-gutter border-b border-secondary-900 | lg:border-none lg:text-body-medium-lg lg:font-normal "
+                                                        {% if child_link.links != blank %}data-dropdown{% endif %}
+                                                        href="{{ child_link.url }}">
+                                                        {% if child_link.links != blank %}
+                                                            <span
+                                                                class="material-symbols-outlined | leading-6 font-light opacity-0 hidden">arrow_back</span>
+                                                        {% endif %}
+                                                        {{ child_link.title }}
+                                                        {% if child_link.links != blank %}
+                                                            <span
+                                                                class="material-symbols-outlined | leading-6 font-light inline-block rotate-0 | lg:-rotate-90 | transition-all duration-animation-speed"
+                                                                data-add-class="rotate-180"
+                                                                data-remove-class="rotate-0">expand_more</span>
+                                                        {% endif %}
+                                                    </a>
+
+                                                    {% if child_link.links != blank %}
+
+                                                        <ul
+                                                            class="bg-primary-900 text-secondary-900 h-full w-full max-h-0 overflow-hidden rounded-br-2xl rounded-bl-2xl | lg:absolute lg:top-0 lg:left-[88%] lg:translate-x-6 lg:h-auto lg:bg-primary-900 | duration-animation-speed transition-all z-20"
+                                                            data-add-class="max-h-[800px]"
+                                                            data-remove-class="max-h-0">
+
+                                                            {% for grandchild_link in child_link.links %}
+
+                                                                <li
+                                                                    class="mb-gutter | lg:my-0 lg:relative | hover:bg-primary-900 hover:text-secondary-900 last:rounded-br-2xl last:rounded-bl-2xl transition-all">
+                                                                    <a
+                                                                        class=" px-4 font-body font-normal text-body-medium w-full block py-gutter border-b border-secondary-900 | lg:border-none lg:text-body-medium-lg | hover:bg-primary-900 hover:text-secondary-900"
+                                                                        href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a>
+                                                                </li>
+
+                                                            {% endfor %}
+
+                                                        </ul>
+
+                                                    {% endif %}
+                                                </li>
+
+                                            {% endfor %}
+
+                                        </ul>
+
+                                    {% endif %}
+
+                                </li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                    </nav>
+
+                {% endif %}
+
+            {% endif %}
+        </div>
+
+        <div
+            class="hidden | lg:block lg:order-3">
+            {% if ss.navigation-right != blank %}
+
+                {% assign nav = ss.navigation-right %}
+
+                {% if linklists[nav].links != blank %}
+
+                    <nav
+                        class="desktop-menu-right | p-container-gutter relative | lg:p-0">
+
+                        <ul
+                            class="text-tertiary-900 | lg:flex lg:items-center lg:gap-6">
+
+                            {% for link in linklists[nav].links %}
+
+                                <li
+                                    class="my-container-gutter | lg:my-0 lg:relative ">
+                                    <a
+                                        class="font-headline font-semibold uppercase text-headline-6 relative w-full flex justify-between items-center | lg:!font-body lg:text-body-large-lg lg:py-header-padding-y lg:text-center"
+                                        {% if link.links != blank %}data-close-siblings="true"data-dropdown{% endif %}
+                                        href="{{ link.url }}">
+                                        {% if link.links != blank %}
+                                            <span
+                                                class="material-symbols-outlined | leading-6 font-light opacity-0 hidden">arrow_back</span>
+                                        {% endif %}
+                                        {{ link.title }}
+                                        {% if link.links != blank %}
+                                            <span
+                                                class="material-symbols-outlined | leading-6 font-light inline-block rotate-0 | transition-all duration-animation-speed"
+                                                data-add-class="rotate-180"
+                                                data-remove-class="rotate-0">expand_more</span>
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="24"
+                                                height="16"
+                                                viewBox="0 0 24 16"
+                                                fill="none"
+                                                class="arrow-up-svg | max-h-0 absolute left-1/2 bottom-0 transition-all | -translate-x-1/2 translate-y-4"
+                                                style="clip-path: circle(50% at 50% 100%);"
+                                                data-add-class="max-h-[16px] lg:overflow-visible"
+                                                data-remove-class="max-h-0">
+                                                <path
+                                                    d="M0 8V16H24V8C24 8 18 0 12 0C6 0 0 8 0 8Z"
+                                                    fill="#30261A" />
+
+                                            </svg>
+                                        {% endif %}
+
+                                    </a>
+
+                                    {% if link.links != blank %}
+
+                                        <ul
+                                            class="bg-primary-900 text-secondary-900 h-full w-full max-h-0 min-w-[200px] overflow-hidden rounded-br-2xl rounded-bl-2xl | lg:absolute lg:h-auto lg:bg-secondary-900 lg:text-tertiary-900 | duration-animation-speed transition-all  z-10 left-1/2 right-auto -translate-x-1/2 top-[calc(100%_+_0.885rem)] | "
+                                            data-add-class="max-h-[800px] lg:overflow-visible"
+                                            data-remove-class="max-h-0">
+
+                                            {% for child_link in link.links %}
+
+                                                <li
+                                                    class="mb-gutter | lg:my-0 lg:relative | hover:bg-primary-900 hover:text-secondary-900 last:rounded-br-2xl last:rounded-bl-2xl transition-all">
+                                                    <a
+                                                        class=" px-4 font-body font-semibold uppercase text-body-large relative w-full  flex justify-between items-center py-gutter border-b border-secondary-900 | lg:border-none lg:text-body-medium-lg lg:font-normal |"
+                                                        {% if child_link.links != blank %}data-dropdown{% endif %}
+                                                        href="{{ child_link.url }}">
+                                                        {% if child_link.links != blank %}
+                                                            <span
+                                                                class="material-symbols-outlined | leading-6 font-light opacity-0 hidden">arrow_back</span>
+                                                        {% endif %}
+                                                        {{ child_link.title }}
+                                                        {% if child_link.links != blank %}
+                                                            <span
+                                                                class="material-symbols-outlined | leading-6 font-light inline-block rotate-0 | lg:-rotate-90 | transition-all duration-animation-speed"
+                                                                data-add-class="rotate-180"
+                                                                data-remove-class="rotate-0">expand_more</span>
+                                                        {% endif %}
+                                                    </a>
+
+                                                    {% if child_link.links != blank %}
+
+                                                        <ul
+                                                            class="bg-primary-900 text-secondary-900 h-full w-full max-h-0 overflow-hidden rounded-br-2xl rounded-bl-2xl | lg:absolute lg:top-0 lg:left-[88%] lg:translate-x-6 lg:h-auto lg:bg-secondary-900 lg:text-tertiary-900 | duration-animation-speed transition-all z-20"
+                                                            data-add-class="max-h-[800px]"
+                                                            data-remove-class="max-h-0">
+
+                                                            {% for grandchild_link in child_link.links %}
+
+                                                                <li
+                                                                    class="mb-gutter | lg:my-0 lg:relative | hover:bg-primary-900 hover:text-secondary-900 last:rounded-br-2xl last:rounded-bl-2xl transition-all">
+                                                                    <a
+                                                                        class=" px-4 font-body font-normal text-body-medium w-full block py-gutter border-b border-secondary-900 | lg:border-none lg:text-body-medium-lg | hover:bg-primary-900 hover:text-secondary-900"
+                                                                        href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a>
+                                                                </li>
+
+                                                            {% endfor %}
+
+                                                        </ul>
+
+                                                    {% endif %}
+                                                </li>
+
+                                            {% endfor %}
+
+                                        </ul>
+
+                                    {% endif %}
+
+                                </li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                    </nav>
+
+                {% endif %}
+
+            {% endif %}
+        </div>
+
+        <div
+            class="w-1/4 order-1 pr-gutter flex | lg:hidden">
+            <a
+                data-menu-icon
+                class="burger-menu | h-6 w-6 block relative"
+                href="#"
+                aria-label="Mobile navigation menu button">
+                <span
+                    class="a block rounded-sm w-5 h-0.5 bg-header-text-color absolute left-1/2 translate-x-[-50%] top-1 | duration-animation-speed transition-all"
+                    data-add-class="rotate-45 top-1/2"
+                    data-remove-class="top-1"></span>
+                <span
+                    class="b block rounded-sm w-5 h-0.5 bg-header-text-color absolute left-1/2 translate-x-[-50%] top-2.5 | duration-animation-speed transition-all"
+                    data-add-class="opacity-0"></span>
+                <span
+                    class="c block rounded-sm w-5 h-0.5 bg-header-text-color absolute left-1/2 translate-x-[-50%] top-4 | duration-animation-speed transition-all"
+                    data-add-class="-rotate-45 top-1/2"
+                    data-remove-class="top-4"></span>
+            </a>
+            <a
+                data-search-trigger
+                class="h-6 w-6 ml-gutter-lg text-header-text-color | lg:hidden"
+                href="#">
+                <span
+                    class=" material-symbols-outlined font-light">
+                    <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <g
+                            id="remix-icons/line/system/search-line"
+                            clip-path="url(#clip0_1535_1126)">
+                            <g
+                                id="Group">
+                                <path
+                                    id="Vector"
+                                    d="M18.031 16.617L22.314 20.899L20.899 22.314L16.617 18.031C15.0237 19.3082 13.042 20.0029 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20.0029 13.042 19.3082 15.0237 18.031 16.617ZM16.025 15.875C17.2941 14.5699 18.0029 12.8204 18 11C18 7.132 14.867 4 11 4C7.132 4 4 7.132 4 11C4 14.867 7.132 18 11 18C12.8204 18.0029 14.5699 17.2941 15.875 16.025L16.025 15.875Z"
+                                    fill="#F6F1E7" />
+                            </g>
+                        </g>
+                        <defs>
+                            <clipPath
+                                id="clip0_1535_1126">
+                                <rect
+                                    width="24"
+                                    height="24"
+                                    fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+
+                </span>
+            </a>
+        </div>
+
+        <div
+            data-nav
+            class="mobile-nav | absolute -left-full top-full w-screen h-[calc(100vh-100%)] overflow-hidden z-40 bg-tertiary-900 flex flex-col justify-start | lg:hidden lg:overflow-visible lg:order-1 lg:static lg:flex-row lg:w-auto | duration-animation-speed transition-all"
+            data-add-class="left-0 overflow-scroll"
+            data-remove-class="-left-full overflow-hidden">
+
+            <div class="mobile-nav-header">
+                {%- comment -%}
+                
+                                <a href="/account" class="mobile-account-link | text-header-text-color text-body-large bg-secondary-500 w-full p-container-gutter flex items-center | lg:hidden">
+                                    {% if customer %}
+                                        <span class="text-headline-6 material-symbols-outlined font-light mr-gutter inline-block">account_circle</span>
+                                        Hi {{ customer.name }}
+                                    {% else %}
+                                        <span class="text-headline-6 material-symbols-outlined font-light mr-gutter inline-block">account_circle</span>
+                                        Sign in
+                                    {% endif %}
+                                </a>
+                {%- endcomment -%}
+
+                {% if ss.navigation-left != blank and ss.navigation-right != blank %}
+
+                    {% assign nav-left = ss.navigation-left %}
+                    {% assign nav-right = ss.navigation-right %}
+
+
+                    <nav
+                        class="mobile-menu | p-container-gutter relative | lg:p-0">
+                        {% if linklists[nav-left].links != blank %}
+
+                            <ul
+                                class="menu-left | text-secondary-900 | lg:flex lg:items-center">
+
+                                {% for link in linklists[nav-left].links %}
+
+                                    <li
+                                        class="my-container-gutter | lg:my-0 lg:relative lg:mr-6">
+                                        <a
+                                            class="font-headline uppercase text-headline-5 relative w-full flex justify-between items-center | lg:font-body lg:text-body-large-lg lg:py-header-padding-y lg:text-center"
+                                            {% if link.links != blank %}data-close-siblings="true"data-dropdown{% endif %}
+                                            href="{{ link.url }}">
+                                            {% if link.links != blank %}
+                                                <span
+                                                    class="material-symbols-outlined | leading-6 font-light opacity-0 hidden">arrow_back</span>
+                                            {% endif %}
+                                            {{ link.title }}
+                                            {% if link.links != blank %}
+                                                <span
+                                                    class="material-symbols-outlined | leading-6 font-light inline-block rotate-0 | transition-all duration-animation-speed"
+                                                    data-add-class="rotate-180"
+                                                    data-remove-class="rotate-0">expand_more</span>
+                                            {% endif %}
+                                        </a>
+
+                                        {% if link.links != blank %}
+
+                                            <ul
+                                                class="bg-tertiary-900 h-full w-full max-h-0 overflow-hidden | lg:absolute lg:top-full lg:left-8 lg:w-64 lg:h-auto lg:px-6 lg:bg-tertiary-900 | duration-animation-speed transition-all z-10"
+                                                data-add-class="max-h-[800px] pt-gutter lg:py-8 lg:overflow-visible"
+                                                data-remove-class="max-h-0">
+
+                                                {% for child_link in link.links %}
+
+                                                    <li
+                                                        class="mb-gutter | lg:my-0 lg:relative">
+                                                        <a
+                                                            class="font-body font-normal uppercase text-body-medium relative w-full flex justify-between items-center pb-gutter border-secondary-900 | lg:border-none lg:text-body-large-lg"
+                                                            {% if child_link.links != blank %}data-dropdown{% endif %}
+                                                            href="{{ child_link.url }}">
+                                                            {% if child_link.links != blank %}
+                                                                <span
+                                                                    class="material-symbols-outlined | leading-6 font-light opacity-0 hidden">arrow_back</span>
+                                                            {% endif %}
+                                                            {{ child_link.title }}
+                                                            {% if child_link.links != blank %}
+                                                                <span
+                                                                    class="material-symbols-outlined | leading-6 font-light inline-block rotate-0 | lg:-rotate-90 | transition-all duration-animation-speed"
+                                                                    data-add-class="rotate-180"
+                                                                    data-remove-class="rotate-0">expand_more</span>
+                                                            {% endif %}
+                                                        </a>
+
+                                                        {% if child_link.links != blank %}
+
+                                                            <ul
+                                                                class="bg-tertiary-900 h-full w-full max-h-0 overflow-hidden | lg:absolute lg:top-0 lg:left-full lg:px-6 lg:translate-x-6 lg:h-auto lg:bg-tertiary-900 | duration-animation-speed transition-all z-20"
+                                                                data-add-class="max-h-[800px] pt-gutter lg:py-8"
+                                                                data-remove-class="max-h-0">
+
+                                                                {% for grandchild_link in child_link.links %}
+
+                                                                    <li
+                                                                        class="mb-gutter">
+                                                                        <a
+                                                                            class="font-body font-normal text-body-medium w-full block py-gutter border-b border-secondary-900 | lg:border-none lg:text-body-medium-lg"
+                                                                            href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a>
+                                                                    </li>
+
+                                                                {% endfor %}
+
+                                                            </ul>
+
+                                                        {% endif %}
+                                                    </li>
+
+                                                {% endfor %}
+
+                                            </ul>
+
+                                        {% endif %}
+
+                                    </li>
+
+                                    <div
+                                        class="spacer | border-b border-secondary-900 "></div>
+
+                                {% endfor %}
+
+                            </ul>
+
+                        {% endif %}
+
+                        {% if linklists[nav-right].links != blank %}
+
+                            <ul
+                                class="menu-right | text-secondary-900 | lg:flex lg:items-center">
+
+                                {% for link in linklists[nav-right].links %}
+
+                                    <li
+                                        class="my-container-gutter | lg:my-0 lg:relative lg:mr-6">
+                                        <a
+                                            class="font-headline uppercase text-headline-5 relative w-full flex justify-between items-center | lg:font-body lg:text-body-large-lg lg:py-header-padding-y lg:text-center"
+                                            {% if link.links != blank %}data-close-siblings="true"data-dropdown{% endif %}
+                                            href="{{ link.url }}">
+                                            {% if link.links != blank %}
+                                                <span
+                                                    class="material-symbols-outlined | leading-6 font-light opacity-0 hidden">arrow_back</span>
+                                            {% endif %}
+                                            {{ link.title }}
+                                            {% if link.links != blank %}
+                                                <span
+                                                    class="material-symbols-outlined | leading-6 font-light inline-block rotate-0 | transition-all duration-animation-speed"
+                                                    data-add-class="rotate-180"
+                                                    data-remove-class="rotate-0">expand_more</span>
+                                            {% endif %}
+                                        </a>
+
+                                        {% if link.links != blank %}
+
+                                            <ul
+                                                class="bg-tertiary-900 h-full w-full max-h-0 overflow-hidden | lg:absolute lg:top-full lg:left-8 lg:w-64 lg:h-auto lg:px-6 lg:bg-tertiary-900 | duration-animation-speed transition-all z-10"
+                                                data-add-class="max-h-[800px] pt-4 lg:py-8 lg:overflow-visible"
+                                                data-remove-class="max-h-0">
+
+                                                {% for child_link in link.links %}
+
+                                                    <li
+                                                        class="mb-gutter | lg:my-0 lg:relative">
+                                                        <a
+                                                            class="font-body font-normal uppercase text-body-medium relative w-full flex justify-between items-center pb-gutter border-secondary-900 | lg:border-none lg:text-body-large-lg"
+                                                            {% if child_link.links != blank %}data-dropdown{% endif %}
+                                                            href="{{ child_link.url }}">
+                                                            {% if child_link.links != blank %}
+                                                                <span
+                                                                    class="material-symbols-outlined | leading-6 font-light opacity-0 hidden">arrow_back</span>
+                                                            {% endif %}
+                                                            {{ child_link.title }}
+                                                            {% if child_link.links != blank %}
+                                                                <span
+                                                                    class="material-symbols-outlined | leading-6 font-light inline-block rotate-0 | lg:-rotate-90 | transition-all duration-animation-speed"
+                                                                    data-add-class="rotate-180"
+                                                                    data-remove-class="rotate-0">expand_more</span>
+                                                            {% endif %}
+                                                        </a>
+
+                                                        {% if child_link.links != blank %}
+
+                                                            <ul
+                                                                class="bg-tertiary-900 h-full w-full max-h-0 overflow-hidden | lg:absolute lg:top-0 lg:left-full lg:px-6 lg:translate-x-6 lg:h-auto lg:bg-tertiary-900 | duration-animation-speed transition-all z-20"
+                                                                data-add-class="max-h-[800px] pt-gutter lg:py-8"
+                                                                data-remove-class="max-h-0">
+
+                                                                {% for grandchild_link in child_link.links %}
+
+                                                                    <li
+                                                                        class="mb-gutter">
+                                                                        <a
+                                                                            class="font-body font-normal text-body-medium w-full block py-gutter border-b border-secondary-900 | lg:border-none lg:text-body-medium-lg"
+                                                                            href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a>
+                                                                    </li>
+
+                                                                {% endfor %}
+
+                                                            </ul>
+
+                                                        {% endif %}
+                                                    </li>
+
+                                                {% endfor %}
+
+                                            </ul>
+
+                                        {% endif %}
+
+                                    </li>
+
+                                    <div
+                                        class="spacer | border-b border-secondary-900 "></div>
+
+                                {% endfor %}
+
+                            </ul>
+
+                        {% endif %}
+                    </nav>
+
+
+
+                {% endif %}
+
+            </div>
+
+            <div
+                class="mobile-nav-footer lg:hidden">
+
+                {% if ss.navigation_footer != blank %}
+
+                    {% assign nav-footer = ss.navigation_footer %}
+
+                    {% if linklists[nav-footer].links != blank %}
+
+                        <ul
+                            class="text-secondary-900 px-container-gutter">
+
+                            {% for link in linklists[nav-footer].links %}
+
+                                <li
+                                    class="my-container-gutter">
+                                    <a
+                                        class="font-body font-normal text-body-medium uppercase"
+                                        href="{{ link.url }}">{{ link.title }}</a>
+                                </li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                    {% endif %}
+
+                {% endif %}
+
+                {% comment %}
+                    {% render 'language-currency-dropdown' with update_language: ss.update_language, update_currency: ss.update_currency, language_picker: ss.language_picker, currenry_picker: ss.currenry_picker %}
+
+                <div
+                    class="contact-details | text-secondary-900 text-body-large bg-tertiary-900 w-full p-container-gutter flex items-center justify-center mt-container-gutter | lg:hidden">
+                    {% if shop.email %}
+                        <a
+                            class="flex items-center px-gutter"
+                            href="mailto:{{ shop.email }}">
+                            <span
+                                class="text-headline-6 material-symbols-outlined font-light mr-gutter inline-block">mail</span>
+                            {{ shop.email }}
+                        </a>
+                    {% endif %}
+                    {% if shop.phone %}
+                        <span
+                            class="px-gutter">|</span>
+                        <a
+                            class="flex items-center px-gutter"
+                            href="tel:{{ shop.phone }}">
+                            <span
+                                class="text-headline-6 material-symbols-outlined font-light mr-gutter inline-block">call</span>
+                            {{ shop.phone }}
+                        </a>
+                    {% endif %}
+
+                </div>
+                {% endcomment %}
+
+
+            </div>
+
+        </div>
+
+        <div
+            class="w-1/4 order-3 pl-gutter | lg:flex lg:items-center lg:justify-end lg:absolute lg:right-8">
+            <div
+                class="controls | flex items-center text-header-text-color justify-end lg:relative">
+                <a
+                    data-search-trigger
+                    class="hidden h-6 w-6 ml-gutter-lg | lg:block"
+                    href="#">
+                    <span
+                        class="text-headline-6 leading-none material-symbols-outlined font-light">
+                        <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <g
+                                id="remix-icons/line/system/search-line"
+                                clip-path="url(#clip0_1535_1126)">
+                                <g
+                                    id="Group">
+                                    <path
+                                        id="Vector"
+                                        d="M18.031 16.617L22.314 20.899L20.899 22.314L16.617 18.031C15.0237 19.3082 13.042 20.0029 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20.0029 13.042 19.3082 15.0237 18.031 16.617ZM16.025 15.875C17.2941 14.5699 18.0029 12.8204 18 11C18 7.132 14.867 4 11 4C7.132 4 4 7.132 4 11C4 14.867 7.132 18 11 18C12.8204 18.0029 14.5699 17.2941 15.875 16.025L16.025 15.875Z"
+                                        fill="#F6F1E7" />
+                                </g>
+                            </g>
+                            <defs>
+                                <clipPath
+                                    id="clip0_1535_1126">
+                                    <rect
+                                        width="24"
+                                        height="24"
+                                        fill="white" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+
+                    </span>
+                </a>
+                <a
+                    class="block h-6 w-6 ml-gutter-lg |"
+                    href="/account">
+                    {% comment %}
+                    <span class="text-headline-6 leading-none material-symbols-outlined font-light">account_circle</span>
+                        
+                    {% endcomment %}
+                    <span
+                        class="text-headline-6 leading-none  font-light">
+                        <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <g
+                                id="remix-icons/line/user/user-3-line"
+                                clip-path="url(#clip0_1535_1130)">
+                                <g
+                                    id="Group">
+                                    <path
+                                        id="Vector"
+                                        d="M20 22H18V20C18 19.2044 17.6839 18.4413 17.1213 17.8787C16.5587 17.3161 15.7956 17 15 17H9C8.20435 17 7.44129 17.3161 6.87868 17.8787C6.31607 18.4413 6 19.2044 6 20V22H4V20C4 18.6739 4.52678 17.4021 5.46447 16.4645C6.40215 15.5268 7.67392 15 9 15H15C16.3261 15 17.5979 15.5268 18.5355 16.4645C19.4732 17.4021 20 18.6739 20 20V22ZM12 13C11.2121 13 10.4319 12.8448 9.7039 12.5433C8.97595 12.2417 8.31451 11.7998 7.75736 11.2426C7.20021 10.6855 6.75825 10.0241 6.45672 9.2961C6.15519 8.56815 6 7.78793 6 7C6 6.21207 6.15519 5.43185 6.45672 4.7039C6.75825 3.97595 7.20021 3.31451 7.75736 2.75736C8.31451 2.20021 8.97595 1.75825 9.7039 1.45672C10.4319 1.15519 11.2121 1 12 1C13.5913 1 15.1174 1.63214 16.2426 2.75736C17.3679 3.88258 18 5.4087 18 7C18 8.5913 17.3679 10.1174 16.2426 11.2426C15.1174 12.3679 13.5913 13 12 13ZM12 11C13.0609 11 14.0783 10.5786 14.8284 9.82843C15.5786 9.07828 16 8.06087 16 7C16 5.93913 15.5786 4.92172 14.8284 4.17157C14.0783 3.42143 13.0609 3 12 3C10.9391 3 9.92172 3.42143 9.17157 4.17157C8.42143 4.92172 8 5.93913 8 7C8 8.06087 8.42143 9.07828 9.17157 9.82843C9.92172 10.5786 10.9391 11 12 11Z"
+                                        fill="#F6F1E7" />
+                                </g>
+                            </g>
+                            <defs>
+                                <clipPath
+                                    id="clip0_1535_1130">
+                                    <rect
+                                        width="24"
+                                        height="24"
+                                        fill="white" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </span>
+                </a>
+                <a
+                    class="cart-btn | relative h-6 w-6 ml-gutter-lg"
+                    href="/cart">
+                    <span
+                        class="text-headline-6 leading-none material-symbols-outlined font-light">
+                        <svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <g
+                                id="remix-icons/line/finance/shopping-basket-2-line"
+                                clip-path="url(#clip0_1541_1176)">
+                                <g
+                                    id="Group">
+                                    <path
+                                        id="Vector"
+                                        d="M15.366 3.43799L18.577 8.99999H22V11H20.833L20.076 20.083C20.0552 20.3329 19.9413 20.5658 19.7568 20.7357C19.5723 20.9055 19.3308 20.9999 19.08 21H4.92C4.66925 20.9999 4.4277 20.9055 4.24322 20.7357C4.05875 20.5658 3.94481 20.3329 3.924 20.083L3.166 11H2V8.99999H5.422L8.634 3.43799L10.366 4.43799L7.732 8.99999H16.267L13.634 4.43799L15.366 3.43799ZM18.826 11H5.173L5.84 19H18.159L18.826 11ZM13 13V17H11V13H13ZM9 13V17H7V13H9ZM17 13V17H15V13H17Z"
+                                        fill="#F6F1E7" />
+                                </g>
+                            </g>
+                            <defs>
+                                <clipPath
+                                    id="clip0_1541_1176">
+                                    <rect
+                                        width="24"
+                                        height="24"
+                                        fill="white" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </span>
+                    <span
+                        data-cart-count
+                        class="rounded-full bg-yellow-900 text-secondary-900 absolute top-[-5px] right-[-7px] text-body-small w-[19px] text-center transition-all"></span>
+                </a>
+
+                <div
+                    data-search-form
+                    class="search-bar | bg-secondary-900 bottom-0 right-0 absolute max-w-0 h-[68px] w-full overflow-hidden z-50 | lg:h-auto lg:w-[200px] lg:bottom-auto lg:top-1/2 lg:translate-y-[-50%] lg:right-full lg:translate-x-[50px] | transition-all duration-animation-speed"
+                    data-add-class="max-w-[100vw] lg:max-w-[200px]"
+                    data-remove-class="max-w-0">
+                    <form
+                        action="{{ routes.search_url }}"
+                        class="flex items-center w-full h-full px-container-gutter py-[0.875rem] relative text-header-text-color lg:py-0">
+                        <button
+                            aria-label="search button"
+                            class="text-body-medium absolute left-7 top-[52%] translate-y-[-50%]">
+                            <span
+                                class="material-symbols-outlined | font-light text-headline-6">
+                                <svg
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <g
+                                        id="remix-icons/line/system/search-line"
+                                        clip-path="url(#clip0_1535_1126)">
+                                        <g
+                                            id="Group">
+                                            <path
+                                                id="Vector"
+                                                d="M18.031 16.617L22.314 20.899L20.899 22.314L16.617 18.031C15.0237 19.3082 13.042 20.0029 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20.0029 13.042 19.3082 15.0237 18.031 16.617ZM16.025 15.875C17.2941 14.5699 18.0029 12.8204 18 11C18 7.132 14.867 4 11 4C7.132 4 4 7.132 4 11C4 14.867 7.132 18 11 18C12.8204 18.0029 14.5699 17.2941 15.875 16.025L16.025 15.875Z"
+                                                fill="#F6F1E7" />
+                                        </g>
+                                    </g>
+                                    <defs>
+                                        <clipPath
+                                            id="clip0_1535_1126">
+                                            <rect
+                                                width="24"
+                                                height="24"
+                                                fill="white" />
+                                        </clipPath>
+                                    </defs>
+                                </svg>
+
+                            </span>
+                        </button>
+                        <input
+                            class="text-header-text-color placeholder:text-header-text-color bg-transparent-500 border border-white rounded-[100px] outline-none w-full text-body-medium pl-11 pr-9  py-gutter"
+                            type="text"
+                            name="q"
+                            placeholder="{{ ss.search_placeholder }}"
+                            value="{{ search.terms | escape }}">
+                        <a
+                            data-search-trigger
+                            class="text-body-medium absolute right-7 top-1/2 translate-y-[-50%]"
+                            href="#">
+                            <span
+                                class="material-symbols-outlined | font-light text-headline-6">close</span>
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</header>
+
+<div
+    class=" bg-primary-900{% if ss.announcement_text_one != blank %} h-site-header-height-announcement lg:h-site-header-height-announcement-lg {%else%} h-site-header-height lg:h-site-header-height-lg {%endif%}"></div>
+
+<script
+    type="application/ld+json">
+    {
+    "@context":"http://schema.org",
+	  "@type":"ItemList",
+	  "itemListElement":[
+    {% for link in linklists[nav].links %}
+        {
+        "@type":"SiteNavigationElement",
+		  "position": {{ forloop.index }},
+        "name": "{{ link.title }}",
+        "url":"{{ link.url }}"
+        }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+    ]
+    }
+</script>
+
+{% schema %}
+    {
+        "name": "Site header",
+
+        "settings": [
+            {
+                "type": "image_picker",
+                "id": "logo",
+                "label": "Logo",
+                "info": "If this is left empty it will default to the logo set within theme settings"
+            },
+            {
+                "type": "link_list",
+                "id": "navigation",
+                "label": "Navigation",
+                "info": "Select from Online Store > Naigation"
+            },
+            {
+                "type": "link_list",
+                "id": "navigation-left",
+                "label": "Left navigation",
+                "info": "Select from Online Store > Naigation"
+            },
+            {
+                "type": "link_list",
+                "id": "navigation-right",
+                "label": "Right navigation",
+                "info": "Select from Online Store > Naigation"
+            }, {
+                "type": "link_list",
+                "id": "navigation_footer",
+                "label": "Navigation Footer",
+                "info": "Select from Online Store > Naigation"
+            }, {
+                "type": "header",
+                "content": "Announcement Bar"
+            }, {
+                "type": "checkbox",
+                "id": "announcement_loop",
+                "default": false,
+                "label": "Enable loop"
+            }, {
+                "type": "text",
+                "id": "announcement_text_one",
+                "label": "Announcement Text One"
+            }, {
+                "type": "url",
+                "id": "announcement_url_one",
+                "label": "Announcement URL one"
+            }, {
+                "type": "text",
+                "id": "announcement_text_two",
+                "label": "Announcement Text Two"
+            }, {
+                "type": "url",
+                "id": "announcement_url_two",
+                "label": "Announcement URL Two"
+            }, {
+                "type": "text",
+                "id": "announcement_text_three",
+                "label": "Announcement Text Three"
+            }, {
+                "type": "url",
+                "id": "announcement_url_three",
+                "label": "Announcement URL Three"
+            }, {
+                "type": "header",
+                "content": "Search"
+            }, {
+                "type": "text",
+                "id": "search_placeholder",
+                "label": "Input placeholder"
+            }, {
+                "type": "header",
+                "content": "Lang & Currency"
+            }, {
+                "type": "checkbox",
+                "id": "language_picker",
+                "label": "Show language picker"
+            }, {
+                "type": "text",
+                "id": "update_language",
+                "label": "Update Language Button",
+                "default": "Update Language",
+                "info": "This only shows if scripts are disabled"
+            }, {
+                "type": "checkbox",
+                "id": "currenry_picker",
+                "label": "Show currency picker"
+            }, {
+                "type": "text",
+                "id": "update_currency",
+                "label": "Update Currency Button",
+                "default": "Update Currency",
+                "info": "This only shows if scripts are disabled"
+            }
+
+        ]
+
+    }
+{% endschema %}

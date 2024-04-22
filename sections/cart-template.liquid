@@ -1,0 +1,392 @@
+{% assign ss = section.settings %}
+
+{%- capture cartColors -%}
+    {
+    bg_color: 'bg-tertiary-900',
+    text_color: 'text-secondary-900',
+    border_color: 'border-secondary-900',
+    border_color_accent: 'border-secondary-900',
+    btn_color: 'bg-yellow-900',
+    btn_text_color: 'text-secondary-900',
+    btn_hover_color: 'hover:bg-yellow-50',
+    btn_hover_text_color: ''
+    }
+{%- endcapture -%}
+
+{%- capture cartContent -%}
+    {
+    total: '{{ settings.total }}',
+    discount_msg: '{{ settings.discount_msg }}',
+    title: '{{ ss.title }}',
+    free_delivery_override:'{{ settings.free_delivery_override }}',
+    free_shipping_msg_start: '{{ settings.free_shipping_msg_start }}',
+    free_shipping_msg_end: '{{ settings.free_shipping_msg_end }}',
+    free_shipping_qualified: '{{ settings.free_shipping_qualified }}',
+    order_note_title: '{{ settings.order_note_title }}',
+    order_note_msg: '{{ settings.order_note_msg }}',
+    btn_text: '{{ ss.btn_text }}',
+    empty_cart_msg: '{{ settings.empty_cart_msg }}',
+    collection_url: '{{ settings.collection_url }}',
+    continue_shopping_btn: '{{ settings.continue_shopping_btn }}',
+    upsell_text: '{{ ss.upsell_text }}',
+    products_to_show: '{{ ss.products_to_show }}',
+    upsell_collection: '{{ ss.upsell_collection }}',
+    }
+{%- endcapture -%}
+
+<section class="cart-template | relative w-full flex flex-wrap justify-center | lg:items-start lg:flex-nowrap | bg-tertiary-900">
+
+    <div id="vue-cart" class="w-full">
+
+        <cart
+            shop-url="{{ shop.url }}"
+            :show-free-shipping="true"
+            :free-shipping-threshold="{{ settings.free_shipping_threshold }}"
+            :colours="{{ cartColors | strip_newlines | escape }}"
+            :content="{{ cartContent | strip_newlines | escape }}"
+            :show-order-note="true">
+
+
+            <template v-slot:additional_checkouts>
+                {% if additional_checkout_buttons %}
+                    <p class="express-msg | text-center mt-4 mb-2 ">Express checkout with</p>
+                    <div class="additional-checkout-buttons">
+                        {{ content_for_additional_checkout_buttons }}
+                    </div>
+                {% endif %}
+            </template>
+
+
+            {% if ss.show_upsells %}
+
+                <template v-slot:cart_upsells="{ cart }">
+                    <div class="cart-upsells | w-full  overflow-auto px-4 py-10 bg-neutral-900 order-2 h-fit | lg:order-2 lg:p-10">
+                        {% if ss.upsell_text %}
+                            <p class="message | mb-4 font-headline text-headline-4 uppercase text-center | lg:text-headline-4-lg">{{ ss.upsell_text }}</p>
+                        {% endif %}
+                        <div class="swiper-wrapper flex flex-wrap gap-4 max-w-[550px] mx-auto | lg:gap-6 | [&>*:nth-child(n+3)]:hidden lg:[&>*:nth-child(n+3)]:block">
+                            {% for product in ss.upsell_collection.products limit: ss.products_to_show %}
+                                {% assign cart_product_ids = cart.items | map: 'product_id' %}
+                                {% unless cart_product_ids contains product.id or product.available == false %}
+                                    <div class=" basis-[calc(50%_-_48px)] mx-auto flex-grow max-w-[50%] | lg:basis-[45%] | ">
+                                        <product-card
+                                            :full-width="true"
+                                            :full-height="true"
+                                            :metafield-object='{%- render "metafield-loop", name_space: "product_details", object: product -%}'
+                                            :product-object="{{ product | json | escape }}"
+                                            product-url="{{ product.url | within: upsell_collection }}"></product-card>
+                                    </div>
+                                {% endunless %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </template>
+            {% endif %}
+
+        </cart>
+
+    </div>
+    {% comment %}
+    {% if ss.show_upsells %}
+        <div data-vue-app class="w-full max-h-screen overflow-auto px-4 py-10 bg-neutral-900 | lg:p-10">
+            {% if ss.upsell_text %}
+                <p class="message | mb-4 font-headline text-headline-4 uppercase text-center | lg:text-headline-4-lg">{{ ss.upsell_text }}</p>
+            {% endif %}
+            <div class="cart-upsells flex flex-wrap gap-4 | lg:gap-6">
+
+                {% for product in ss.upsell_collection.products limit: ss.products_to_show %}
+                    <div class=" basis-[calc(50%_-_48px)] mx-auto flex-grow max-w-[50%] | lg:basis-[45%]">
+                        <product-card
+                            :full-width="true"
+                            :metafield-object='{%- render "metafield-loop", name_space: "product_details", object: product -%}'
+                            :product-object="{{ product | json | escape }}"
+                            product-url="{{ product.url | within: upsell_collection }}"></product-card>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    {% endif %}
+\
+{% endcomment %}
+
+</section>
+
+
+{% schema %}
+    {
+        "name": "Cart Template",
+        "settings": [
+            {
+                "type": "header",
+                "content": "background color (if media is not used)"
+            },
+            {
+                "type": "select",
+                "id": "bg_color",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "",
+                        "label": "None"
+                    }
+                ],
+                "label": "Background color"
+            },
+            {
+                "type": "range",
+                "id": "bg_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            },
+            {
+                "type": "select",
+                "id": "text_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "text-neutral",
+                        "label": "Neutral (white\/grey\/black)"
+                    }
+                ],
+                "label": "Text color"
+            }, {
+                "type": "range",
+                "id": "text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "border_color",
+                "options": [
+                    {
+                        "value": "border-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "border-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "border-neutral",
+                        "label": "Neutral (white\/grey\/black)"
+                    }
+                ],
+                "label": "Border color"
+            }, {
+                "type": "range",
+                "id": "border_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Border color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "header",
+                "content": "Fonts & Copy"
+            }, {
+                "type": "textarea",
+                "id": "title",
+                "label": "Title"
+            }, {
+                "type": "select",
+                "id": "title_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "text-neutral",
+                        "label": "White"
+                    }
+                ],
+                "label": "Title color"
+            }, {
+                "type": "range",
+                "id": "title_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Title color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "header",
+                "content": "Button"
+            }, {
+                "type": "text",
+                "id": "btn_text",
+                "label": "Button text"
+            }, {
+                "type": "select",
+                "id": "btn_color",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button color"
+            }, {
+                "type": "range",
+                "id": "btn_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "btn_text_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "text-neutral",
+                        "label": "White"
+                    }
+                ],
+                "label": "Button text color"
+            }, {
+                "type": "range",
+                "id": "btn_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "btn_hover_color",
+                "options": [
+                    {
+                        "value": "hover:bg-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "hover:bg-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "hover:bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button hover color"
+            }, {
+                "type": "range",
+                "id": "btn_hover_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "btn_hover_text_color",
+                "options": [
+                    {
+                        "value": "hover:text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "hover:text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "hover:text-neutral",
+                        "label": "White"
+                    }
+                ],
+                "label": "Button hover text color"
+            }, {
+                "type": "range",
+                "id": "btn_hover_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button hover text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "header",
+                "content": "Upsell Product Settings"
+            }, {
+                "type": "checkbox",
+                "id": "show_upsells",
+                "label": "Show",
+                "info": "Show when there are items in the cart",
+                "default": true
+            }, {
+                "type": "collection",
+                "id": "upsell_collection",
+                "label": "Collection",
+                "info": "Select which collection to display products from"
+            }, {
+                "type": "text",
+                "id": "upsell_text",
+                "label": "Message",
+                "info": "Text to display in the upsell collection"
+            }, {
+                "type": "select",
+                "id": "products_to_show",
+                "label": "Numer of Products to Show",
+                "options": [
+                    {
+                        "value": "4",
+                        "label": "4"
+                    }, {
+                        "value": "8",
+                        "label": "8"
+                    }, {
+                        "value": "12",
+                        "label": "12"
+                    }, {
+                        "value": "16",
+                        "label": "16"
+                    }
+                ],
+                "default": "12"
+            }
+        ]
+
+    }
+{% endschema %}

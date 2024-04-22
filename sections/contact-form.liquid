@@ -1,0 +1,433 @@
+{% assign ss = section.settings %}
+
+<section class="form-builder | relative w-full flex flex-wrap justify-center bg-tertiary-900 pt-10 pb-6 px-container-gutter | lg:items-start lg:flex-nowrap lg:px-container-gutter-lg | ">
+
+    <div class="form-wrapper |  mx-auto self-start w-full order-2 | lg:w-1/2 lg:order-2 lg:basis-1/2 | lg:pl-container-gutter-lg lg:pr-container-gutter">
+
+        {% if ss.title != blank %}
+            <h1 class="title | mb-10 | font-headline text-secondary-900 text-headline-1 | lg:text-headline-1-lg">
+                {{ ss.title }}
+            </h1>
+        {% endif %}
+
+        {% if ss.subtitle != blank %}
+            <div class="content | mb-4 text-body-medium text-secondary-900 | lg:text-body-medium-lg ">
+                {{ ss.subtitle }}
+            </div>
+        {% endif %}
+
+        {% if ss.contact_email != blank %}
+            <div class="content | mb-2 flex flex-wrap items-center text-left justify-center text-secondary-900 font-body text-body-small |  lg:justify-start  lg:text-body-small-lg">
+                <i class="ri-mail-fill text-headline-5 mr-2.5 font-light"></i> Email - <a class="text-secondary-900 underline ml-1 font-semibold" href="mailto:{{ ss.contact_email }}"> {{ ss.contact_email }}</a>
+            </div>
+        {% endif %}
+
+         {% if ss.contact_phone != blank %}
+            <div class="content | mb-2 flex items-center text-left justify-center text-secondary-900 font-body text-body-small |  lg:justify-start  lg:text-body-small-lg">
+                <i class="ri-phone-fill text-headline-5 mr-2.5 font-light"></i> {{ ss.contact_phone_title }} - <a class="text-secondary-900 underline ml-1 font-semibold" href="tel:{{ ss.contact_phone }}"> {{ ss.contact_phone }}</a>
+            </div>
+        {% endif %}
+
+		{% if ss.wholesale_phone != blank %}
+			<div class="content | mb-2 flex items-center text-left justify-center text-secondary-900 font-body text-body-small |  lg:justify-start  lg:text-body-small-lg">
+                <i class="ri-phone-fill text-headline-5 mr-2.5 font-light"></i> {{ ss.wholesale_phone_title }} - <a class="text-secondary-900 underline ml-1 font-semibold" href="tel:{{ ss.wholesale_phone }}"> {{ ss.wholesale_phone }}</a>
+            </div>	
+		{% endif %}
+		
+
+
+		{% form 'contact' %}
+
+			{% if form.posted_successfully? %}
+			 	<div class="form-response success">
+			 		{{ ss.success-msg }}
+			 	</div>
+			{% else %}
+				{% if form.errors %}
+					<div class="form-response error">
+						{{ form.errors | default_errors }}
+					</div>
+				{% endif %}
+			{% endif %}
+
+			
+			<!-- start field loop -->
+
+			<div class="form-builder-component | flex flex-wrap">
+
+				{% for block in section.blocks %}
+
+                    {% assign label = '' %}
+					{% assign placeholder = '' %}
+					{% assign name = '' %}
+					{% assign required = '' %}
+					{% assign col_width = '' %}
+
+                    {% if block.settings.field_label != blank %}
+						{% assign label = block.settings.field_label %}
+					{% endif %}
+
+					{% if block.settings.field_placeholder != blank %}
+						{% assign placeholder = block.settings.field_placeholder %}
+					{% endif %}
+
+					{% if block.settings.field_id != blank %}
+						{% assign name = block.settings.field_id %}
+					{% endif %}
+
+					{% if block.settings.field_required == true %}
+						{% assign required = 'required' %}
+					{% endif %}
+
+					{% if block.settings.field_col_width != blank %}
+						{% assign col_width = block.settings.field_col_width %}
+					{% endif %}
+
+					<div class="field-wrap | w-full mb-4 {{ bs.field_col_width }}">
+
+						{% case block.type %}
+
+							{% when 'text-field' %}
+                                <label class="text-body-small | lg:text-body-small-lg">{{ label }}{% if block.settings.field_required == true %}<span class="text-error-500">*</span>{% endif %}</label>
+								<input class="w-full border-secondary-900 border rounded py-3 px-2 text-body-large placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-large-lg" type="text" id="{{ name }}" name="contact[{{ name }}]" placeholder="{{ placeholder }}" {{ required }}>
+
+							{% when 'email-field' %}
+                                <label class="text-body-small | lg:text-body-small-lg">{{ label }}{% if block.settings.field_required == true %}<span class="text-error-500">*</span>{% endif %}</label>
+								<input class="w-full border-secondary-900 border rounded py-3 px-2 text-body-large placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-large-lg" type="email" id="{{ name }}" name="contact[{{ name }}]" placeholder="{{ placeholder }}" {{ required }}>
+
+							{% when 'textarea-field' %}
+								<label class="text-body-small | lg:text-body-small-lg">{{ label }}{% if block.settings.field_required == true %}<span class="text-error-500">*</span>{% endif %}</label>
+								<textarea class="w-full border-secondary-900 border rounded py-3 px-2 min-h-[200px] text-body-large placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-large-lg" id="{{ name }}" name="contact[{{ name }}]" placeholder="{{ placeholder }}" {{ required }}></textarea>
+
+							{% when 'select-field' %}
+                                <label class="text-body-small | lg:text-body-small-lg">{{ label }}{% if block.settings.field_required == true %}<span class="text-error-500">*</span>{% endif %}</label>
+								<select class=" native-form-select | w-full border-secondary-900 border appearance-none rounded py-3 px-2 text-body-large placeholder:text-secondary-900 focus:outline-none bg-transparent-500 | lg:text-body-large-lg" id="{{ name }}" name="contact[{{ name }}]" {{ required }}>
+
+									<option disabled selected>{{ placeholder }}</option>
+
+									{% assign options = block.settings.field_option | split: ',' %}
+
+									{% for option in options %}
+
+										<option value="{{ option }}">{{ option }}</option>
+
+									{% endfor%}
+
+								</select>
+
+						{% endcase %}
+
+					</div>
+
+				{% endfor %}
+
+			</div>
+
+			<!-- end field loop -->
+
+			<div class="btn-wrapper | -mx-gutter flex justify-start">
+
+            	{% render 'button' element: 'button', type: 'submit', border_color: 'border-secondary' , border_color_shade: '900', border_width: 'border', bg_color: 'bg-secondary' , bg_color_shade: '900', text_color: 'text-tertiary', text_color_shade: '900', hover_bg: 'hover:bg-tertiary', hover_bg_shade: '900', hover_border_color: 'border-secondary', hover_border_color_shade: '900', hover_text:'hover:text-secondary' , hover_text_shade: '900', content: ss.btn_text, custom_class: 'mx-gutter uppercase font-headline', before_icon: '', after_icon: '' %}
+
+            </div>
+
+        {% endform %}
+
+	</div>
+
+    {% if ss.image != blank %}
+        <div class="column | w-full mb-10 | lg:basis-1/2 lg:mb-0 |  ">       
+
+            {% render 'responsive-image' with image: ss.image, mobile_image: ss.image_mob, image_class: 'image h-full w-full object-cover rounded-2xl absolute top-0 left-0', wrapper_class: 'image-wrapper relative w-full h-full pt-[100%]' %}
+
+        </div>
+    {% endif %}
+
+
+</section> <!-- form-builder -->
+
+
+{% schema %}
+  {
+    "name": "Form Builder",
+    "settings": [
+		{
+            "type": "header",
+            "content": "background color (if media is not used)"
+        },
+        {
+            "type": "select",
+            "id": "bg_color",
+            "options": [
+                {
+                    "value": "bg-primary",
+                    "label": "Teal"
+                },
+                {
+                    "value": "bg-secondary",
+                    "label": "Brown"
+                },
+                {
+                    "value": "bg-neutral",
+                    "label": "White"
+                },
+                {
+                    "value": "",
+                    "label": "None"
+                }
+            ],
+            "label": "Background color"
+        },
+        {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image",
+            "info": "Recommended size: 800x800px"
+        },
+       
+        
+        {
+            "type": "textarea",
+            "id": "title",
+            "label": "Title"
+        },
+        {
+            "type": "richtext",
+            "id": "subtitle",
+            "label": "Subtitle"
+        },
+		{
+            "type": "text",
+            "id": "contact_email",
+            "label": "Contact email",
+			"info":"Leave blank to not show"
+        },
+		{
+            "type": "text",
+            "id": "contact_phone",
+            "label": "Contact telephone",
+			"info": "Leave blank to not show"
+        },
+		{
+            "type": "text",
+            "id": "contact_phone_title",
+            "label": "Contact telephone field title",
+			"info": "Leave blank to not show",
+			"default":"Customer queries"
+        },
+		{
+            "type": "text",
+            "id": "wholesale_phone",
+            "label": "wholesale telephone",
+			"info": "Leave blank to not show"
+        },
+		{
+            "type": "text",
+            "id": "wholesale_phone_title",
+            "label": "wholesale telephone field title",
+			"info": "Leave blank to not show",
+			"default":"Wholesale queries"
+        },
+		{
+            "type": "text",
+            "id": "success-msg",
+            "label": "Success message",
+			"default": "Success! We received your message!"
+        },
+        {
+            "type": "header",
+            "content": "button 1"
+        },
+        {
+            "type": "text",
+            "id": "btn_text",
+            "label": "Button text"
+        }
+    ],
+
+    "blocks": [
+
+		{
+            "type": "text-field",
+            "name": "Text field",
+            "settings": [
+
+		        {
+		            "type": "text",
+		            "id": "field_label",
+		            "label": "Field label",
+		            "info": "Text that appears above the field."
+		        },
+                {
+		            "type": "text",
+		            "id": "field_placeholder",
+		            "label": "Field placeholder",
+		            "info": "Text that appears in field when no value has been entered."
+		        },
+		        {
+		            "type": "text",
+		            "id": "field_id",
+		            "label": "Field ID",
+		            "info": "This needs to be unique to this field, not be repeated on other fields."
+		        },
+		        {
+		            "type": "checkbox",
+		            "id": "field_required",
+		            "default": true,
+		            "label": "Field is required?",
+		            "info": "Check this box to force the user to add a value to this field."
+		        },
+		        {
+		            "type": "select",
+		            "id": "field_col_width",
+		            "options": [
+		                { "value": "lg:w-[calc(50%-0.625rem)]", "label": "50% width"},
+		                { "value": "lg:w-full", "label": "100% width"}
+		            ],
+		            "label": "Field column width",
+		            "info": "This determines how wide the column size is on this field. Either half or full width (desktop only, mobile stacks to full width automatically)."
+		        }
+		        
+	        ]
+
+        },
+        {
+            "type": "email-field",
+            "name": "Email field",
+            "settings": [
+
+		        {
+		            "type": "text",
+		            "id": "field_label",
+		            "label": "Field label",
+		            "info": "Text that appears above the field."
+		        },
+                {
+		            "type": "text",
+		            "id": "field_placeholder",
+		            "label": "Field placeholder",
+		            "info": "Text that appears in field when no value has been entered."
+		        },
+		        {
+		            "type": "text",
+		            "id": "field_id",
+		            "label": "Field ID",
+		            "info": "This needs to be unique to this field, not be repeated on other fields."
+		        },
+		        {
+		            "type": "checkbox",
+		            "id": "field_required",
+		            "default": true,
+		            "label": "Field is required?",
+		            "info": "Check this box to force the user to add a value to this field."
+		        },
+		        {
+		            "type": "select",
+		            "id": "field_col_width",
+		            "options": [
+		                { "value": "lg:w-[calc(50%-0.625rem)]", "label": "50% width"},
+		                { "value": "lg:w-full", "label": "100% width"}
+		            ],
+		            "label": "Field column width",
+		            "info": "This determines how wide the column size is on this field. Either half or full width (desktop only, mobile stacks to full width automatically)."
+		        }
+		        
+	        ]
+
+        },
+        {
+            "type": "textarea-field",
+            "name": "Textarea field",
+            "settings": [
+
+		        {
+		            "type": "text",
+		            "id": "field_label",
+		            "label": "Field label",
+		            "info": "Text that appears above the field."
+		        },
+                {
+		            "type": "text",
+		            "id": "field_placeholder",
+		            "label": "Field placeholder",
+		            "info": "Text that appears in field when no value has been entered."
+		        },
+		        {
+		            "type": "text",
+		            "id": "field_id",
+		            "label": "Field ID",
+		            "info": "This needs to be unique to this field, not be repeated on other fields."
+		        },
+		        {
+		            "type": "checkbox",
+		            "id": "field_required",
+		            "default": true,
+		            "label": "Field is required?",
+		            "info": "Check this box to force the user to add a value to this field."
+		        },
+		        {
+		            "type": "select",
+		            "id": "field_col_width",
+		            "options": [
+		                { "value": "lg:w-[calc(50%-0.625rem)]", "label": "50% width"},
+		                { "value": "lg:w-full", "label": "100% width"}
+		            ],
+		            "label": "Field column width",
+		            "info": "This determines how wide the column size is on this field. Either half or full width (desktop only, mobile stacks to full width automatically)."
+		        }
+		        
+	        ]
+
+        },
+        {
+            "type": "select-field",
+            "name": "Select field",
+            "settings": [
+
+		        {
+		            "type": "text",
+		            "id": "field_placeholder",
+		            "label": "Field placeholder",
+		            "info": "Text that appears in field when no value has been selected."
+		        },
+		        {
+		            "type": "text",
+		            "id": "field_id",
+		            "label": "Field ID",
+		            "info": "This needs to be unique to this field, not be repeated on other fields."
+		        },
+		        {
+		            "type": "textarea",
+		            "id": "field_option",
+		            "label": "Field options",
+		            "info": "Enter the options for rhis dropdown field. Seperate options using a comma (,)."
+		        },
+		        {
+		            "type": "checkbox",
+		            "id": "field_required",
+		            "default": true,
+		            "label": "Field is required?",
+		            "info": "Check this box to force the user to select a option."
+		        },
+		        {
+		            "type": "select",
+		            "id": "field_col_width",
+		            "options": [
+		                { "value": "lg:w-[calc(50%-0.625rem)]", "label": "50% width"},
+		                { "value": "lg:w-full", "label": "100% width"}
+		            ],
+		            "label": "Field column width",
+		            "info": "This determines how wide the column size is on this field. Either half or full width (desktop only, mobile stacks to full width automatically)."
+		        }
+		        
+	        ]
+
+        }
+
+	],
+	"presets": [{
+		"name":"Contact form"
+	}]
+
+  }
+{% endschema %}

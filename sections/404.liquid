@@ -1,0 +1,45 @@
+{% assign ss = section.settings %}
+<section
+    class="page-not-found | px-container-gutter py-16 flex justify-center items-center w-full min-h-[300px] bg-tertiary-900 text-secondary-900 | lg:px-container-gutter-lg lg:py-20">
+
+    <div
+        class="content | text-center">
+        <div
+            class=" text-[120px] mb-10 font-headline | ">404</div>
+        <div
+            class="copy | mb-6 ">
+            {{ ss.copy }}
+        </div>
+
+        <a
+            href="{%if ss.cta_url != blank %} {{ ss.cta_url }} {%else%}/{%endif%}"
+            class=" mb-6 bg-primary-900 border-primary-900 text-secondary-900 hover:bg-secondary-900 hover:border-transparent-900 hover:text-neutral-900 btn | border w-full py-button-y px-button-x rounded-lg text-center font-headline text-button flex items-center justify-center relative cursor-pointer | lg:text-button-lg | transition-all duration-animation-speed">
+            {{ ss.cta_text }}
+        </a>
+    </div>
+
+
+</section>
+{% schema %}
+    {
+        "name": "404",
+        "settings": [
+            {
+                "type": "text",
+                "id": "copy",
+                "label": "Text to display when the page is not found",
+                "default": "Unfortunately we can’t find the page you’re looking for."
+            }, {
+                "type": "text",
+                "id": "cta_text",
+                "label": "Text to display in the redirect button",
+                "default": "Back to home"
+            }, {
+                "type": "url",
+                "id": "cta_url",
+                "label": "URL to redirect to",
+                "info": "If left empty will redirect back to home"
+            }
+        ]
+    }
+{% endschema %}

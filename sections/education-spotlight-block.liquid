@@ -1,0 +1,401 @@
+{% assign ss = section.settings %}
+<section
+    id="education-spotlight-block"
+    class="spotlight-meta-block  | {{ ss.bg }}-{{ ss.bg-shade }}  ">
+    <div
+        class="py-16 px-container-gutter flex flex-wrap gap-10 | lg:py-20 lg:px-container-gutter-lg lg:items-start lg:flex-nowrap lg:gap-20 lg:mx-auto {{ ss.bg }}-{{ ss.bg-shade }}">
+
+        <div
+            class="w-full text-left order-2 | lg:order-1 lg:w-2/5">
+            <div
+                class="title | text-display font-headline | lg;text-display-lg">
+                {{ ss.title }}
+            </div>
+            <div
+                class="copy | mt-10 text-body-large | lg:text-body-large-lg ">
+                {{ ss.copy }}
+            </div>
+            {% if ss.cta_link != blank %}
+                {% render 'button' element: 'a', type: '', href: ss.cta_link, target: '', bg_color: ss.btn_color, bg_color_shade: ss.btn_color_shade, text_color: ss.btn_text_color, text_color_shade: ss.btn_text_color_shade, border_color: ss.btn_border_color, border_color_shade: ss.btn_border_color_shade, hover_border_color: ss.btn_hover_border_color, hover_border_color_shade: ss.btn_hover_border_color_shade, hover_bg: ss.btn_hover_color, hover_bg_shade: ss.btn_hover_color_shade, hover_text: ss.btn_hover_text_color, hover_text_shade: ss.btn_hover_text_color_shade, content: ss.cta_text, custom_class: ' mt-4 rounded-lg w-fit font-headline border ', before_icon: '', after_icon: '' %}
+            {% endif %}
+        </div>
+
+        {% render 'responsive-image' with image: ss.image, mobile_image: ss.mobile_image, wrapper_class: "img-wrap h-full w-full pointer-events-none rounded-2xl z-[3] relative | lg:order-2 lg:w-3/5", image_class: "primary-img object-contain w-full h-full rounded-2xl" %}
+
+    </div>
+</section>
+
+
+{% schema %}
+    {
+        "name": "Education spotlight block",
+        "settings": [
+            {
+                "type": "select",
+                "id": "bg",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "bg-neutral",
+                        "label": "White"
+                    },
+                    {
+                        "value": "bg-transparent ",
+                        "label": "None"
+                    }, {
+                        "value": "bg-tertiary",
+                        "label": "Tertiary"
+                    }, {
+                        "value": "bg-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "bg-blue",
+                        "label": "Blue"
+                    }, {
+                        "value": "bg-orange ",
+                        "label": "Orange"
+                    }, {
+                        "value": "bg-salmon",
+                        "label": "Salmon"
+                    }
+                ],
+                "label": "Background colour",
+                "default": "bg-tertiary"
+            },
+            {
+                "type": "range",
+                "id": "bg-shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            },
+            {
+                "type": "header",
+                "content": "button 1"
+            },
+            {
+                "type": "select",
+                "id": "btn_color",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "bg-neutral",
+                        "label": "White"
+                    },
+                    {
+                        "value": "bg-tertiary",
+                        "label": "Tertiary"
+                    }, {
+                        "value": "bg-blue ",
+                        "label": "Blue"
+                    }, {
+                        "value": "bg-orange ",
+                        "label": "Orange"
+                    }, {
+                        "value": "bg-yellow ",
+                        "label": "Yellow"
+                    }, {
+                        "value": "bg-salmon ",
+                        "label": "Salmon"
+                    }, {
+                        "value": "bg-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button color",
+                "default": "bg-secondary"
+            }, {
+                "type": "range",
+                "id": "btn_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }, {
+                "type": "select",
+                "id": "btn_border_color",
+                "options": [
+                    {
+                        "value": "border-primary",
+                        "label": "Border Teal"
+                    },
+                    {
+                        "value": "border-secondary",
+                        "label": "Border Brown"
+                    },
+                    {
+                        "value": "border-neutral",
+                        "label": "Border White"
+                    },
+                    {
+                        "value": "border-tertiary",
+                        "label": "Tertiary"
+                    }, {
+                        "value": "border-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "border-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "border-blue",
+                        "label": "Blue"
+                    }, {
+                        "value": "border-salmon",
+                        "label": "Salmon"
+                    }, {
+                        "value": "border-transparent ",
+                        "label": "None"
+                    }
+
+                ],
+                "label": "Button border color",
+                "default": "border-transparent "
+            }, {
+                "type": "range",
+                "id": "btn_border_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button border color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }, {
+                "type": "select",
+                "id": "btn_text_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "text-neutral",
+                        "label": "White"
+                    },
+                    {
+                        "value": "text-tertiary",
+                        "label": "Tertiary"
+                    }, {
+                        "value": "text-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "text-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "text-blue",
+                        "label": "blue"
+                    }, {
+                        "value": "text-salmon",
+                        "label": "Salmon"
+                    }
+                ],
+                "label": "Button text color",
+                "default": "text-tertiary"
+            }, {
+                "type": "range",
+                "id": "btn_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }, {
+                "type": "header",
+                "content": "button 1 hover styles"
+            }, {
+                "type": "select",
+                "id": "btn_hover_color",
+                "options": [
+                    {
+                        "value": "hover:bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "hover:bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "hover:bg-neutral",
+                        "label": "White"
+                    },
+                    {
+                        "value": "hover:bg-tertiary",
+                        "label": "Tertiary"
+                    }, {
+                        "value": "hover:bg-transparent ",
+                        "label": "None"
+                    }, {
+                        "value": "hover:bg-blue ",
+                        "label": "Blue"
+                    }, {
+                        "value": "hover:bg-orange ",
+                        "label": "Orange"
+                    }, {
+                        "value": "hover:bg-yellow ",
+                        "label": "Yellow"
+                    }, {
+                        "value": "hover:bg-salmon ",
+                        "label": "Salmon"
+                    }
+                ],
+                "label": "Button hover color",
+                "default": "hover:bg-tertiary"
+            }, {
+                "type": "range",
+                "id": "btn_hover_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }, {
+                "type": "select",
+                "id": "btn_hover_border_color",
+                "options": [
+                    {
+                        "value": "hover:border-primary",
+                        "label": "Border Teal"
+                    },
+                    {
+                        "value": "hover:border-secondary",
+                        "label": "Border Brown"
+                    },
+                    {
+                        "value": "hover:border-neutral",
+                        "label": "Border White"
+                    },
+                    {
+                        "value": "hover:border-transparent ",
+                        "label": "None"
+                    }, {
+                        "value": "hover:border-tertiary",
+                        "label": "Border Tertiary"
+                    }, {
+                        "value": "hover:border-yellow",
+                        "label": "Border Yellow"
+                    }, {
+                        "value": "hover:border-blue",
+                        "label": "Blue"
+                    }, {
+                        "value": "hover:border-orange ",
+                        "label": "Orange"
+                    }, {
+                        "value": "hover:border-salmon",
+                        "label": "Border salmon"
+                    }
+                ],
+                "label": "Button hover border color",
+                "default": "hover:border-secondary"
+            }, {
+                "type": "range",
+                "id": "btn_hover_border_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button hover color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }, {
+                "type": "select",
+                "id": "btn_hover_text_color",
+                "options": [
+                    {
+                        "value": "hover:text-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "hover:text-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "hover:text-neutral",
+                        "label": "White"
+                    },
+                    {
+                        "value": "hover:text-tertiary",
+                        "label": "Tertiary"
+                    }, {
+                        "value": "hover:text-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "hover:text-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "hover:text-blue",
+                        "label": "Blue"
+                    }, {
+                        "value": "hover:text-salmon",
+                        "label": "Salmon"
+                    }
+                ],
+                "label": "Button hover text color",
+                "default": "hover:text-secondary"
+            }, {
+                "type": "range",
+                "id": "btn_hover_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button hover text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }, {
+                "type": "text",
+                "id": "title",
+                "label": "Title"
+            }, {
+                "type": "image_picker",
+                "id": "image",
+                "label": "Image"
+            }, {
+                "type": "image_picker",
+                "id": "mobile_image",
+                "label": "Mobile image"
+            }, {
+                "type": "richtext",
+                "id": "copy",
+                "label": "Content"
+            }, {
+                "type": "text",
+                "id": "cta_text",
+                "label": "Button copy"
+            }, {
+                "type": "url",
+                "id": "cta_link",
+                "label": "Button link"
+            }
+
+
+        ],
+        "presets": [
+            {
+                "name": "Education spotlight block"
+            }
+        ]
+
+    }
+{% endschema %}

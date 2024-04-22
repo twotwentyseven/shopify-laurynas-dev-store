@@ -1,0 +1,89 @@
+{% comment %}
+{
+    "id": {{ object.id }},
+    "metafields": {
+    {%- for field in object.metafields.custom -%}
+        {{ field | first | json }}: 
+        {
+                "type": {{ object.metafields.custom[field.first].type | json }},
+        "list": {{ object.metafields.custom[field.first].list? | json }},
+        "title": {{ field | first | replace: '_', ' ' | replace: '-', ' ' | json }},
+        {% if object.metafields.custom[field.first].list? %}
+            "value": [
+            {%- for item in object.metafields.custom[field.first].value -%}
+                {{ item | json }}{% unless forloop.last %},{% endunless %}
+            {%- endfor -%}
+            ]
+        {% elsif object.metafields.custom[field.first].type == 'rich_text_field' %}
+            "value": {{ object.metafields.custom[field.first] | metafield_tag | json }}
+        {% elsif object.metafields.custom[field.first].type == 'metaobject_reference' %}
+            "value": [
+            {%- for item in object.metafields.custom[field.first].value -%}
+                
+                {{ item }},
+                {{ item | json }}{% unless forloop.last %},{% endunless %}
+            {%- endfor -%}
+            ]
+        {% else %}
+            "value": {{ field | last | json }}
+        {% endif %}
+    
+        }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+    }
+    {% if show_variant != false %},
+        "variant_metafields": [
+        {% for variant in object.variants %}
+            {% render 'metafield-loop' object: variant, show_variant: false %}
+            {% unless forloop.last %},{% endunless %}
+        {% endfor %}
+        ]
+    {% endif %}
+    }
+{% endcomment %}
+
+{% comment %} Addition info on how to add more metafields needs to be added {% endcomment %}
+{ "id":
+{{ object.id }}
+, "url":
+{{ object.url | within: collection | json }}
+,
+"metafields": {
+    {%- for field in object.metafields[name_space] -%}
+    {{ field | first | json }}
+    :  {"type":
+    {{ object.metafields[name_space][field.first].type | json }}
+    , "list":
+    {{ object.metafields[name_space][field.first].list? | json }}
+    , "title":
+    {{ field | first | replace: '_', ' ' | replace: '-', ' ' | json }}
+    ,
+        {% if object.metafields[name_space][field.first].list? %}
+        "value": [
+            {%- for item in object.metafields[name_space][field.first].value -%}
+            {{ item | json }}
+                {% unless forloop.last %}
+            ,
+        {% endunless %}
+        {%- endfor -%}
+        ]
+    {% elsif object.metafields[name_space][field.first].type == 'rich_text_field' %}
+        "value": {{ object.metafields[name_space][field.first] | metafield_tag | json | escape }}
+    {% elsif object.metafields[name_space][field.first].type == 'metaobject_reference' %}
+        "value" : {{ object.metafields[name_space][field.first].value | json | escape }}
+    {% else %}
+        "value": {{ field | last | json }}
+    {% endif %}
+
+    }{% unless forloop.last %},{% endunless %}
+{%- endfor -%}
+}
+{% if show_variant != false %},
+    "variant_metafields": [
+    {% for variant in object.variants %}
+        {% render 'metafield-loop' object: variant, name_space: 'variant_details', show_variant: false %}
+        {% unless forloop.last %},{% endunless %}
+    {% endfor %}
+    ]
+{% endif %}
+}

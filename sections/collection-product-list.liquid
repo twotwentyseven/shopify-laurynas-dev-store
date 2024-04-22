@@ -1,0 +1,741 @@
+{% assign ss = section.settings %}
+
+<section data-vue-app class="product-list | relative w-full px-container-gutter pt-10 pb-16 | lg:pt-24 lg:pb-20 lg:px-container-gutter-lg | {{ ss.text-align }} {{ ss.bg_color }}-{{ss.bg_color_shade }} {{ ss.bg_color | replace: 'bg', 'fill' }}-{{ss.bg_color_shade }}">
+
+    {% if ss.title != blank %}
+        <h2 class="title | {{ ss.title_typeface }} {{ ss.title_weight }} {{ ss.title_color }}-{{ ss.title_color_shade }} {{ ss.title_size }} lg:{{ ss.title_size }}">
+            {{ ss.title }}
+        </h2>
+    {% endif %}
+
+    {% if ss.subtitle != blank %}
+        <div class="content | mb-6 max-w-[414px] w-full mx-auto | lg:mb-10 | {{ ss.subtitle_typeface }} {{ ss.subtitle_size }} {{ ss.subtitle_weight }} {{ ss.subtitle_color }}-{{ ss.subtitle_color_shade }}">
+            {{ ss.subtitle }}
+        </div>
+    {% endif %}
+
+    <div class="btn-wrapper | -mx-gutter flex {{ ss.text-align }}">
+
+        {% if ss.btn_url != blank %}
+            {% render 'button' element: 'a', type: '', href: ss.btn_url, target: '', border_color: ss.btn_border_color, border_color_shade: ss.btn_border_color_shade, border_width: 'border', bg_color: ss.btn_color, bg_color_shade: ss.btn_color_shade, text_color: ss.btn_text_color, text_color_shade: ss.btn_text_color_shade, hover_bg: ss.btn_hover_color, hover_bg_shade: ss.btn_hover_color_shade, hover_border_color: ss.btn_hover_border_color, hover_border_color_shade: ss.btn_border_hover_color_shade, hover_text: ss.btn_hover_text_color, hover_text_shade: ss.btn_hover_text_color_shade, content: ss.btn_text, custom_class: 'mx-gutter', before_icon: '', after_icon: '' %}
+        {% endif %}
+
+        {% if ss.alt_btn_url != blank %}
+            {% render 'button' element: 'a', type: '', href: ss.alt_btn_url, target: '', border_color: ss.alt_btn_border_color, border_color_shade: ss.alt_btn_border_color_shade, border_width: 'border', bg_color: ss.alt_btn_color, text_color: ss.alt_btn_text_color, text_color_shade: ss.alt_btn_text_color_shade, hover_bg: ss.alt_btn_hover_color, hover_bg_shade: ss.alt_btn_hover_color_shade, hover_border_color: ss.alt_btn_hover_border_color, hover_border_color_shade: ss.alt_btn_border_hover_color_shade, hover_text: ss.alt_btn_hover_text_color, hover_text_shade: ss._alt_btn_hover_text_color_shade content: ss.alt_btn_text, custom_class: 'mx-gutter', before_icon: '', after_icon: '' %}
+        {% endif %}
+
+    </div>
+
+    <div {% if ss.swiper %}data-swiperdata-swiper-settings='{"loop": {{ss.loop}}, "spaceBetween": 24, "grabCursor": true, "noSwipingSelector": "button", "a11y": false, "centeredSlides": false, "speed": 500, "threshold": "20", "slidesPerView": {{ ss.mobile_columns }}, "breakpoints": { "1024": { "slidesPerView": {{ ss.columns }}, "spaceBetween": 24, "loop": false }}, {% if autoplay %}"autoplay": { "delay": 2500, "disableOnInteraction": false },{% endif %} "draggable": true, "pagination": { "el": ".product-list .swiper-pagination", "clickable": true, "bulletClass": "rounded-full mx-0.5 inline-block border h-2 w-2 leading-3 {{ ss.title_color | replace: "text", "border" }}-{{ ss.title_color_shade }}", "bulletActiveClass": "{{ ss.title_color | replace: "text", "bg" }}-{{ ss.title_color_shade }}" }}'{% endif %} class="{% if ss.swiper %}swiper{% endif %}">
+
+        <div class="{% if ss.swiper %}swiper-wrapper{% else %}flex flex-wrap{% endif %}">
+
+            {% for product in collections[ss.collection].products limit: ss.product_limit %}
+
+                <div class="{% if ss.swiper %}swiper-slide{% endif %} {% if ss.mobile_columns == 1 %}w-full{%- else -%}w-1/{{- ss.mobile_columns -}}{% endif %} | lg:mb-0 {% if ss.columns == 1 %}lg:w-full{%- else -%}lg:w-1/{{- ss.columns -}}{%- endif -%}">
+                    <!--:colours="{{ productCardColors | strip_newlines | escape }}"-->
+                    <!--:content="{{ productCardContent | strip_newlines | escape }}"--><product-card
+                        :full-width="true"
+                        :metafield-object='{%- render "metafield-loop", name_space: "product_details", object: product -%}'
+                        :product-object="{{ product | json | escape }}"
+                        product-url="{{ product.url | within: collection }}"> </product-card>
+                </div>
+
+            {% endfor %}
+        </div>
+
+    </div>
+
+    {% if ss.swiper %}
+        <div class="swiper-pagination !bottom-8" style="--swiper-pagination-bullet-width: 12px;
+                                --swiper-pagination-bullet-height: 12px;
+                                --swiper-pagination-bullet-inactive-color: #fff;
+                                --swiper-pagination-color: #fff;"></div>
+    {% endif %}
+
+
+</section>
+
+
+{% schema %}
+    {
+        "name": "Collection product List",
+        "settings": [
+            {
+                "type": "header",
+                "content": "background color"
+            },
+            {
+                "type": "select",
+                "id": "bg_color",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "",
+                        "label": "None"
+                    }
+                ],
+                "label": "Background color"
+            },
+            {
+                "type": "range",
+                "id": "bg_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            },
+            {
+                "type": "select",
+                "id": "text-align",
+                "options": [
+                    {
+                        "value": "text-center justify-center",
+                        "label": "Center"
+                    }, {
+                        "value": "text-left justify-start",
+                        "label": "Left"
+                    }, {
+                        "value": "text-right justify-end",
+                        "label": "Right"
+                    }
+                ],
+                "label": "Text alignment"
+            }, {
+                "type": "collection",
+                "id": "collection",
+                "label": "Collection"
+            }, {
+                "type": "range",
+                "id": "product_limit",
+                "min": 1,
+                "max": 24,
+                "step": 1,
+                "label": "Number of products to show from collection",
+                "default": 4
+            }, {
+                "type": "header",
+                "content": "Fonts & Copy"
+            }, {
+                "type": "textarea",
+                "id": "title",
+                "label": "Title"
+            }, {
+                "type": "select",
+                "id": "title_typeface",
+                "options": [
+                    {
+                        "value": "font-headline",
+                        "label": "Headline"
+                    }, {
+                        "value": "font-body",
+                        "label": "Body"
+                    }
+                ],
+                "label": "Title font"
+            }, {
+                "type": "select",
+                "id": "title_size",
+                "options": [
+                    {
+                        "value": "text-headline-6 lg:text-headline-6-lg",
+                        "label": "Heading 6"
+                    },
+                    {
+                        "value": "text-headline-5 lg:text-headline-5-lg",
+                        "label": "Heading 5"
+                    },
+                    {
+                        "value": "text-headline-4 lg:text-headline-4-lg",
+                        "label": "Heading 4"
+                    },
+                    {
+                        "value": "text-headline-3 lg:text-headline-3-lg",
+                        "label": "Heading 3"
+                    }, {
+                        "value": "text-headline-2 lg:text-headline-2-lg",
+                        "label": "Heading 2"
+                    }, {
+                        "value": "text-headline-1 lg:text-headline-1-lg",
+                        "label": "Heading 1"
+                    }, {
+                        "value": "text-display lg:text-display-lg",
+                        "label": "Display"
+                    }
+                ],
+                "label": "Title heading size"
+            }, {
+                "type": "select",
+                "id": "title_weight",
+                "options": [
+                    {
+                        "value": "font-bold",
+                        "label": "Bold"
+                    },
+                    {
+                        "value": "font-semibold",
+                        "label": "Semibold"
+                    },
+                    {
+                        "value": "font-medium",
+                        "label": "Medium"
+                    },
+                    {
+                        "value": "font-normal",
+                        "label": "Normal"
+                    }, {
+                        "value": "font-light",
+                        "label": "Light"
+                    }, {
+                        "value": "font-extralight",
+                        "label": "Extralight"
+                    }, {
+                        "value": "font-thin",
+                        "label": "Thin"
+                    }
+                ],
+                "label": "Title weight"
+            }, {
+                "type": "select",
+                "id": "title_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "text-neutral",
+                        "label": "White"
+                    }
+                ],
+                "label": "Title color"
+            }, {
+                "type": "range",
+                "id": "title_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Title color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "richtext",
+                "id": "subtitle",
+                "label": "Subtitle"
+            }, {
+                "type": "select",
+                "id": "subtitle_typeface",
+                "options": [
+                    {
+                        "value": "font-headline",
+                        "label": "Headline"
+                    }, {
+                        "value": "font-body",
+                        "label": "Body"
+                    }
+                ],
+                "label": "Subtitle font"
+            }, {
+                "type": "select",
+                "id": "subtitle_size",
+                "options": [
+                    {
+                        "value": "text-body-small lg:text-body-small-lg",
+                        "label": "Body Small"
+                    },
+                    {
+                        "value": "text-body-medium lg:text-body-medium-lg",
+                        "label": "Body Medium"
+                    },
+                    {
+                        "value": "text-body-large lg:text-body-large-lg",
+                        "label": "Body Large"
+                    },
+                    {
+                        "value": "text-headline-6 lg:text-headline-6-lg",
+                        "label": "Heading 6"
+                    }, {
+                        "value": "text-headline-5 lg:text-headline-5-lg",
+                        "label": "Heading 5"
+                    }, {
+                        "value": "text-headline-4 lg:text-headline-4-lg",
+                        "label": "Heading 4"
+                    }, {
+                        "value": "text-headline-3 lg:text-headline-3-lg",
+                        "label": "Heading 3"
+                    }, {
+                        "value": "text-headline-2 lg:text-headline-2-lg",
+                        "label": "Heading 2"
+                    }, {
+                        "value": "text-headline-1 lg:text-headline-1-lg",
+                        "label": "Heading 1"
+                    }, {
+                        "value": "text-display lg:text-display-lg",
+                        "label": "Display"
+                    }
+                ],
+                "label": "Subtitle heading size"
+            }, {
+                "type": "select",
+                "id": "subtitle_weight",
+                "options": [
+                    {
+                        "value": "font-bold",
+                        "label": "Bold"
+                    },
+                    {
+                        "value": "font-semibold",
+                        "label": "Semibold"
+                    },
+                    {
+                        "value": "font-medium",
+                        "label": "Medium"
+                    },
+                    {
+                        "value": "font-normal",
+                        "label": "Normal"
+                    }, {
+                        "value": "font-light",
+                        "label": "Light"
+                    }, {
+                        "value": "font-extralight",
+                        "label": "Extralight"
+                    }, {
+                        "value": "font-thin",
+                        "label": "Thin"
+                    }
+                ],
+                "label": "Title weight"
+            }, {
+                "type": "select",
+                "id": "subtitle_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "text-neutral",
+                        "label": "White"
+                    }
+                ],
+                "label": "Subtitle color"
+            }, {
+                "type": "range",
+                "id": "subtitle_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Subtitle color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "header",
+                "content": "button 1"
+            }, {
+                "type": "text",
+                "id": "btn_text",
+                "label": "Button text"
+            }, {
+                "type": "url",
+                "id": "btn_url",
+                "label": "Button URL"
+            }, {
+                "type": "select",
+                "id": "btn_color",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "bg-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button color"
+            }, {
+                "type": "range",
+                "id": "btn_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "btn_border_color",
+                "options": [
+                    {
+                        "value": "border-primary",
+                        "label": "Border Teal"
+                    }, {
+                        "value": "border-secondary",
+                        "label": "Border Brown"
+                    }, {
+                        "value": "border-neutral",
+                        "label": "Border White"
+                    }, {
+                        "value": "border-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button border color"
+            }, {
+                "type": "range",
+                "id": "btn_border_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button border color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "btn_text_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "text-neutral",
+                        "label": "White"
+                    }
+                ],
+                "label": "Button text color"
+            }, {
+                "type": "range",
+                "id": "btn_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "header",
+                "content": "button 1 hover styles"
+            }, {
+                "type": "select",
+                "id": "btn_hover_color",
+                "options": [
+                    {
+                        "value": "hover:bg-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "hover:bg-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "hover:bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "hover:bg-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button hover color"
+            }, {
+                "type": "range",
+                "id": "btn_hover_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "btn_hover_border_color",
+                "options": [
+                    {
+                        "value": "hover:border-primary",
+                        "label": "Border Teal"
+                    }, {
+                        "value": "hover:border-secondary",
+                        "label": "Border Brown"
+                    }, {
+                        "value": "hover:border-neutral",
+                        "label": "Border White"
+                    }, {
+                        "value": "hover:border-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button hover border color"
+            }, {
+                "type": "range",
+                "id": "btn_hover_border_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button hover color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "btn_hover_text_color",
+                "options": [
+                    {
+                        "value": "hover:text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "hover:text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "hover:text-neutral",
+                        "label": "White"
+                    }
+                ],
+                "label": "Button hover text color"
+            }, {
+                "type": "range",
+                "id": "btn_hover_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button hover text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "header",
+                "content": "button 2"
+            }, {
+                "type": "text",
+                "id": "alt_btn_text",
+                "label": "Alt button text"
+            }, {
+                "type": "url",
+                "id": "alt_btn_url",
+                "label": "Alt button URL"
+            }, {
+                "type": "select",
+                "id": "alt_btn_color",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "bg-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Alt button color"
+            }, {
+                "type": "range",
+                "id": "alt_btn_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Alt Button color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "alt_btn_border_color",
+                "options": [
+                    {
+                        "value": "border-primary",
+                        "label": "Border Teal"
+                    }, {
+                        "value": "border-secondary",
+                        "label": "Border Brown"
+                    }, {
+                        "value": "border-neutral",
+                        "label": "Border White"
+                    }, {
+                        "value": "border-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Alt Button border color"
+            }, {
+                "type": "range",
+                "id": "alt_btn_border_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Alt Button color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "alt_btn_text_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "text-neutral",
+                        "label": "White"
+                    }
+                ],
+                "label": "Alt Button text color"
+            }, {
+                "type": "range",
+                "id": "alt_btn_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Alt button text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "header",
+                "content": "button 2 hover styles"
+            }, {
+                "type": "select",
+                "id": "alt_btn_hover_color",
+                "options": [
+                    {
+                        "value": "hover:bg-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "hover:bg-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "hover:bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "hover:bg-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button hover color"
+            }, {
+                "type": "range",
+                "id": "alt_btn_hover_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Alt Button hover color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "alt_btn_hover_border_color",
+                "options": [
+                    {
+                        "value": "hover:border-primary",
+                        "label": "Border Teal"
+                    }, {
+                        "value": "hover:border-secondary",
+                        "label": "Border Brown"
+                    }, {
+                        "value": "hover:border-neutral",
+                        "label": "Border White"
+                    }, {
+                        "value": "hover:border-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Alt Button hover border color"
+            }, {
+                "type": "range",
+                "id": "alt_btn_hover_border_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Alt Button hover border color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "alt_btn_hover_text_color",
+                "options": [
+                    {
+                        "value": "hover:text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "hover:text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "hover:text-neutral",
+                        "label": "White"
+                    }
+                ],
+                "label": "Alt Button hover text color"
+            }, {
+                "type": "range",
+                "id": "alt_btn_hover_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Alt Button hover text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "header",
+                "content": "Carousel Settings"
+            }, {
+                "type": "checkbox",
+                "id": "swiper",
+                "label": "Enable Carousel",
+                "info": "If disabled this will enable a grid layout"
+            }, {
+                "type": "range",
+                "id": "columns",
+                "min": 1,
+                "max": 6,
+                "step": 1,
+                "label": "Number of Columns (Desktop)",
+                "default": 4
+            }, {
+                "type": "range",
+                "id": "mobile_columns",
+                "min": 1,
+                "max": 3,
+                "step": 0.2,
+                "label": "Number of Columns (Mobile)",
+                "default": 2
+            }, {
+                "type": "checkbox",
+                "id": "autoplay",
+                "label": "Enable autoplay",
+                "default": true
+            }, {
+                "type": "checkbox",
+                "id": "loop",
+                "label": "loop slides",
+                "default": false
+            }
+        ],
+        "presets": [
+            {
+                "name": "Collection product List"
+            }
+        ]
+
+    }
+{% endschema %}

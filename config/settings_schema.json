@@ -1,10 +1,1297 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "Themekit template theme",
-    "theme_version": "1.0.0",
-    "theme_author": "Shopify",
-    "theme_documentation_url": "https:\/\/github.com\/Shopify\/themekit",
-    "theme_support_url": "https:\/\/github.com\/Shopify\/themekit\/issues"
+    "theme_name": "Theorem",
+    "theme_author": "twotwentyseven",
+    "theme_version": "0.0.1",
+    "theme_documentation_url": "https:\/\/twotwentyseven.com\/",
+    "theme_support_url": "https:\/\/twotwentyseven.com\/"
+  },
+  {
+    "name": "Store settings",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      }
+    ]
+  },
+  {
+    "name": "Instagram settings",
+    "settings": [
+      {
+        "type": "text",
+        "id": "instagram_token",
+        "label": "Instagram Token"
+      },
+      {
+        "type": "number",
+        "id": "instagram_limit",
+        "label": "Posts to show"
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Accounts"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook",
+        "info": "https:\/\/www.facebook.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_handle",
+        "label": "Facebook Handle"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok_link",
+        "label": "Tiktok",
+        "info": "https:\/\/www.tiktok.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok_handle",
+        "label": "Tiktok Handle"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "Twitter",
+        "info": "https:\/\/twitter.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_handle",
+        "label": "Twitter Handle"
+      },
+      {
+        "type": "textarea",
+        "id": "twitter_share",
+        "label": "Twitter Share Copy",
+        "info": "product or article url follows copy",
+        "default": "Checkout This link:"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest_link",
+        "label": "Pinterest",
+        "info": "https:\/\/www.pinterest.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest_handle",
+        "label": "Pinterest Handle"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram",
+        "info": "https:\/\/instagram.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_handle",
+        "label": "Instagram Handle"
+      },
+      {
+        "type": "text",
+        "id": "social_snapchat_link",
+        "label": "Snapchat",
+        "info": "https:\/\/www.snapchat.com\/add\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_snapchat_handle",
+        "label": "Snapchat Handle"
+      },
+      {
+        "type": "text",
+        "id": "social_tumblr_link",
+        "label": "Tumblr",
+        "info": "http:\/\/shopify.tumblr.com"
+      },
+      {
+        "type": "text",
+        "id": "social_tumblr_handle",
+        "label": "Tumblr Handle"
+      },
+      {
+        "type": "text",
+        "id": "social_linkedin_link",
+        "label": "LinkedIn",
+        "info": "https:\/\/www.linkedin.com\/in\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_linkedin_handle",
+        "label": "LinkedIn Handle"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "YouTube",
+        "info": "https:\/\/www.youtube.com\/user\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_handle",
+        "label": "YouTube Handle"
+      },
+      {
+        "type": "text",
+        "id": "social_vimeo_link",
+        "label": "Vimeo",
+        "info": "https:\/\/vimeo.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_vimeo_handle",
+        "label": "Vimeo Handle"
+      },
+      {
+        "type": "header",
+        "content": "Sharing options"
+      },
+      {
+        "type": "checkbox",
+        "id": "share_facebook",
+        "label": "Share on Facebook",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "share_twitter",
+        "label": "Tweet on Twitter",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "share_pinterest",
+        "label": "Pin on Pinterest",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "homepage_social_image",
+        "label": "Homepage image",
+        "info": "Shown when your homepage is shared on Facebook or Twitter"
+      }
+    ]
+  },
+  {
+    "name": "Collection",
+    "settings": [
+      {
+        "type": "number",
+        "id": "collection_limit",
+        "label": "Products per page",
+        "default": 25
+      }
+    ]
+  },
+  {
+    "name": "Product Card",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Card Colours"
+      },
+      {
+        "type": "select",
+        "id": "pc_bg_color",
+        "options": [
+          {
+            "value": "bg-primary",
+            "label": "Primary"
+          },
+          {
+            "value": "bg-secondary",
+            "label": "Secondary"
+          },
+          {
+            "value": "bg-tertiary",
+            "label": "Tertiary"
+          },
+          {
+            "value": "bg-neutral",
+            "label": "Neutral (white\/grey\/black)"
+          },
+          {
+            "value": "bg-salmon",
+            "label": "Salmon"
+          },
+          {
+            "value": "bg-yellow",
+            "label": "Yellow"
+          },
+          {
+            "value": "bg-blue",
+            "label": "Blue"
+          },
+          {
+            "value": "bg-orange",
+            "label": "Orange"
+          },
+          {
+            "value": "",
+            "label": "None"
+          }
+        ],
+        "label": "Background color"
+      },
+      {
+        "type": "range",
+        "id": "pc_bg_color_shade",
+        "min": 0,
+        "max": 900,
+        "step": 100,
+        "label": "Background color shade",
+        "info": "Number range 0 - 900. Lighest to darkest",
+        "default": 500
+      },
+      {
+        "type": "select",
+        "id": "pc_text_color",
+        "options": [
+          {
+            "value": "text-primary",
+            "label": "Primary"
+          },
+          {
+            "value": "text-secondary",
+            "label": "Secondary"
+          },
+          {
+            "value": "text-neutral",
+            "label": "Neutral (white\/grey\/black)"
+          },
+          {
+            "value": "text-tertiary",
+            "label": "Tertiary"
+          },
+          {
+            "value": "text-yellow",
+            "label": "Yellow"
+          },
+          {
+            "value": "text-orange",
+            "label": "Orange"
+          },
+          {
+            "value": "text-blue",
+            "label": "blue"
+          },
+          {
+            "value": "text-salmon",
+            "label": "Salmon"
+          }
+        ],
+        "label": "Text color"
+      },
+      {
+        "type": "range",
+        "id": "pc_text_color_shade",
+        "min": 0,
+        "max": 900,
+        "step": 100,
+        "label": "Text color shade",
+        "info": "Number range 0 - 900. Lighest to darkest",
+        "default": 500
+      },
+      {
+        "type": "header",
+        "content": "Modal Colours"
+      },
+      {
+        "type": "select",
+        "id": "pc_modal_bg_color",
+        "options": [
+          {
+            "value": "bg-primary",
+            "label": "Primary"
+          },
+          {
+            "value": "bg-secondary",
+            "label": "Secondary"
+          },
+          {
+            "value": "bg-tertiary",
+            "label": "Tertiary"
+          },
+          {
+            "value": "bg-neutral",
+            "label": "Neutral (white\/grey\/black)"
+          },
+          {
+            "value": "bg-salmon",
+            "label": "Salmon"
+          },
+          {
+            "value": "bg-yellow",
+            "label": "Yellow"
+          },
+          {
+            "value": "bg-blue",
+            "label": "Blue"
+          },
+          {
+            "value": "bg-orange",
+            "label": "Orange"
+          },
+          {
+            "value": "",
+            "label": "None"
+          }
+        ],
+        "label": "Background modal color"
+      },
+      {
+        "type": "range",
+        "id": "pc_modal_bg_color_shade",
+        "min": 0,
+        "max": 900,
+        "step": 100,
+        "label": "Background modal color shade",
+        "info": "Number range 0 - 900. Lighest to darkest",
+        "default": 500
+      },
+      {
+        "type": "select",
+        "id": "pc_modal_text_color",
+        "options": [
+          {
+            "value": "text-primary",
+            "label": "Primary"
+          },
+          {
+            "value": "text-secondary",
+            "label": "Secondary"
+          },
+          {
+            "value": "text-neutral",
+            "label": "Neutral (white\/grey\/black)"
+          },
+          {
+            "value": "text-tertiary",
+            "label": "Tertiary"
+          },
+          {
+            "value": "text-yellow",
+            "label": "Yellow"
+          },
+          {
+            "value": "text-orange",
+            "label": "Orange"
+          },
+          {
+            "value": "text-blue",
+            "label": "blue"
+          },
+          {
+            "value": "text-salmon",
+            "label": "Salmon"
+          }
+        ],
+        "label": "Text color"
+      },
+      {
+        "type": "range",
+        "id": "pc_modal_text_color_shade",
+        "min": 0,
+        "max": 900,
+        "step": 100,
+        "label": "Text color shade",
+        "info": "Number range 0 - 900. Lighest to darkest",
+        "default": 500
+      },
+      {
+        "type": "select",
+        "id": "pc_modal_select_border_color",
+        "options": [
+          {
+            "value": "border-primary",
+            "label": "Border Primary"
+          },
+          {
+            "value": "border-secondary",
+            "label": "Border Secondary"
+          },
+          {
+            "value": "border-neutral",
+            "label": "Border Neutral (white\/grey\/black)"
+          },
+          {
+            "value": "border-transparent ",
+            "label": "None"
+          },
+          {
+            "value": "border-yellow",
+            "label": "Border Yellow"
+          },
+          {
+            "value": "border-tertiary",
+            "label": "Border tertiary"
+          },
+          {
+            "value": "border-orange",
+            "label": "Orange"
+          },
+          {
+            "value": "border-blue ",
+            "label": "Blue"
+          },
+          {
+            "value": "border-salmon",
+            "label": "Border salmon"
+          }
+        ],
+        "label": "Border color"
+      },
+      {
+        "type": "range",
+        "id": "pc_modal_select_border_shade",
+        "min": 0,
+        "max": 900,
+        "step": 100,
+        "label": "Border color shade",
+        "info": "Number range 0 - 900. Lighest to darkest",
+        "default": 500
+      },
+      {
+        "type": "header",
+        "content": "Button content"
+      },
+      {
+        "type": "text",
+        "id": "pc_buy_now",
+        "label": "Buy now button copy",
+        "info": "For products without variants"
+      },
+      {
+        "type": "text",
+        "id": "pc_quick_buy",
+        "label": "Quick Buy button copy",
+        "info": "For products with variants"
+      },
+      {
+        "type": "select",
+        "id": "pc_btn_color",
+        "options": [
+          {
+            "value": "bg-primary",
+            "label": "Primary"
+          },
+          {
+            "value": "bg-secondary",
+            "label": "Secondary"
+          },
+          {
+            "value": "bg-tertiary",
+            "label": "Tertiary"
+          },
+          {
+            "value": "bg-neutral",
+            "label": "Neutral (white\/grey\/black)"
+          },
+          {
+            "value": "bg-salmon",
+            "label": "Salmon"
+          },
+          {
+            "value": "bg-yellow",
+            "label": "Yellow"
+          },
+          {
+            "value": "bg-blue",
+            "label": "Blue"
+          },
+          {
+            "value": "bg-orange",
+            "label": "Orange"
+          },
+          {
+            "value": "",
+            "label": "None"
+          }
+        ],
+        "label": "Button color"
+      },
+      {
+        "type": "range",
+        "id": "pc_btn_color_shade",
+        "min": 0,
+        "max": 900,
+        "step": 100,
+        "label": "Background color shade",
+        "info": "Number range 0 - 900. Lighest to darkest",
+        "default": 500
+      },
+      {
+        "type": "select",
+        "id": "pc_btn_border_color",
+        "options": [
+          {
+            "value": "border-primary",
+            "label": "Border Primary"
+          },
+          {
+            "value": "border-secondary",
+            "label": "Border Secondary"
+          },
+          {
+            "value": "border-neutral",
+            "label": "Border Neutral (white\/grey\/black)"
+          },
+          {
+            "value": "border-transparent ",
+            "label": "None"
+          },
+          {
+            "value": "border-yellow",
+            "label": "Border Yellow"
+          },
+          {
+            "value": "border-tertiary",
+            "label": "Border tertiary"
+          },
+          {
+            "value": "border-orange",
+            "label": "Orange"
+          },
+          {
+            "value": "border-blue ",
+            "label": "Blue"
+          },
+          {
+            "value": "border-salmon",
+            "label": "Border salmon"
+          }
+        ],
+        "label": "Button border color"
+      },
+      {
+        "type": "range",
+        "id": "pc_btn_border_color_shade",
+        "min": 0,
+        "max": 900,
+        "step": 100,
+        "label": "Button border color shade",
+        "info": "Number range 0 - 900. Lighest to darkest",
+        "default": 500
+      },
+      {
+        "type": "select",
+        "id": "pc_btn_text_color",
+        "options": [
+          {
+            "value": "text-primary",
+            "label": "Primary"
+          },
+          {
+            "value": "text-secondary",
+            "label": "Secondary"
+          },
+          {
+            "value": "text-neutral",
+            "label": "Neutral (white\/grey\/black)"
+          },
+          {
+            "value": "text-tertiary",
+            "label": "Tertiary"
+          },
+          {
+            "value": "text-yellow",
+            "label": "Yellow"
+          },
+          {
+            "value": "text-orange",
+            "label": "Orange"
+          },
+          {
+            "value": "text-blue",
+            "label": "blue"
+          },
+          {
+            "value": "text-salmon",
+            "label": "Salmon"
+          }
+        ],
+        "label": "Button text color"
+      },
+      {
+        "type": "range",
+        "id": "pc_btn_text_color_shade",
+        "min": 0,
+        "max": 900,
+        "step": 100,
+        "label": "Background color shade",
+        "info": "Number range 0 - 900. Lighest to darkest",
+        "default": 500
+      },
+      {
+        "type": "header",
+        "content": "button hover styles"
+      },
+      {
+        "type": "select",
+        "id": "pc_btn_hover_color",
+        "options": [
+          {
+            "value": "hover:bg-primary",
+            "label": "Primary"
+          },
+          {
+            "value": "hover:bg-secondary",
+            "label": "Secondary"
+          },
+          {
+            "value": "hover:bg-tertiary",
+            "label": "Tertiary"
+          },
+          {
+            "value": "hover:bg-neutral",
+            "label": "Neutral (white\/grey\/black)"
+          },
+          {
+            "value": "hover:bg-salmon",
+            "label": "Salmon"
+          },
+          {
+            "value": "hover:bg-yellow",
+            "label": "Yellow"
+          },
+          {
+            "value": "hover:bg-blue",
+            "label": "Blue"
+          },
+          {
+            "value": "hover:bg-orange",
+            "label": "Orange"
+          },
+          {
+            "value": "",
+            "label": "None"
+          }
+        ],
+        "label": "Button hover color"
+      },
+      {
+        "type": "range",
+        "id": "pc_btn_hover_color_shade",
+        "min": 0,
+        "max": 900,
+        "step": 100,
+        "label": "Background color shade",
+        "info": "Number range 0 - 900. Lighest to darkest",
+        "default": 500
+      },
+      {
+        "type": "select",
+        "id": "pc_btn_hover_border_color",
+        "options": [
+          {
+            "value": "hover:border-primary",
+            "label": "Border Primary"
+          },
+          {
+            "value": "hover:border-secondary",
+            "label": "Border Secondary"
+          },
+          {
+            "value": "hover:border-neutral",
+            "label": "Border Neutral (white\/grey\/black)"
+          },
+          {
+            "value": "hover:border-transparent ",
+            "label": "None"
+          },
+          {
+            "value": "hover:border-yellow",
+            "label": "Border Yellow"
+          },
+          {
+            "value": "hover:border-tertiary",
+            "label": "Border tertiary"
+          },
+          {
+            "value": "hover:border-orange",
+            "label": "Orange"
+          },
+          {
+            "value": "hover:border-blue ",
+            "label": "Blue"
+          },
+          {
+            "value": "hover:border-salmon",
+            "label": "Border salmon"
+          }
+        ],
+        "label": "Button border color"
+      },
+      {
+        "type": "range",
+        "id": "pc_btn_hover_border_color_shade",
+        "min": 0,
+        "max": 900,
+        "step": 100,
+        "label": "Button border color shade",
+        "info": "Number range 0 - 900. Lighest to darkest",
+        "default": 500
+      },
+      {
+        "type": "select",
+        "id": "pc_btn_hover_text_color",
+        "options": [
+          {
+            "value": "hover:text-primary",
+            "label": "Primary"
+          },
+          {
+            "value": "hover:text-secondary",
+            "label": "Secondary"
+          },
+          {
+            "value": "hover:text-neutral",
+            "label": "Neutral (white\/grey\/black)"
+          },
+          {
+            "value": "hover:text-tertiary",
+            "label": "Tertiary"
+          },
+          {
+            "value": "hover:text-yellow",
+            "label": "Yellow"
+          },
+          {
+            "value": "hover:text-orange",
+            "label": "Orange"
+          },
+          {
+            "value": "hover:text-blue",
+            "label": "blue"
+          },
+          {
+            "value": "hover:text-salmon",
+            "label": "Salmon"
+          }
+        ],
+        "label": "Button text color"
+      },
+      {
+        "type": "range",
+        "id": "pc_btn_hover_text_color_shade",
+        "min": 0,
+        "max": 900,
+        "step": 100,
+        "label": "Background color shade",
+        "info": "Number range 0 - 900. Lighest to darkest",
+        "default": 500
+      },
+      {
+        "type": "text",
+        "id": "quantity",
+        "label": "Quantity select label",
+        "default": "Quantity"
+      },
+      {
+        "type": "text",
+        "id": "delivery_fee_msg",
+        "label": "Delivery Fee Message",
+        "default": "Buy more than one to receive a discount. Free delivery for orders over £30.00"
+      },
+      {
+        "type": "text",
+        "id": "express_msg",
+        "label": "Express Checkout message",
+        "default": "Or express checkout with"
+      }
+    ]
+  },
+  {
+    "name": "Subscription Details",
+    "settings": [
+      {
+        "type": "text",
+        "id": "one_time",
+        "label": "One time button"
+      },
+      {
+        "type": "text",
+        "id": "subscription",
+        "label": "Subscribe button"
+      },
+      {
+        "type": "text",
+        "id": "delivery_frequency",
+        "label": "Frequency select label",
+        "default": "Delivery frequency"
+      },
+      {
+        "type": "textarea",
+        "id": "variant_exclusion_list",
+        "label": "Variants to hide",
+        "info": "Variants including these keywords will not have subscription displayed. (Separated by line break)"
+      },
+      {
+        "type": "text",
+        "id": "no_subscription",
+        "label": "Default Frequency option",
+        "default": "No subscription"
+      },
+      {
+        "type": "text",
+        "id": "free_delivery",
+        "label": "Delivery text",
+        "default": "Free delivery unavailable"
+      },
+      {
+        "type": "text",
+        "id": "free_delivery_override",
+        "label": "Delivery text override"
+      },
+      {
+        "type": "richtext",
+        "id": "subscription_key_points",
+        "label": "Subscription key points",
+        "info": "Used on product page and featured product only."
+      }
+    ]
+  },
+  {
+    "name": "Article Card",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Card Colours"
+      },
+      {
+        "type": "select",
+        "id": "ac_bg_color",
+        "options": [
+          {
+            "value": "bg-primary",
+            "label": "Primary"
+          },
+          {
+            "value": "bg-secondary",
+            "label": "Secondary"
+          },
+          {
+            "value": "bg-neutral",
+            "label": "Neutral (white\/grey\/black)"
+          },
+          {
+            "value": " ",
+            "label": "None"
+          }
+        ],
+        "label": "Background color"
+      },
+      {
+        "type": "range",
+        "id": "ac_bg_color_shade",
+        "min": 0,
+        "max": 900,
+        "step": 100,
+        "label": "Background color shade",
+        "info": "Number range 0 - 900. Lighest to darkest",
+        "default": 500
+      },
+      {
+        "type": "select",
+        "id": "ac_text_color",
+        "options": [
+          {
+            "value": "text-primary",
+            "label": "Primary"
+          },
+          {
+            "value": "text-secondary",
+            "label": "Secondary"
+          },
+          {
+            "value": "text-neutral",
+            "label": "Neutral (white\/grey\/black)"
+          }
+        ],
+        "label": "Text color"
+      },
+      {
+        "type": "range",
+        "id": "ac_text_color_shade",
+        "min": 0,
+        "max": 900,
+        "step": 100,
+        "label": "Text color shade",
+        "info": "Number range 0 - 900. Lighest to darkest",
+        "default": 500
+      },
+      {
+        "type": "header",
+        "content": "Button content"
+      },
+      {
+        "type": "text",
+        "id": "ac_read_more",
+        "label": "Article call to action",
+        "default": "Read More"
+      },
+      {
+        "type": "select",
+        "id": "ac_btn_color",
+        "options": [
+          {
+            "value": "bg-primary",
+            "label": "Primary"
+          },
+          {
+            "value": "bg-secondary",
+            "label": "Secondary"
+          },
+          {
+            "value": "bg-neutral",
+            "label": "Neutral (white\/grey\/black)"
+          },
+          {
+            "value": " ",
+            "label": "None"
+          }
+        ],
+        "label": "Button color"
+      },
+      {
+        "type": "range",
+        "id": "ac_btn_color_shade",
+        "min": 0,
+        "max": 900,
+        "step": 100,
+        "label": "Background color shade",
+        "info": "Number range 0 - 900. Lighest to darkest",
+        "default": 500
+      },
+      {
+        "type": "select",
+        "id": "ac_btn_text_color",
+        "options": [
+          {
+            "value": "text-primary",
+            "label": "Primary"
+          },
+          {
+            "value": "text-secondary",
+            "label": "Secondary"
+          },
+          {
+            "value": "text-neutral",
+            "label": "Neutral (white\/grey\/black)"
+          }
+        ],
+        "label": "Button text color"
+      },
+      {
+        "type": "range",
+        "id": "ac_btn_text_color_shade",
+        "min": 0,
+        "max": 900,
+        "step": 100,
+        "label": "Background color shade",
+        "info": "Number range 0 - 900. Lighest to darkest",
+        "default": 500
+      },
+      {
+        "type": "header",
+        "content": "button hover styles"
+      },
+      {
+        "type": "select",
+        "id": "ac_btn_hover_color",
+        "options": [
+          {
+            "value": "hover:bg-primary",
+            "label": "Primary"
+          },
+          {
+            "value": "hover:bg-secondary",
+            "label": "Secondary"
+          },
+          {
+            "value": "hover:bg-neutral",
+            "label": "Neutral (white\/grey\/black)"
+          },
+          {
+            "value": " ",
+            "label": "None"
+          }
+        ],
+        "label": "Button hover color"
+      },
+      {
+        "type": "range",
+        "id": "ac_btn_hover_color_shade",
+        "min": 0,
+        "max": 900,
+        "step": 100,
+        "label": "Background color shade",
+        "info": "Number range 0 - 900. Lighest to darkest",
+        "default": 500
+      },
+      {
+        "type": "select",
+        "id": "ac_btn_hover_text_color",
+        "options": [
+          {
+            "value": "hover:text-primary",
+            "label": "Primary"
+          },
+          {
+            "value": "hover:text-secondary",
+            "label": "Secondary"
+          },
+          {
+            "value": "hover:text-neutral",
+            "label": "Neutral (white\/grey\/black)"
+          }
+        ],
+        "label": "Button text color"
+      },
+      {
+        "type": "range",
+        "id": "ac_btn_hover_text_color_shade",
+        "min": 0,
+        "max": 900,
+        "step": 100,
+        "label": "Background color shade",
+        "info": "Number range 0 - 900. Lighest to darkest",
+        "default": 500
+      }
+    ]
+  },
+  {
+    "name": "Account Area",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Account Nav"
+      },
+      {
+        "type": "text",
+        "id": "overview",
+        "label": "Overview link"
+      },
+      {
+        "type": "text",
+        "id": "order_history",
+        "label": "Order History link"
+      },
+      {
+        "type": "text",
+        "id": "details",
+        "label": "Address\/Details link"
+      },
+      {
+        "type": "header",
+        "content": "Addresses"
+      },
+      {
+        "type": "text",
+        "id": "manage",
+        "label": "Manage link copy",
+        "default": "MANAGE"
+      },
+      {
+        "type": "text",
+        "id": "edit",
+        "label": "Edit link copy",
+        "default": "EDIT"
+      },
+      {
+        "type": "text",
+        "id": "delete",
+        "label": "Delete link copy",
+        "default": "DELETE"
+      },
+      {
+        "type": "text",
+        "id": "delete_confirmation",
+        "label": "Confirmation Message when deleting address",
+        "default": "Are you sure you wish to delete this address?"
+      },
+      {
+        "type": "text",
+        "id": "default",
+        "label": "Set as default address label",
+        "default": "Set as my default address"
+      },
+      {
+        "type": "text",
+        "id": "first_name",
+        "label": "First Name Label\/placeholder",
+        "default": "First Name"
+      },
+      {
+        "type": "text",
+        "id": "last_name",
+        "label": "Last Name Label\/placeholder",
+        "default": "Last Name"
+      },
+      {
+        "type": "text",
+        "id": "address_1",
+        "label": "Address 1 Label\/placeholder",
+        "default": "Address 1"
+      },
+      {
+        "type": "text",
+        "id": "address_2",
+        "label": "Address 2 Label\/placeholder",
+        "default": "Address 2"
+      },
+      {
+        "type": "text",
+        "id": "city",
+        "label": "City Label\/placeholder",
+        "default": "City"
+      },
+      {
+        "type": "text",
+        "id": "country",
+        "label": "Country Label\/placeholder",
+        "default": "Country"
+      },
+      {
+        "type": "text",
+        "id": "postcode",
+        "label": "Postcode Label\/placeholder",
+        "default": "Postcode"
+      },
+      {
+        "type": "text",
+        "id": "company",
+        "label": "Company Label\/placeholder",
+        "default": "Company"
+      }
+    ]
+  },
+  {
+    "name": "Cart\/Checkout\/Orders",
+    "settings": [
+      {
+        "type": "text",
+        "id": "subtotal",
+        "label": "Subtotal",
+        "default": "Subtotal"
+      },
+      {
+        "type": "text",
+        "id": "discount",
+        "label": "Discount",
+        "default": "Discount"
+      },
+      {
+        "type": "text",
+        "id": "shipping",
+        "label": "Shipping",
+        "default": "Shipping"
+      },
+      {
+        "type": "text",
+        "id": "tax",
+        "label": "Tax",
+        "default": "Tax"
+      },
+      {
+        "type": "text",
+        "id": "total",
+        "label": "Total",
+        "default": "Total"
+      },
+      {
+        "type": "header",
+        "content": "Discount Disclaimer"
+      },
+      {
+        "type": "text",
+        "id": "discount_msg",
+        "label": "Discount Message",
+        "default": "You can apply a discount code at the checkout"
+      },
+      {
+        "type": "header",
+        "content": "Empty Cart \/ Continue shopping"
+      },
+      {
+        "type": "text",
+        "id": "empty_cart_msg",
+        "label": "Empty Cart Message",
+        "default": "Your cart is empty"
+      },
+      {
+        "type": "url",
+        "id": "collection_url",
+        "label": "Continue Shopping URL"
+      },
+      {
+        "type": "text",
+        "id": "continue_shopping_btn",
+        "label": "Continue shopping btn"
+      },
+      {
+        "type": "header",
+        "content": "Free Shipping"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_free_shipping",
+        "label": "Show free shipping",
+        "default": false
+      },
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Free shipping threshold"
+      },
+      {
+        "type": "text",
+        "id": "free_shipping_msg_start",
+        "label": "Free shipping msg start"
+      },
+      {
+        "type": "text",
+        "id": "free_shipping_msg_end",
+        "label": "Free shipping msg end"
+      },
+      {
+        "type": "text",
+        "id": "free_shipping_qualified",
+        "label": "Free shipping qualified msg"
+      },
+      {
+        "type": "header",
+        "content": "Order Note"
+      },
+      {
+        "type": "text",
+        "id": "order_note_title",
+        "label": "Order note title"
+      },
+      {
+        "type": "text",
+        "id": "order_note_msg",
+        "label": "Order Note placeholder"
+      }
+    ]
   }
 ]

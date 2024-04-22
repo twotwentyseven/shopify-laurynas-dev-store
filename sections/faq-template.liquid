@@ -1,0 +1,180 @@
+{% assign ss = section.settings %}
+
+<section class="faq-template px-container-gutter pt-6 pb-2 bg-tertiary-900 | lg:px-container-gutter-lg lg:pt-10 lg:pb-20">
+	
+    <div class="intro-header | w-full max-w-[700px] mx-auto text-center mb-10">
+        
+        {% if ss.title != blank %}
+            <h1 class="font-headline text-display font-semibold mb-2 | lg:text-display-lg">{{ ss.title }}</h1>
+        {% endif %}
+
+        {% if ss.subtitle != blank %}
+            <p>{{ ss.subtitle }}</p>
+        {% endif %}
+
+    </div>
+
+    {% if ss.search %}
+        <form class="search-wrapper | w-full mx-auto mb-6 relative | lg:max-w-[700px]" id="faq_form">
+        
+            <input class="search-input | w-full py-3 px-2 text-body-large border-secondary-900 border rounded-lg placeholder:text-secondary-900 bg-tertiary-900 focus:outline-none bg-transparent | lg:text-body-large-lg" type="text" id="search_faq" placeholder="{{ ss.placeholder}}" autofocus="true">
+            <button type="submit" id="faq_search" class="search-button | absolute h-6 w-6 top-1/2 right-2 -translate-y-1/2 bg-none border-none"><i class="text-headline-6 ri-search-line font-light"></i></button>
+
+        </form>
+        
+        <p class="text-center my-4 text-neutral-900 error hidden relative z-10" data-add-class="block" data-remove-class="hidden">{{ ss.error }}</p>
+    {% endif %}
+
+    <div class="flex overflow-x-auto pb-2 mx-auto w-full max-w-[700px] mb-6 lg:justify-center">
+    {% for block in section.blocks %}
+
+        {% assign bs = block.settings %}
+        
+        {% case block.type %}
+        {% when 'category' %}
+            <a data-category-selector class="w-full text-center uppercase border-b text-body-large border-b-secondary-900 rounded-t py-2 px-4 whitespace-nowrap | transition-all duration-animation-speed | {% if forloop.first %}bg-secondary-900 text-tertiary-900{% else %}text-secondary-900{% endif %}" data-cat="{{ bs.category | handleize }}" data-add-class="bg-secondary-900 text-tertiary-900" data-remove-class="text-secondary-900" href="#">{{ bs.category }}</a>
+        {% endcase %}
+        
+    {% endfor %}
+    </div>
+
+
+    <div class="w-full max-w-[700px] mx-auto">
+ 
+        {% for block in section.blocks %}
+            
+            {% assign bs = block.settings %}
+            
+            {% case block.type %}
+
+            {% when 'category' %}
+
+            {% unless forloop.first %}
+            </div>
+            {% endunless%}
+
+            <div data-category class="{% if forloop.first %}block{% else %}hidden{% endif %} mb-10" data-cat="{{ bs.category | handleize }}" data-add-class="block" data-remove-class="hidden">
+
+            <h2 class="font-headline text-headline-3 mb-6 font-semibold | lg:text-headline-3-lg">{{ bs.category }}</h2>
+
+            {% when 'question' %}
+
+                <div data-question class="faq-blocks | cursor-pointer mb-4 border-b border-b-secondary-900 relative pb-4">
+
+                    {% assign bs = block.settings %}
+                    
+                    {% if bs.question != blank %}
+                        <h3 class="text-headline-6 font-semibold flex justify-between | lg:text-headline-6-lg">        
+                            <p>{{ bs.question }}</p>
+                            <span class="text-headline-6 material-symbols-outlined font-light">expand_more</span>
+                        </h3>
+                    {% endif %}
+
+                    {% if bs.answer != blank %}
+
+                        <article class="accordion-content-wrapper | transition-all duration-300 text-body-large lg:text-body-large-lg" data-add-class="expanded mt-2.5">
+                            <div class="overflow-hidden">
+                                {{ bs.answer }}
+                            </div>
+                        </article>
+
+                    {% endif %}
+
+                </div> <!-- faq-blocks -->
+
+            {% if forloop.last %}
+            </div>
+            {% endif %}
+
+            {% endcase %}
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% schema %}
+  {
+    "name": "FAQs",
+
+    "settings": [
+		{
+           "type": "text",
+           "id": "title",
+           "label": "Title"
+        },
+        {
+           "type": "textarea",
+           "id": "subtitle",
+           "label": "Overview"
+        },
+        {
+            "type": "checkbox",
+            "id": "search",
+            "label": "Show Search",
+            "default": true
+        },
+        {
+            "type": "header",
+            "content": "Search"
+        },
+        {
+           "type": "text",
+           "id": "placeholder",
+           "label": "Placeholder"
+        },
+        {
+           "type": "text",
+           "id": "error",
+           "label": "No result error"
+        }
+
+    ],
+
+	"blocks": [
+        {
+
+            "type": "category",
+            "name": "Category",
+            "settings": [
+
+                {
+                    "type": "textarea",
+                    "id": "category",
+                    "label": "Category"
+                }
+                
+            ]
+
+        },
+        {
+
+	        "type": "question",
+            "name": "Question",
+            "settings": [
+
+		        {
+		            "type": "textarea",
+		            "id": "question",
+		            "label": "Question"
+		        },
+                {
+		            "type": "richtext",
+		            "id": "answer",
+		            "label": "Answer"
+		        }
+		        
+	        ]
+
+        }
+        
+	],
+    "presets": [
+        {
+            "name": "FAQs section"
+        }	
+    ]
+
+  }
+{% endschema %}

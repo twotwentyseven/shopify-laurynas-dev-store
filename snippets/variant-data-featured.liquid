@@ -1,0 +1,217 @@
+{% assign hasVariants = false %}
+{% assign hasSubscriptions = false %}
+{% assign oneOff = true %}
+
+{% if product.requires_selling_plan %}
+    {% assign oneOff = false %}
+{% endif %}
+
+{% if product.selling_plan_groups.size > 0 %}
+    {% assign hasSubscriptions = true %}
+{% endif %}
+
+{% if product.variants.size > 1 %}
+
+	{% assign hasVariants = true %}
+
+{% endif %}
+
+{% unless form_id %}{%- capture form_id -%}{{ section.id }}_{{product.id}}{%- endcapture -%}{% endunless %}
+
+<div class="ecommerce-options">
+
+	{% form "product", product, id: form_id %}
+		{% liquid 
+			assign has-variants = false
+			if product.variants.size != 0 and product.selected_or_first_available_variant.title != 'Default Title'
+				assign has-variants = true
+            else
+                assign variant_class_1 = 'hidden'
+			endif
+
+			assign upsell-product = product.metafields.product.upsell_product.value
+		%}
+
+        {% if hasVariants or oneOff == false %}
+            
+
+            <p data-match-height="product-title" class="title | font-headline font-semibold text-headline-4 uppercase mb-2 | lg:text-headline-4-lg"><a href="{{ product.url }}">{{ product.title }}</a></p>
+
+            {% unless hideDesc %}
+            <div class="desc | text-body-large mb-2 | lg:text-body-large-lg">{{ product.description }}</div>
+            {% endunless %}
+
+            <div class="product_rating_wrapper">
+
+                <div class="trustpilot-widget-wrap">
+                    <div class="inner"></div>
+                </div>
+    
+            </div><!-- product_rating_wrapper -->
+            
+            {% if product.compare_at_price_min > product.price %}
+                <p data-match-height="price" class="price text-body-large | lg:text-body-large-lg">
+                    <del class="opacity-25">{{ product.compare_at_price_min | money }}</del>
+                    {% if product.price_varies %}From {% endif %} {{ product.price | money  }}
+                </p>
+            {% else %}
+                <p data-match-height="price" class="price text-body-large | lg:text-body-large-lg">{% if product.price_varies %}From {% endif %} {{ product.price | money  }}</p>
+            {% endif %}
+
+        
+        {% endif %}
+
+        <div class="flex justify-between">
+            {% unless hideStock %}
+                <div data-low-stock-warning="10" data-inventory="{{ product.first_available_variant.inventory_quantity }}" class="inventory | hidden w-full items-center text-body-small mt-2 mb-4 | lg:text-body-small-lg text-error-500"><span class="material-symbols-outlined mr-1.5">error</span> Only <span class="mx-1 after:content-['']" data-inventory="{{ product.first_available_variant.inventory_quantity }}"></span> remaining!</div>
+            {% endunless %}
+
+            {% unless hideShare %}
+                {% render 'share-content' %}
+            {% endunless %}
+        </div>
+
+		<div class="form-controls">
+			<div class="hidden">
+				<input type="hidden" name="_tags" value="{{ product.tags | json | escape_once }}" data-property />
+				<input type="hidden" name="_upsell-product" value="{{ upsell-product | json | escape_once }}" data-property />
+			</div>
+
+			<div>
+				
+				<select 
+					data-multi-option='{{ product | json | escape }}' 
+					id="product-selector-{{ form_id }}"
+					name="id"
+					data-multi-option-scope="form"
+					data-option-1-type="radio"
+					data-option-1-target=".variant-option_1-{{ product.id }}"
+					data-option-2-type="select"
+					data-option-2-target=".variant-option_2-{{ product.id }}"
+					data-option-3-type="select"
+                    data-option-3-target=".variant-option_3-{{ product.id }}"
+				>
+					{% for variant in product.variants %}
+					<option {% if variant == product.selected_or_first_available_variant %} selected{% endif %} value="{{ variant.id }}" data-stock="{{ variant.inventory_quantity }}">
+						{{ variant.title }} - {{ variant.price | money }}
+					</option>
+					{% endfor %}
+				</select>
+			</div>
+
+			
+		</div>
+        
+        <div class="flex flex-wrap lg:-mx-gutter">
+            <div class="relative z-[3] variant-option_1-{{ product.id }} {{variant_class_1}} {{ bg_color }}-{{bg_color_shade}} {{ border_color }}-{{ border_shade }}"></div>
+            <div class="relative z-[2] variant-option_2-{{ product.id }} {{variant_class_2}} {{ bg_color }}-{{bg_color_shade}} {{ border_color }}-{{ border_shade }}"></div>
+            <div class="relative z-[1] variant-option_3-{{ product.id }} {{variant_class_3}} {{ bg_color }}-{{bg_color_shade}} {{ border_color }}-{{ border_shade }}"></div>
+        </div>
+
+        {% if hasSubscriptions and oneOff %}
+
+            
+            <div class="purchase-type | border {{ border_color }}-{{ border_shade }} mb-2 mt-4">
+                <a data-sub-toggle="{{ section.id }}_{{ product.id }}" data-one-time href="#" class="active | flex relative items-center py-3 px-4 text-body-medium uppercase bg-primary-100 | lg:text-body-medium-lg | before:h-4 before:w-4 before:content-[''] before:rounded-full before:border before:border-neutral-900 before:block before:mr-2 before:transition-all before:duration-animation-speed | after:h-2 after:w-2 after:block after:absolute after:left-5 after:rounded-full after:content-[''] after:bg-primary-500 after:transition-all after:duration-animation-speed" data-add-class="before:border-neutral-400 bg-primary-100" data-remove-class="active before:border-neutral-900 after:bg-primary-500">{{ settings.one_time }}</a>
+            </div>
+            <div class="purchase-type | border {{ border_color }}-{{ border_shade }}">
+                <a data-sub-toggle="{{ section.id }}_{{ product.id }}" data-subscribe href="#" class="flex relative items-center py-3 px-4 text-body-medium uppercase | lg:text-body-medium-lg | before:h-4 before:w-4 before:content-[''] before:rounded-full before:border before:border-neutral-400 before:block before:mr-2 before:transition-all before:duration-animation-speed | after:h-2 after:w-2 after:block after:absolute after:left-5 after:rounded-full after:content-[''] after:transition-all after:duration-animation-speed" data-add-class="active before:border-neutral-900 after:bg-primary-500" data-remove-class="before:border-neutral-400 bg-primary-100">{{ settings.subscription }}</a>
+                
+                {% if product.selling_plan_groups and product.selling_plan_groups[0].selling_plans %}
+                    <div data-frequency-selector="{{ section.id }}_{{ product.id }}" class="subscription-wrapper selector-wrapper | {% if oneOff %}hidden{% endif %} w-full !bg-primary-100 p-4" {% if oneOff %}data-add-class="block" data-remove-class="hidden"{% endif %}>
+                        <div class="selectCustom js-selectCustom border border-neutral-900" aria-hidden="true">
+                            <div class="selectCustom-trigger">{{settings.no_subscription}}</div>
+                            <div class="selectCustom-options bottom-11 !top-auto">
+                                <div data-value="" class="selectCustom-option">{{settings.no_subscription}}</div>
+                                {% for selling_plan in product.selling_plan_groups[0].selling_plans %}
+                                <div data-value="{{ selling_plan.id }}" class="selectCustom-option">
+                                    {{ selling_plan.name }}
+                                    {% if selling_plan.price_adjustments[0] %}
+                                        - {% if selling_plan.price_adjustments[0].value_type == 'percentage' %}
+                                            {{ selling_plan.price_adjustments[0].value }}% discount
+                                        {% endif %}
+                                        {% if selling_plan.price_adjustments[0].value_type == 'value' %}
+                                            {{ selling_plan.price_adjustments[0].value | money }} discount
+                                        {% endif %} 
+                                    {% endif %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <select class="js-selectNative selectNative border border-neutral-900"
+                            data-selling-groups='{{ product.selling_plan_groups | json | escape }}'
+                            name="properties[selling_plan]"
+                        >
+                            <option value="">{{settings.no_subscription}}</option>
+                            {% for selling_plan in product.selling_plan_groups[0].selling_plans %}
+                            <option value="{{ selling_plan.id }}">
+                                {{ selling_plan.name }} {% if selling_plan.price_adjustments[0] %}
+                                    - {% if selling_plan.price_adjustments[0].value_type == 'percentage' %}
+                                        {{ selling_plan.price_adjustments[0].value }}% discount
+                                    {% endif %}
+                                    {% if selling_plan.price_adjustments[0].value_type == 'value' %}
+                                        {{ selling_plan.price_adjustments[0].value | money }} discount
+                                    {% endif %}
+            
+                                {% endif %}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        {% if settings.subscription_key_points %}
+                        <div class="sub-benefits | mt-2 ">{{ settings.subscription_key_points }}</div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        
+        {% endif %}
+
+		<div class="flex-grid">
+			{% assign btn-add-label = "Add to cart" %}
+			{% assign btn-sold-out-label = "Sold out" %}
+			
+			{% if product.available %}
+				<div class="qty-wrapper w-full pt-2 mt-4">
+                    <label class="w-full uppercase text-body-small block mb-1">{{ settings.quantity }}</label>
+                    <div class="flex">
+                        <a href="#" class="decrement qty-btn | py-2 px-4 border {{ border_color }}-{{ border_shade }}" data-qty-btn data-decrement>-</a>
+                        <input class="mx-4 border {{ border_color }}-{{ border_shade }} bg-transparent-500 w-full text-center text-body-small outline-none" name="quantity" type="number" data-qty-selector value="1">
+                        <a href="#" class="increment qty-btn | py-2 px-4 border {{ border_color }}-{{ border_shade }}" data-qty-btn data-increment>+</a>
+                    </div>
+				</div>
+
+                {% if hasVariants or oneOff == false %}
+                    <div class="w-full mt-4">
+                {% endif %}
+                
+                {% render 'button' element: 'button', type: '', data: 'cart-add-async', href: '#', border_color: pc_btn_color, border_width: 'border', bg_color: pc_btn_color, bg_color_shade: pc_btn_color_shade, text_color: pc_btn_text_color, text_color_shade: pc_btn_text_color_shade, hover_bg: pc_btn_hover_color, hover_bg_shade: pc_btn_hover_color_shade, hover_text: pc_btn_hover_text_color, hover_text_shade: pc_btn_hover_text_color_shade, content: pc_buy_now, custom_class: 'w-full', before_icon: '', after_icon: '' %}
+
+                {% if hasVariants or oneOff == false %}
+                    </div>
+                
+                    <p class="delivery-fee-msg | text-center mb-4 mt-4 text-body-small">{{ settings.delivery_fee_msg }}</p>
+
+                {% endif %}
+                
+			{% else %}
+                <div class="w-full pt-4 mt-4">
+                {% render 'button' element: 'button', type: '', data: '', href: '#', border_color: pc_btn_color, border_width: 'border', bg_color: pc_btn_color, bg_color_shade: pc_btn_color_shade, text_color: pc_btn_text_color, text_color_shade: pc_btn_text_color_shade, hover_bg: pc_btn_hover_color, hover_bg_shade: settings.pc_btn_hover_color_shade, hover_text: pc_btn_hover_text_color, hover_text_shade: pc_btn_hover_text_color_shade, content: btn-sold-out-label, custom_class: 'disabled w-full', before_icon: '', after_icon: '' %}
+                </div>
+			{% endif %}
+
+		</div>
+        
+        {% if hasVariants and oneOff %}
+            {% if product.available %}
+            <div class="express-wrapper">
+                <p class="express-msg | text-center mb-2 text-body-small">{{ settings.express_msg }}</p>
+                {{ form | payment_button }}
+            </div>
+            {% endif %}
+        {% endif %}
+
+	{% endform %}
+
+
+</div>

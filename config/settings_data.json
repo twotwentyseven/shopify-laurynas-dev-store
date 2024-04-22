@@ -1,6 +1,215 @@
 {
-  "current": "Default",
-  "presets": {
-    "Default": {}
+  "current": {
+    "favicon": "shopify:\/\/shop_images\/FAVICON.png",
+    "logo": "shopify:\/\/shop_images\/VXTnlZDwYmDsULHqvQxPaubKAcMHa0A123kyPW2o_1.png",
+    "instagram_token": "IGQVJYTWtzQUtNZATFvdFp0ZAEdFRDgyd3FBLUgxWjJJU3lVUmw0a2FPSHhLd25vOUdzTFF5dUhFNVpHOXdRaTN4UGpmRGlhOUlxS3FOc2dreXNuS2ZAEUGR6dGlpQ29CMW1HU0VrbW0yR1JNUHRlazg2UAZDZD",
+    "instagram_limit": 3,
+    "social_facebook_link": "",
+    "social_facebook_handle": "",
+    "social_tiktok_link": "https:\/\/www.tiktok.com\/@roastingparty",
+    "social_tiktok_handle": "@roastingparty",
+    "social_twitter_link": "",
+    "social_twitter_handle": "",
+    "social_pinterest_link": "",
+    "social_instagram_link": "https:\/\/instagram.com\/roastingparty",
+    "social_instagram_handle": "@roastingparty",
+    "social_snapchat_link": "",
+    "social_tumblr_link": "",
+    "social_linkedin_link": "",
+    "social_linkedin_handle": "",
+    "social_youtube_link": "",
+    "social_vimeo_link": "",
+    "pc_bg_color": "",
+    "pc_bg_color_shade": 500,
+    "pc_text_color": "text-secondary",
+    "pc_text_color_shade": 900,
+    "pc_modal_bg_color": "bg-neutral",
+    "pc_modal_bg_color_shade": 0,
+    "pc_modal_text_color": "text-secondary",
+    "pc_modal_text_color_shade": 900,
+    "pc_modal_select_border_color": "border-transparent",
+    "pc_modal_select_border_shade": 900,
+    "pc_buy_now": "Add to cart",
+    "pc_quick_buy": "Buy now",
+    "pc_btn_color": "bg-primary",
+    "pc_btn_color_shade": 900,
+    "pc_btn_border_color_shade": 900,
+    "pc_btn_text_color": "text-secondary",
+    "pc_btn_text_color_shade": 900,
+    "pc_btn_hover_color": "hover:bg-secondary",
+    "pc_btn_hover_color_shade": 900,
+    "pc_btn_hover_border_color": "hover:border-transparent",
+    "pc_btn_hover_border_color_shade": 900,
+    "pc_btn_hover_text_color": "hover:text-neutral",
+    "pc_btn_hover_text_color_shade": 900,
+    "express_msg": "Express checkout with",
+    "one_time": "One Time",
+    "subscription": "Subscribe & Save",
+    "variant_exclusion_list": "",
+    "free_delivery": "Free delivery from",
+    "free_delivery_override": "Free shipping until December!",
+    "subscription_key_points": "<ul><li>Get 10% off every delivery<\/li><li>Enjoy free shipping<\/li><li>Swap, skip or stop as you need<br\/><\/li><\/ul>",
+    "ac_bg_color": "bg-neutral",
+    "ac_bg_color_shade": 0,
+    "ac_text_color": "text-neutral",
+    "ac_text_color_shade": 900,
+    "ac_btn_color": "bg-neutral",
+    "ac_btn_color_shade": 0,
+    "ac_btn_text_color": "text-primary",
+    "ac_btn_hover_color": "",
+    "ac_btn_hover_text_color": "hover:text-primary",
+    "ac_btn_hover_text_color_shade": 700,
+    "overview": "Overview",
+    "order_history": "Order History",
+    "details": "Addresses",
+    "collection_url": "shopify:\/\/collections\/all",
+    "continue_shopping_btn": "Continue Shopping",
+    "show_free_shipping": true,
+    "free_shipping_threshold": 0,
+    "free_shipping_msg_start": "You are",
+    "free_shipping_msg_end": "away from FREE SHIPPING",
+    "free_shipping_qualified": "You have qualified for free shipping",
+    "order_note_title": "Order note or gift message",
+    "order_note_msg": "Enter note...",
+    "checkout_logo_image": "shopify:\/\/shop_images\/Group.png",
+    "checkout_body_background_color": "#f5f5f5",
+    "checkout_accent_color": "#c7f3e5",
+    "checkout_button_color": "#c7f3e5",
+    "pc_variant_one_title": "Size",
+    "pc_variant_one_copy": "This specifies the weight of the product",
+    "pc_variant_two_title": "Machine",
+    "pc_variant_two_copy": "This specifies the machine that it is supposed to be used on",
+    "pc_variant_three_title": "Grind",
+    "pc_variant_three_copy": "coarseness to which the coffee is ground, from coarse to pulverized",
+    "pc_title_color": "text-white",
+    "sections": {
+      "site-header": {
+        "type": "site-header",
+        "settings": {
+          "logo": "shopify:\/\/shop_images\/Group_0881b8ab-d773-4807-aeb0-7775d7d4fff7.png",
+          "navigation": "main-menu",
+          "navigation-left": "left-menu",
+          "navigation-right": "right-menu",
+          "navigation_footer": "footer",
+          "announcement_loop": true,
+          "announcement_text_one": "FREE SHIPPING APPLIED AT CHECKOUT",
+          "announcement_url_one": "shopify:\/\/collections\/all",
+          "announcement_text_two": "15% OFF ALL ORDERS WITH CODE: NEWPARTY",
+          "announcement_url_two": "",
+          "announcement_text_three": "NEW LAUNCH OFFERS",
+          "announcement_url_three": "",
+          "search_placeholder": "Search...",
+          "language_picker": true,
+          "update_language": "Update Language",
+          "currenry_picker": true,
+          "update_currency": "Update Currency"
+        }
+      },
+      "site-footer": {
+        "type": "site-footer",
+        "blocks": {
+          "5a10493b-ff79-4b71-9588-95581eb3eeb2": {
+            "type": "list",
+            "settings": {
+              "title": "Explore",
+              "navigation": "footer-explore",
+              "social_icons": false
+            }
+          },
+          "6166b570-3059-41b8-ba43-050a786140d3": {
+            "type": "list",
+            "settings": {
+              "title": "How can we help?",
+              "navigation": "footer-how-can-we-help",
+              "social_icons": false
+            }
+          },
+          "9ac5883a-9358-4b80-bd19-9833d89e4055": {
+            "type": "list",
+            "settings": {
+              "title": "Our locations",
+              "navigation": "footer-our-locations",
+              "social_icons": true
+            }
+          }
+        },
+        "block_order": [
+          "5a10493b-ff79-4b71-9588-95581eb3eeb2",
+          "6166b570-3059-41b8-ba43-050a786140d3",
+          "9ac5883a-9358-4b80-bd19-9833d89e4055"
+        ],
+        "settings": {
+          "logo": "{{ shop.brand.logo }}",
+          "footer_bg": "bg-secondary",
+          "footer_bg_shade": 900,
+          "footer_text_color": "text-tertiary",
+          "newsletter": true,
+          "title": "GET 10% OFF",
+          "subtitle": "You're invited to continue the party in The Hangout, an exclusive club for secret discounts, special events, limited edition product drops and more.",
+          "formid": "XZeLGN",
+          "show_marquee": true,
+          "marquee_text_one": "The roasting party",
+          "marquee_url_one": "",
+          "marquee_text_two": "The roasting party",
+          "marquee_url_two": "",
+          "marquee_text_three": "The roasting party",
+          "marquee_url_three": "",
+          "marquee_bg": "bg-primary",
+          "marquee_bg_shade": 900,
+          "marquee_text_color": "text-secondary"
+        }
+      },
+      "newsletter-modal": {
+        "type": "newsletter-modal",
+        "settings": {
+          "enable_modal": true,
+          "image": "shopify:\/\/shop_images\/moorg3.jpg",
+          "title": "GET 10% OFF",
+          "subtitle": "You're invited to continue the party in The Hangout, a club for exclusive discounts, special events, limited edition product drops and more.",
+          "copy": "GET 10% OFF",
+          "formid": "XZeLGN"
+        }
+      },
+      "cookie-modal": {
+        "type": "cookie-modal",
+        "settings": {
+          "enable": true,
+          "logo": "shopify:\/\/shop_images\/Asset_1_3x_2_3.png",
+          "title": "Cookie Policy",
+          "content": "<p>We use cookies and similar technologies to provide the best experience on our website. Refer to our Privacy Policy for more information.<\/p>",
+          "accept": "ACCEPT",
+          "btn_color": "bg-primary",
+          "btn_color_shade": 900,
+          "btn_border_color": "border-primary",
+          "btn_border_color_shade": 900,
+          "btn_text_color": "text-primary",
+          "btn_text_color_shade": 900,
+          "btn_hover_color": "hover:bg-primary",
+          "btn_hover_color_shade": 900,
+          "btn_hover_border_color": "hover:border-primary",
+          "btn_hover_border_color_shade": 900,
+          "btn_hover_text_color": "hover:text-primary",
+          "btn_hover_text_color_shade": 900,
+          "reject": "DECLINE",
+          "alt_btn_color": "bg-primary",
+          "alt_btn_color_shade": 900,
+          "alt_btn_border_color": "border-primary",
+          "alt_btn_border_color_shade": 900,
+          "alt_btn_text_color": "text-primary",
+          "alt_btn_text_color_shade": 500,
+          "alt_btn_hover_color": "hover:bg-primary",
+          "alt_btn_hover_color_shade": 900,
+          "alt_btn_hover_border_color": "hover:border-primary",
+          "alt_btn_hover_border_color_shade": 900,
+          "alt_btn_hover_text_color": "hover:text-primary",
+          "alt_btn_hover_text_color_shade": 900
+        }
+      },
+      "cart-data": {
+        "type": "cart-data",
+        "settings": {}
+      }
+    },
+    "content_for_index": []
   }
 }

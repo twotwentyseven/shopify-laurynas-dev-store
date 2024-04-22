@@ -1,0 +1,407 @@
+{
+  "sections": {
+    "60dd7b68-68bb-4a34-99f6-0ad7ce802d39": {
+      "type": "quicklink-subnav",
+      "blocks": {
+        "eab4f37d-39a7-4716-bb7f-3cde72a7fb2f": {
+          "type": "quicklink",
+          "settings": {
+            "title": "BrewTube",
+            "handle": "education-videos"
+          }
+        },
+        "10c18c06-ac24-4ee3-8220-08f79b6ff27d": {
+          "type": "quicklink",
+          "settings": {
+            "title": "BREWING METHODS",
+            "handle": "brew-guides"
+          }
+        },
+        "dd42a839-9c9d-4a71-b2f4-0481abeb0ac0": {
+          "type": "quicklink",
+          "settings": {
+            "title": "ESPRESSO MENU",
+            "handle": "menu"
+          }
+        },
+        "cec4d909-f2e3-42ff-842f-f1f849c092a2": {
+          "type": "quicklink",
+          "disabled": true,
+          "settings": {
+            "title": "Our goal",
+            "handle": "education-spotlight-block"
+          }
+        }
+      },
+      "block_order": [
+        "eab4f37d-39a7-4716-bb7f-3cde72a7fb2f",
+        "10c18c06-ac24-4ee3-8220-08f79b6ff27d",
+        "dd42a839-9c9d-4a71-b2f4-0481abeb0ac0",
+        "cec4d909-f2e3-42ff-842f-f1f849c092a2"
+      ],
+      "settings": {
+        "title": "a complete coffee education",
+        "subtitle": "Ever wondered why your coffee doesn't hit right? We can fix that for you. From picking up the right kit to laying down the perfect pour, we've covered everything you need to know to level up your skills."
+      }
+    },
+    "main": {
+      "type": "education-videos",
+      "blocks": {
+        "557accc2-355e-4f29-a1d7-66ec154cc8b8": {
+          "type": "video",
+          "settings": {
+            "title": "TOP 5 HOME MISTAKES",
+            "categories": "COFFEE 101,HOME TIPS,BREW GUIDES,BARISTA TRAINING,HOME BREW HACKS",
+            "category": "HOME TIPS",
+            "vimeo-id": "883614182",
+            "thumbnail_img": "shopify:\/\/shop_images\/ivannn.jpg"
+          }
+        },
+        "b6055347-cc65-43cd-b634-32bdc7053474": {
+          "type": "video",
+          "settings": {
+            "title": "HOW TO POUR MILK",
+            "categories": "COFFEE 101",
+            "category": "Coffee 101",
+            "vimeo-id": "883618440",
+            "thumbnail_img": "shopify:\/\/shop_images\/POUR_MILK.jpg"
+          }
+        },
+        "8fd5afd8-285b-4843-bcbf-5d549be9b2f5": {
+          "type": "video",
+          "settings": {
+            "title": "THE PERFECT FRENCH PRESS",
+            "categories": "PERFECT COFFEES",
+            "category": "PERFECT COFFEES",
+            "vimeo-id": "883762402",
+            "thumbnail_img": "shopify:\/\/shop_images\/FRENCH_PRESS.jpg"
+          }
+        },
+        "789a0399-00ae-48be-afe0-80b4e0335d01": {
+          "type": "video",
+          "settings": {
+            "title": "THE PERFECT FILTER COFFEE",
+            "categories": "PERFECT COFFEES",
+            "category": "PERFECT COFFEES",
+            "vimeo-id": "883699983",
+            "thumbnail_img": "shopify:\/\/shop_images\/perf_filter.jpg"
+          }
+        },
+        "553ec874-c929-4bc0-948f-54582fbb393f": {
+          "type": "video",
+          "settings": {
+            "title": "PERFECT HOME V60",
+            "categories": "",
+            "category": "PERFECT COFFEES",
+            "vimeo-id": "883722998",
+            "thumbnail_img": "shopify:\/\/shop_images\/PERF_V60.jpg"
+          }
+        },
+        "97905d49-d4d7-41ae-a2e6-0c55d0b033e2": {
+          "type": "video",
+          "settings": {
+            "title": "TOP 5 BARISTA MISTAKES",
+            "categories": "COFFEE 101",
+            "category": "COFFEE 101",
+            "vimeo-id": "883741510",
+            "thumbnail_img": "shopify:\/\/shop_images\/BARISTA_MISTAKES.jpg"
+          }
+        },
+        "dcc159a5-2271-47ba-8001-05a54c81cc3b": {
+          "type": "video",
+          "settings": {
+            "title": "THE PERFECT MOCHA POT",
+            "categories": "",
+            "category": "PERFECT COFFEES",
+            "vimeo-id": "883739731",
+            "thumbnail_img": "shopify:\/\/shop_images\/mocha.jpg"
+          }
+        },
+        "476ee828-f2e8-41e4-9f41-1d4ea1389120": {
+          "type": "video",
+          "settings": {
+            "title": "HOW TO STEAM MILK",
+            "categories": "BREW GUIDES,BARISTA TRAINING,HOME BREW HACKS",
+            "category": "Coffee 101",
+            "vimeo-id": "883621159",
+            "thumbnail_img": "shopify:\/\/shop_images\/STEAM_MILK.jpg"
+          }
+        },
+        "df70fbee-0600-4d45-a6f4-ed715eac37ee": {
+          "type": "video",
+          "settings": {
+            "title": "THE PERFECT AEROPRESS",
+            "categories": "PERFECT COFFEES,",
+            "category": "PERFECT COFFEES",
+            "vimeo-id": "883732998",
+            "thumbnail_img": "shopify:\/\/shop_images\/AEOR.jpg"
+          }
+        },
+        "257690ff-1383-4f2a-b254-fe5347e22a8c": {
+          "type": "video",
+          "settings": {
+            "title": "OUR FAVOURITE MILKS",
+            "categories": "BARISTA TRAINING,HOME BREW HACKS",
+            "category": "Coffee 101",
+            "vimeo-id": "883619347",
+            "thumbnail_img": "shopify:\/\/shop_images\/BEST_MILKS.jpg"
+          }
+        },
+        "ec98d710-6306-49d4-8d76-673f73c56db6": {
+          "type": "video",
+          "settings": {
+            "title": "HOW TO TAMP PROPERLY",
+            "categories": "COFFEE 101",
+            "category": "COFFEE 101",
+            "vimeo-id": "883749886",
+            "thumbnail_img": "shopify:\/\/shop_images\/TAMP.jpg"
+          }
+        },
+        "521c5c3d-c73d-42da-a4cd-e0b15692b178": {
+          "type": "video",
+          "settings": {
+            "title": "THE BEST HOME EQUIPMENT",
+            "categories": "HOME TIPS",
+            "category": "HOME TIPS",
+            "vimeo-id": "883789717",
+            "thumbnail_img": "shopify:\/\/shop_images\/home_kit.jpg"
+          }
+        },
+        "d434edd6-afcd-4431-9497-c2dd2a273d84": {
+          "type": "video",
+          "settings": {
+            "title": "YOU NEED A RECIPE",
+            "categories": "COFFEE 101",
+            "category": "COFFEE 101",
+            "vimeo-id": "883745779",
+            "thumbnail_img": "shopify:\/\/shop_images\/RECIPE.jpg"
+          }
+        },
+        "1b3db7e2-2ce3-401b-8366-b60a7f350dbe": {
+          "type": "video",
+          "settings": {
+            "title": "THE PERFECT ESPRESSO",
+            "categories": "PERFECT COFFEES",
+            "category": "PERFECT COFFEES",
+            "vimeo-id": "883743167",
+            "thumbnail_img": "shopify:\/\/shop_images\/HOME_ESP.jpg"
+          }
+        },
+        "9f16e946-bf0a-4d59-9db4-021bb72ea144": {
+          "type": "video",
+          "settings": {
+            "title": "ESPRESSO VS RISTRETTO",
+            "categories": "BARISTA TIPS",
+            "category": "BARISTA TIPS",
+            "vimeo-id": "883804675",
+            "thumbnail_img": "shopify:\/\/shop_images\/ESP_V_RIS.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "557accc2-355e-4f29-a1d7-66ec154cc8b8",
+        "b6055347-cc65-43cd-b634-32bdc7053474",
+        "8fd5afd8-285b-4843-bcbf-5d549be9b2f5",
+        "789a0399-00ae-48be-afe0-80b4e0335d01",
+        "553ec874-c929-4bc0-948f-54582fbb393f",
+        "97905d49-d4d7-41ae-a2e6-0c55d0b033e2",
+        "dcc159a5-2271-47ba-8001-05a54c81cc3b",
+        "476ee828-f2e8-41e4-9f41-1d4ea1389120",
+        "df70fbee-0600-4d45-a6f4-ed715eac37ee",
+        "257690ff-1383-4f2a-b254-fe5347e22a8c",
+        "ec98d710-6306-49d4-8d76-673f73c56db6",
+        "521c5c3d-c73d-42da-a4cd-e0b15692b178",
+        "d434edd6-afcd-4431-9497-c2dd2a273d84",
+        "1b3db7e2-2ce3-401b-8366-b60a7f350dbe",
+        "9f16e946-bf0a-4d59-9db4-021bb72ea144"
+      ],
+      "settings": {
+        "title": "VIDEO GALLERY"
+      }
+    },
+    "dd6d7927-6564-494c-bd01-6b1c9d1a4e32": {
+      "type": "brewing-methods",
+      "blocks": {
+        "5ec78cd2-5995-4c35-a529-e5e1f8fe0c23": {
+          "type": "brewing-method",
+          "repeater": "{{ page.metafields.page.brew_methods.value }}",
+          "settings": {
+            "image": "{{ block.repeater.image.value }}",
+            "bg_color": "{{ block.repeater.background_color.value }}",
+            "bg_color_shade": "{{ block.repeater.background_color_shade.value }}",
+            "title": "{{ block.repeater.title.value }}",
+            "coffee_weight": "{{ block.repeater.coffee_weight.value }}",
+            "grind_level": "{{ block.repeater.grind_level.value }}",
+            "water": "{{ block.repeater.water.value }}",
+            "time": "{{ block.repeater.time.value }}",
+            "cta_text": "{{ block.repeater.cta_text.value }}",
+            "vimeo_id": "{{ block.repeater.vimeo_id.value }}"
+          }
+        },
+        "ceae98bb-5d8a-4165-8198-d8d0c374ffbe": {
+          "type": "brewing-method",
+          "disabled": true,
+          "settings": {
+            "bg_color": "",
+            "bg_color_shade": "",
+            "title": "",
+            "coffee_weight": "",
+            "grind_level": "",
+            "water": "",
+            "time": "",
+            "cta_text": "Watch video",
+            "vimeo_id": ""
+          }
+        }
+      },
+      "block_order": [
+        "5ec78cd2-5995-4c35-a529-e5e1f8fe0c23",
+        "ceae98bb-5d8a-4165-8198-d8d0c374ffbe"
+      ],
+      "settings": {
+        "id": "brew-guides",
+        "title": "BREWING METHODS",
+        "subtitle": "From French Press to V60, you can use our foolproof brew guides to craft the perfect cup of filter coffee – whatever your weapon of choice.",
+        "bg_color": "bg-tertiary",
+        "bg_color_shade": 900
+      }
+    },
+    "171d4092-079a-48be-b857-8059064663d6": {
+      "type": "education-spotlight-carousel",
+      "blocks": {
+        "756c2286-6a24-4b5a-93ba-b6695222ac8e": {
+          "type": "Slide",
+          "settings": {
+            "title": "RISTRETTO",
+            "content": "<p>1:1 ratio - we recommend 19-20g in, 19-20g out.<br\/><br\/>Extraction time should be about 30 seconds. This creates thick body and a high acidity that’ll be balanced out by the milk to create a beautifully smooth cup. <\/p>",
+            "image": "shopify:\/\/shop_images\/RP_Espresso_Menu_0007_DRINKS_SQUARE_-_SMALL-1-min.jpg",
+            "cta_text": "",
+            "vimeo_id": ""
+          }
+        },
+        "0d844588-d395-4773-9c1e-1aeddba80c5f": {
+          "type": "Slide",
+          "settings": {
+            "title": "ESPRESSO",
+            "content": "<p>1:2 ratio - we recommend 18 grams in, 36 grams out.<br\/><br\/>Extraction time should be between 25 and 30 seconds. A quicker extraction will create a more acidic and fruitier cup, slower will be more chocolatey.<br\/><\/p>",
+            "image": "shopify:\/\/shop_images\/RP_Espresso_Menu_0003_DRINKS_SQUARE_-_SMALL-5-min.jpg",
+            "cta_text": "",
+            "vimeo_id": ""
+          }
+        },
+        "71947eab-66f3-46e5-951d-a71e5a374377": {
+          "type": "Slide",
+          "settings": {
+            "title": "LONG BLACK",
+            "content": "<p>Fill a 6oz cup with 3\/4 hot water, then pour a ristretto<br\/>on top.<\/p>",
+            "image": "shopify:\/\/shop_images\/RP_Espresso_Menu_0002_DRINKS_SQUARE_-_SMALL-6-min.jpg",
+            "cta_text": "",
+            "vimeo_id": ""
+          }
+        },
+        "cbcf39ee-935c-417e-adbf-2dc511fb115a": {
+          "type": "Slide",
+          "settings": {
+            "title": "MACCHIATO",
+            "content": "<p>Ristretto in an espresso cup or piccolo glass (4oz) with a dash of frothy milk on top. Try not to mix your ristretto and milk – definition in the layers is important.<br\/><br\/>For the milk, steam for 21-22 seconds until frothy. It should be warm, but not hot to the touch.<\/p>",
+            "image": "shopify:\/\/shop_images\/RP_Espresso_Menu_0001_DRINKS_SQUARE_-_SMALL-7-min.jpg",
+            "cta_text": "",
+            "vimeo_id": ""
+          }
+        },
+        "6e74a233-29e7-40dc-89ea-36058d701971": {
+          "type": "Slide",
+          "settings": {
+            "title": "PICCOLO",
+            "content": "<p>Ristretto in a 4oz piccolo glass, blended with lightly textured milk.<br\/><br\/>For the milk, steam for 20 seconds until creamy. It should be warm, but not hot to the touch.<\/p>",
+            "image": "shopify:\/\/shop_images\/RP_Espresso_Menu_0000_DRINKS_SQUARE_-_SMALL-8-min.jpg",
+            "cta_text": "",
+            "vimeo_id": ""
+          }
+        },
+        "2d076122-6f9c-42d7-a8e4-c3fb2c94915e": {
+          "type": "Slide",
+          "settings": {
+            "title": "FLAT WHITE",
+            "content": "<p>Ristretto in a 6oz cup, blended with lightly textured milk.<br\/><br\/>For the milk, steam for 20 seconds until creamy. It should be warm, but not hot to the touch.<\/p>",
+            "image": "shopify:\/\/shop_images\/RP_Espresso_Menu_0006_DRINKS_SQUARE_-_SMALL-2-min.jpg",
+            "cta_text": "",
+            "vimeo_id": ""
+          }
+        },
+        "bb89b02a-d102-4f51-89db-0735b7eee38c": {
+          "type": "Slide",
+          "settings": {
+            "title": "CAPPUCCINO",
+            "content": "<p>Espresso in an 8oz cup, chocolate powder on top of shot, blended with frothy milk.<br\/><br\/>For the milk, steam for 21-22 seconds until frothy. It should be warm, but not hot to the touch.<\/p>",
+            "image": "shopify:\/\/shop_images\/RP_Espresso_Menu_0005_DRINKS_SQUARE_-_SMALL-3-min.jpg",
+            "cta_text": "",
+            "vimeo_id": ""
+          }
+        },
+        "ce6495d9-6426-4de6-a68d-20008c31a781": {
+          "type": "Slide",
+          "settings": {
+            "title": "LATTE",
+            "content": "<p>Espresso in a 10oz glass, blended with lightly textured milk.<br\/><br\/>For the milk, steam for 20 seconds until creamy. It should be warm, but not hot to the touch.<\/p>",
+            "image": "shopify:\/\/shop_images\/RP_Espresso_Menu_0004_DRINKS_SQUARE_-_SMALL-4-min.jpg",
+            "cta_text": "",
+            "vimeo_id": ""
+          }
+        }
+      },
+      "block_order": [
+        "756c2286-6a24-4b5a-93ba-b6695222ac8e",
+        "0d844588-d395-4773-9c1e-1aeddba80c5f",
+        "71947eab-66f3-46e5-951d-a71e5a374377",
+        "cbcf39ee-935c-417e-adbf-2dc511fb115a",
+        "6e74a233-29e7-40dc-89ea-36058d701971",
+        "2d076122-6f9c-42d7-a8e4-c3fb2c94915e",
+        "bb89b02a-d102-4f51-89db-0735b7eee38c",
+        "ce6495d9-6426-4de6-a68d-20008c31a781"
+      ],
+      "settings": {
+        "id": "menu",
+        "title": "ESPRESSO MENU",
+        "subtitle": "<p>Our definitive guide to espresso-based drinks, as approved by our roasters.<\/p>"
+      }
+    },
+    "23f9f6e7-0fae-4b9c-be91-bff2a1c8c458": {
+      "type": "education-spotlight-block",
+      "settings": {
+        "bg": "bg-tertiary",
+        "bg-shade": 900,
+        "btn_color": "bg-secondary",
+        "btn_color_shade": 900,
+        "btn_border_color": "border-transparent",
+        "btn_border_color_shade": 900,
+        "btn_text_color": "text-tertiary",
+        "btn_text_color_shade": 900,
+        "btn_hover_color": "hover:bg-tertiary",
+        "btn_hover_color_shade": 900,
+        "btn_hover_border_color": "hover:border-secondary",
+        "btn_hover_border_color_shade": 900,
+        "btn_hover_text_color": "hover:text-secondary",
+        "btn_hover_text_color_shade": 900,
+        "title": "Here to help",
+        "image": "shopify:\/\/shop_images\/Guys.jpg",
+        "mobile_image": "shopify:\/\/shop_images\/Guys.jpg",
+        "copy": "<p>Need a hand honing your at-home coffee skills? Got to swat up on your knowledge? Or are you ready to become the best barista in the business?<\/p>",
+        "cta_text": "GET IN TOUCH",
+        "cta_link": "shopify:\/\/pages\/contact"
+      }
+    },
+    "video-popup": {
+      "type": "dynamic-video-popup",
+      "settings": {}
+    }
+  },
+  "order": [
+    "60dd7b68-68bb-4a34-99f6-0ad7ce802d39",
+    "main",
+    "dd6d7927-6564-494c-bd01-6b1c9d1a4e32",
+    "171d4092-079a-48be-b857-8059064663d6",
+    "23f9f6e7-0fae-4b9c-be91-bff2a1c8c458",
+    "video-popup"
+  ]
+}

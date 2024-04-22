@@ -1,4 +1,6 @@
 development:
   password: shptka_e4f1fc71893aae79c54f7c099003cd5c
-  theme_id: "138782736663"
+  theme_id: "162808725783"
   store: laurynas-dev-store.myshopify.com
+  # ignore_files:
+  #   - /\.(json)$/

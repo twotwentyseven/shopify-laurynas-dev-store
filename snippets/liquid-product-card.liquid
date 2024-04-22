@@ -1,0 +1,105 @@
+{% assign hasVariants = false %}
+{% assign hasSubscriptions = false %}
+{% assign oneOff = true %}
+
+{% if product.requires_selling_plan %}
+    {% assign oneOff = false %}
+{% endif %}
+
+{% if product.selling_plan_groups.size > 0 %}
+    {% assign hasSubscriptions = true %}
+{% endif %}
+
+{% if product.variants.size > 1 %}
+
+    {% assign hasVariants = true %}
+
+{% endif %}
+
+<div class="product-card text-left {{ settings.pc_bg_color }}-{{settings.pc_bg_color_shade}}">
+
+    {% if product.metafields.custom.flag != blank %}
+        <span class="absolute right-2 top-2 rounded-full uppercase flex items-center justify-center font-semibold px-4 py-2 bg-primary-500 text-white text-body-small | lg:text-body-small-lg">
+            {{ product.metafields.custom.flag }}
+        </span>
+    {% endif %}
+    
+    <div class="relative {% if product.images.size > 1 %}hover-wrapper group{% endif %}">
+        {% render 'responsive-image' with image: product.featured_image, link: product.url, wrapper_class: "img-wrap", image_class: "primary-img" %}
+        {% if product.images.size > 1 %}
+            {% render 'responsive-image' with image: product.images[1], link: product.url, wrapper_class: "img-wrap img-wrap-hover z-10 absolute opacity-0 top-0 left-0 h-full w-full transition-all duration-animation-speed group-hover:opacity-100", image_class: "hover-img h-full w-full object-cover" %}
+        {% endif %}
+    </div>
+    <div
+        data-product-details
+        data-product-id="{{ section.id }}_{{ product.id }}"
+        class="product-details p-4 {{settings.pc_text_color}}-{{settings.pc_text_color_shade}}">
+        <a href="{{ product.url }}">
+
+            <p data-match-height="product-title" class="title font-headline font-semibold text-headline-6 uppercase mb-2 | lg:text-headline-6-lg">{{ product.title }}</p>
+
+            <div class="product_rating_wrapper">
+
+                <div class="trustpilot-widget-wrap">
+                    <div class="inner"></div>
+                </div>
+
+            </div>
+            <!-- product_rating_wrapper -->
+
+            {% if product.compare_at_price_min > product.price %}
+                <p data-match-height="price" class="price mb-4">
+                    <del class="opacity-25">{{ product.compare_at_price_min | money }}</del>
+                    {% if product.price_varies %}From
+                    {% endif %}
+                    {{ product.price | money }}
+                </p>
+            {% else %}
+                <p data-match-height="price" class="price mb-4">
+                    {% if product.price_varies %}From
+                    {% endif %}
+                    {{ product.price | money }}</p>
+            {% endif %}
+
+        </a>
+        {% if hasVariants or hasSubscriptions %}
+            <div class="quick-buy-wrapper">
+                {%- comment -%} j-qb-toggle {%- endcomment -%}
+                {% render 'button' element: 'a', data: 'qb-button', href: '#', border_color: settings.pc_btn_color, border_width: 'border', bg_color: settings.pc_btn_color, bg_color_shade: settings.pc_btn_color_shade, text_color: settings.pc_btn_text_color, text_color_shade: settings.pc_btn_text_color_shade, hover_bg: settings.pc_btn_hover_color, hover_bg_shade: settings.pc_btn_hover_color_shade, hover_text: settings.pc_btn_hover_text_color, hover_text_shade: settings.pc_btn_hover_text_color_shade, content: settings.pc_quick_buy, custom_class: '', before_icon: '', after_icon: '' %}
+            </div>
+
+            <div data-qb-modal="{{ section.id }}_{{ product.id }}"
+                class="quick-buy-modal | fixed bottom-0 left-0 w-full max-h-0 overflow-hidden z-[49] | lg:max-w-[400px] lg:w-full lg:max-h-screen lg:h-full lg:left-auto lg:-right-[401px] lg:pt-site-header-height-lg | duration-animation-speed transition-all"
+                data-add-class="max-h-[800px] lg:right-0"
+                data-remove-class="max-h-0 lg:-right-[401px]">
+                <div
+                    data-qb-button
+                    data-overlay="{{ section.id }}_{{ product.id }}"
+                    class="overlay | fixed bottom-0 right-0 h-screen max-w-0 w-screen bg-black/25 cursor-pointer -z-10 | transition-all duration-animation-speed"
+                    data-add-class="max-w-[100vw]"
+                    data-remove-class="max-w-0"></div>
+                <div class="modal-inner | {{ settings.pc_modal_bg_color }}-{{settings.pc_modal_bg_color_shade}} {{ settings.pc_modal_text_color }}-{{ settings.pc_modal_text_color_shade }} |  h-full pt-10 pb-6 px-4 z-10 lg:relative">
+                    {%- comment -%} j-qb-close {%- endcomment -%}
+                    <a
+                        data-qb-button
+                        class="close-icon absolute right-3 top-3"
+                        href="#">
+                        <span class="material-symbols-outlined">
+                            close
+                        </span>
+                    </a>
+
+                    {% render 'variant-data' product: product, variant_class_1: 'w-full', variant_class_2: 'w-full', variant_class_3: 'w-full', bg_color: settings.pc_modal_bg_color, bg_color_shade: settings.pc_modal_bg_color_shade %}
+
+                </div>
+
+            </div>
+        {% else %}
+
+            {% render 'variant-data' product: product, hideQty: true, variant_class_1: 'w-full', variant_class_2: 'w-full', variant_class_3: 'w-full', bg_color: settings.pc_modal_bg_color, bg_color_shade: settings.pc_modal_bg_color_shade %}
+
+        {% endif %}
+
+    </div>
+
+</div>

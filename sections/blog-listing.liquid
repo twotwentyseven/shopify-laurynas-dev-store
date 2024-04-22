@@ -1,0 +1,378 @@
+{% assign ss = section.settings %}
+<section
+    id="vue-blog-listing"
+    class="blog-listing-section | py-10 px-container-gutter | lg:px-container-gutter-lg">
+    <blog-listing
+        page-handle={{ blog.handle | json }}>
+        <template v-slot="props">
+            <!-- this can be removed. only here to apply the vue dev tools to rerender -->
+            <div
+                v-for="f in props.getActiveFilters"
+                style="display:none">${f}</div>
+            <!-- end -->
+
+            <section
+                class="  ">
+                <div
+                    class="fluid flex flex-col relative | md:items-end md:justify-between md:flex-row">
+                    <div
+                        class=" w-full ">
+
+                        <form
+                            class="filter-form navigation-wrapper | flex items-center justify-between overflow-x-auto gap-2 w-full flex-grow flex-wrap "
+                            @submit.prevent="props.getFormValues"
+                            data-active="max-h-full-screen h-full fixed top-0 overflow-y-scroll z-[101] pt-10 pb-[195px]"
+                            data-remove="absolute top-full max-h-0">
+                            <div
+                                class="title| text-headline-2 font-headline basis-full | lg:basis-auto lg:text-headline-2-lg ">{{ ss.title }}</div>
+                            {% comment %}
+                            <a
+                                href="#"
+                                class="j-filter-bar flex w-full text-white uppercase font-medium font-header tracking-wide bg-primary text-center text-tiny px-[30px] py-2.5 justify-center relative |  md:hidden"
+                                data-active="fixed top-0 left-0 text-left text-2xl justify-start"
+                                data-remove="justify-center relative text-center uppercase text-tiny">Filters
+                                <span
+                                    class="svg-fill-true_white absolute right-[30px] top-1/2 -translate-y-1/2 rotate-180 transition-all duration-300"
+                                    data-active="rotate-0"
+                                    data-remove="rotate-180">
+                                    ^
+                                </span>
+                            </a>      
+                            {% endcomment %}
+
+
+
+                            <template
+                                v-for="(filter,index) in props.getBlogFilters">
+                                <ul
+                                    class="fgd__list flex w-full flex-wrap gap-2 | lg:w-auto lg:flex-nowrap">
+                                    <li
+                                        class="fgd__list-item"
+                                        v-for="(filter_value,fv_index) in filter.values">
+                                        <input
+                                            class="hidden peer"
+                                            type="checkbox"
+                                            @change="props.handleFilterChange($event)"
+                                            :name="filter_value.param_name"
+                                            :value="filter_value.value"
+                                            :id="'filter-'+filter.param_name+'-'+fv_index"
+                                            :checked="filter_value.active">
+                                        <label
+                                            v-if="filter_value.count > 0"
+                                            :for="'filter-'+filter.param_name+'-'+fv_index"
+                                            class="cursor-pointer transition-all duration-300 | flex items-center gap-1 checkbox-style border-secondary-900 border-[1px] rounded text-secondary-900 text-body-medium py-1 px-2 whitespace-nowrap | hover:bg-secondary-900 hover:text-tertiary-900 | peer-checked:bg-secondary-900 peer-checked:text-tertiary-900"
+                                            :class="[filter_value.count == 0 && filter_value.active == false ? 'disabled' : '' ]">
+                                            <span
+                                                class="text-wrapper uppercase text-body-medium ">
+                                                ${ filter_value.label }</span>
+                                                {% comment %}
+                                            <span
+                                                class=" text-body-medium uppercase article-count-for-filter">
+                                                ( ${filter_value.count} )</span>        
+                                                {% endcomment %}
+                                            
+                                            <transition
+                                                name="fade"
+                                                appear>
+                                                <span
+                                                    v-if="filter_value.active"
+                                                    class="inline-block -my-0.5 h-[11px] w-[11px] relative after:content[''] before:content[''] after:h-[1.5px] before:h-[1.5px] after:w-[9px] before:w-[9px] after:absolute before:absolute after:top-1/2 before:top-1/2 after:left-1/2 before:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 before:-translate-x-1/2 before:-translate-y-1/2 after:rotate-45 before:-rotate-45 after:bg-tertiary-900 before:bg-tertiary-900"></span>
+                                            </transition>
+                                        </label>
+                                    </li>
+
+                                    {% comment %}
+                                    <li class="fgd__list-item">
+                                        <!-- This currently doesn't work -->
+
+                                        <a
+                                            :href="filter.url_to_remove"
+                                            class="transition-all duration-300 | filter-group-display__header-reset inline-block checkbox-style text-black opacity-50 hover:opacity-100 mr-5 text-[10px] leading-[10px] py-1.5 font-header font-bold underline whitespace-nowrap"
+                                            @click.prevent="props.clearFiltersFromGroup(filter.active_values)"
+                                            v-if="filter.active_values.length > 0">Reset</a>
+                                    </li>  
+                                    {% endcomment %}
+
+
+                                </ul>
+
+                            </template>
+
+
+                            {% comment %}
+                      <template v-else-if="filter.type === 'price_range'">
+
+                      	<div class="fgd__header">
+                      		<span class="fgd__header-selected">The max article price is ${ filter.range_max_money_without_currency }</span>
+                      		<!-- <a :href="filter.url_to_remove" class="filter-group-display__header-reset">Reset</a> -->
+                      	</div>
+
+                      	<div class="fgd__price-range-slider multi-input-range-slider">
+                      		<div id="price-range-slider"></div>
+                      	</div>
+
+                      	<div class="fgd__price-range">
+                      		<div class="fgd__price-range-item range-from">
+                      			<label :for="'filter-'+filter.min_value.param_name" class="input-title">From</label>
+                      			<span class="currency-icon">{{ cart.currency.symbol }}</span>
+                      			<input :name="filter.min_value.param_name"
+                      			:id="'filter-'+filter.min_value.param_name"
+                      			:value="filter.min_value.value_money_without_currency"
+                      			type="number"
+                      			placeholder="-"
+                      			min="0"
+                      			:max="filter.range_max_money_without_currency"
+                      			>
+                      		</div>
+                      		<div class="fgd__price-range-item range-to">
+                      			<label :for="'filter-'+filter.max_value.param_name" class="input-title">To</label>
+                      			<span class="currency-icon">{{ cart.currency.symbol }}</span>
+                      			<input :name="filter.max_value.param_name"
+                      			:id="'filter-'+filter.max_value.param_name"
+                      			:value="filter.max_value.value_money_without_currency"
+                      			type="number"
+                      			:placeholder="filter.range_max_money_without_currency"
+                      			min="1"
+                      			:max="filter.range_max_money_without_currency"
+                      			>
+                      		</div>
+                      	</div>
+
+                      </template>
+                    {% endcomment %}
+
+                        {% comment %}
+                       <div class="fgd__submit">
+                      	<button type="submit" class="btn btn-dark hover-outline-dark" value="Apply">Apply</button>
+                      </div>
+                    {% endcomment %}
+
+
+                            {% comment %}
+                <div class="select hidden">
+                	<select name="sort_by" class="filter-item__sort" id="filter-sort_by" @change="props.addOrReplaceFilter($event.target.name,$event.target.value)">
+                		<option v-for="(option,index) in props.getBlog.sort_options" :value="option.value" :selected="option.value === props.getBlog.sort_by">${ option.name }</option>
+                		<!-- <option v-for="(option,index) in props.getBlog.sort_options" :value="option.value" :selected="(option.value === props.getBlog.default_sort_by && props.getBlog.sort_by == '') || option.value === props.getBlog.sort_by ? true : null">${ option.name }</option> -->
+                	</select>
+                </div>
+              {% endcomment %}
+
+                            {% comment %}
+                 <div
+                                class="mobile-filter-controls hidden fixed bg-white bottom-0 left-0 w-full shadow-upper py-10 px-[30px]"
+                                data-active="block"
+                                data-remove="hidden">
+                                <a
+                                    class="j-filter-bar | btn block mb-5"
+                                    href="#">Apply Filters</a>
+                                <a
+                                    class="j-filter-bar | btn outline_red block"
+                                    href="#"
+                                    @click.prevent="props.clearFilters()">Clear filters</a>
+                            </div>
+              {% endcomment %}
+
+
+                        </form>
+                    </div>
+                </div>
+            </section>
+            <div
+                class="spacer | border border-black mt-2"></div>
+            {% comment %}
+        <!-- Currently active filter badges/pills -->
+        <div class="active-filter-badges">
+        	<a href="#" class="clear-all-filters" v-if="props.totalActiveBlogFilters > 0" @click.prevent="props.clearFilters()">Clear all filters</a>
+
+        	<template v-for="(filter,index) in props.getBlogFilters">
+
+        		<a href="#"
+        		class="filter-pill"
+        		v-for="activeItem in filter.active_values"
+        		@click.prevent="props.removeFilter(activeItem.param_name+'='+activeItem.value)"
+        		>
+        			<div clas="pill-title">${ activeItem.label }</div>
+        			<div href="#" class="standard-close-icon"><span></span></div>
+        		</a>
+
+        		<a href="#"
+        		class="filter-pill"
+        		v-if="filter.type === 'price_range' && (filter.min_value?.value != null || filter.max_value?.value != null)"
+        		@click.prevent="props.removePriceRangeFilter(filter)"
+        		>
+        			<div class="pill-title">
+        				<template v-if="filter.min_value.value != null">${filter.min_value.value_money_without_trailing_zeros}</template>
+        				<template v-else >0</template>
+        				-
+        				<template v-if="filter.max_value.value != null">${filter.max_value.value_money_without_trailing_zeros}</template>
+        				<template v-else>${filter.max_value.value_money_without_trailing_zeros}</template>
+        			</div>
+        			<div href="#" class="standard-close-icon"><span></span></div>
+        		</a>
+
+        	</template>
+
+        </div>
+      {% endcomment %}
+
+            <!-- Blog loading state (skeleton article cards) -->
+            <template v-if="props.loadingBlog">
+                {% comment %}
+           <div class="loading-state">
+          	<p>loading...</p>
+          </div>
+        {% endcomment %}
+
+                <div
+                    class="articles-output">
+                    <div
+                        class="article-item"
+                        v-for="index in 8">
+                        <!-- Skeleton template card -->
+
+                        <div
+                            class="article-card skeleton-layout"
+                            :key="index">
+                            <div>
+                                <div
+                                    class="card-media image-wrap sk-light-bg"></div>
+                            </div>
+
+                            <div
+                                class="card-details">
+                                <div
+                                    class="article-info">
+                                    <p
+                                        class="title sk-block sk-light-bg"></p>
+                                    <p
+                                        class="price sk-block-third sk-light-bg"></p>
+                                </div>
+
+                                <div
+                                    class="row-item">
+                                    <div
+                                        class="action-buttons">
+                                        <div
+                                            class="left-wrap">
+                                            <div
+                                                class="sk-button sk-light-bg"></div>
+                                        </div>
+                                        <div
+                                            class="right-wrap">
+                                            <button
+                                                class="sk-icon sk-light-bg"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- End skeleton card -->
+                    </div>
+                </div>
+            </template>
+
+            <!-- Else output articles -->
+            <div
+                class="articles-output fluid pb-20 flex flex-wrap"
+                v-else>
+                <!-- No articles found -->
+                <div
+                    class="grid-item-full-width message text-center"
+                    v-if="props.filteredArticles.length === 0 && !props.loadingBlog">
+                    <p
+                        class="h2 no-articles-found">Sorry, no articles match these filters.</p>
+                </div>
+
+                <template
+                    v-else>
+                    <div
+                        class="w-full md:w-6/12 lg:w-4/12 py-9 md:px-[14px] md:py-8"
+                        v-for="(article,index) in props.filteredArticles"
+                        :class="index <= 1 ? 'order-1' : 'order-2'">
+                        <article-card
+                            v-if="article"
+                            :article-object="article"
+                            :key="`article_item_${article.id}`">
+                            {% render 'article-card' %}
+                        </article-card>
+
+                        <!-- @trigger-add-to-cart="props.handleAddToCartEvent($event)" -->
+                    </div>
+                </template>
+            </div>
+
+            <!-- Pagination -->
+            <template
+                v-if="!props.loadArticlesRecursively">
+                <div
+                    class="pagination-wrapper "
+                    v-if="props.getPagination.pages > 1">
+                    <ul
+                        class="pagination flex justify-end items-center gap-2">
+                        <li
+                            class="mx-2 font-header font-bold text-tiny hover:text-primary"
+                            v-if="props.getPagination.previous_part.is_link">
+                            <a
+                                href="#"
+                                @click.prevent="props.goToPage(props.getPagination.current_page - 1)"
+                                class="chev first">
+                                <i
+                                    class="ri-arrow-left-s-line"></i>
+                            </a>
+                        </li>
+
+                        <template
+                            v-for="(part,index) in props.getPagination.parts">
+                            <li
+                                class="px-5 py-3 border border-secondary-900 rounded text-secondary-900 font-header font-bold text-body-medium transition-all hover:text-tertiary-900 hover:bg-secondary-900"
+                                v-if="part.is_link">
+                                <a
+                                    href="#"
+                                    @click.prevent="props.goToPage(part.title)">${ part.title }</a>
+                            </li>
+                            <li
+                                class="px-5 py-3 border border-secondary-900 rounded text-tertiary-900 bg-secondary-900 font-header font-bold text-body-medium transition-all hover:text-secondary-900 hover:bg-neutral-900"
+                                v-else
+                                :class="[ part.title === props.getPagination.current_page ? 'text-primary' : 'elipsis' ]">
+                                <span>${ part.title }</span>
+                            </li>
+                        </template>
+
+                        <li
+                            class="mx-2 font-header font-bold text-tiny hover:text-primary"
+                            v-if="props.getPagination.next_part.is_link">
+                            <a
+                                href="#"
+                                @click.prevent="props.goToPage(props.getPagination.current_page + 1)"
+                                class="chev">
+                                <i
+                                    class="ri-arrow-right-s-line"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- pagination -->
+                </div>
+            </template>
+        </template>
+    </blog-listing>
+</section>
+{% schema %}
+    {
+        "name": "Blog listings vue",
+        "settings": [
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Blog title"
+            }
+
+        ],
+        "presets": [
+            {
+                "name": "Blog listings vue"
+            }
+        ]
+
+    }
+{% endschema %}

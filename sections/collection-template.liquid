@@ -1,0 +1,281 @@
+{% assign ss = section.settings %}
+
+{%- capture filtersContent -%}
+    {
+    filter_btn: '{{ ss.filter_btn }}',
+    filter_sort_btn: '{{ ss.filter_sort_btn }}',
+    active_filters_title: '{{ ss.active_filters_title }}'
+    }
+{%- endcapture -%}
+
+{%- capture filtersColourOptions -%}
+    {
+
+    {% for product in collection.products %}
+        {% assign keys = "Color,color,Colour,colour" | split: ',' %}
+        {% for key in keys %}
+            {% if product.options contains key %}
+                {% for color_option in product.options_by_name[key].values %}
+                    {% for variant in product.variants %}
+                        {% if variant.options contains color_option %}
+                            {% if variant.image %}
+                                {% assign background_style = color_option %}
+                            {% endif %}
+                            {% if variant.metafields.color.values %}
+                                {% assign background_style = variant.metafields.color.values %}
+                            {% endif %}
+                            {% if variant.metafields.image.values %}
+                                {% assign background_style = "url(" | append: variant.metafields.image.swatch | append: ")" %}
+                            {% endif %}
+                            "{{ color_option }}": "{{ background_style }}",
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+    }
+{% endcapture %}
+
+{% capture collectionFilters %}
+    {% render 'collection-filters' collection: collection %}
+{% endcapture %}
+
+<section class="w-full py-8 px-container-gutter relative overflow-hidden flex items-center min-h-[220px] | lg:min-h-[320px] lg:text-left lg:py-16 lg:px-container-gutter-lg | ">
+
+
+    <div class="content-wrapper | w-fit max-w-xl">
+        {% if collection.title != blank %}
+            <h1 class="font-headline text-headline-1 text-tertiary-900 | lg:text-headline-1-lg">{{ collection.title }}</h1>
+        {% endif %}
+
+        {% if collection.description != blank %}
+            <div class="description | text-tertiary-900 text-body-large | lg:text-body-large-lg ">{{ collection.description }}</div>
+        {% endif %}
+    </div>
+    {% if collection.image != blank %}
+
+        {% render 'responsive-image' with image: collection.image, mobile_image:collection.metafields.collection.mobile_image image_class: 'image object-cover h-full w-full', wrapper_class: "image-wrapper absolute h-full w-full left-0 top-0 overflow-hidden -z-[1] | after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full after:bg-black after:opacity-50" %}
+
+    {% endif %}
+
+</section>
+
+<section id='collection' class="relative pb-10 | lg:pb-20 | bg-neutral-900">
+
+    <section class="px-container-gutter pt-6 | lg:px-container-gutter-lg | {{ ss.bg_color }}-{{ss.bg_color_shade}}">
+        {% comment %}
+            NAVIGATION LOGIC USED META OBJECTS
+        {% endcomment %}
+            {% comment %}
+                
+        {% if collection.metafields.collection.show_navigation and collection.metafields.collection.navigation != blank %}
+            {% assign navigation = collection.metafields.collection.navigation.value %}
+
+            <div class="navigation-wrapper | flex items-center overflow-x-auto gap-2 w-full flex-grow flex-wrap | ">
+
+                {% if collection.metafields.collection.navigation_title != blank %}
+                    <div class="nav-title">{{ collection.metafields.collection.navigation_title }}</div>
+                {% endif %}
+
+                {% for reference in navigation %}
+
+                    {% if reference.product != blank %}
+                        {% assign ref_product = reference.product.value %}
+                        {% assign title = reference.link_title %}    
+
+                        <a href="{{ ref_product.url }}" class="rounded border border-secondary-900 uppercase flex items-center justify-center px-2 py-1 z-[11] text-body-medium-lg transition-all whitespace-nowrap	| hover:bg-secondary-900 hover:text-tertiary-900"> 
+                            {% if title == blank %}
+                                {% assign title = ref_product.title %}
+                            {% endif %}
+                            {{ title }}
+                        </a>
+                    {% endif %}
+
+                    {% if reference.collection != blank %}
+                        {% assign ref_collection = reference.collection.value %}
+                        {% assign title = reference.link_title %}    
+
+                        <a href="{{ ref_collection.url }}" class="rounded border border-secondary-900 uppercase flex items-center justify-center px-2 py-1 z-[11] text-body-medium-lg transition-all whitespace-nowrap	| hover:bg-secondary-900 hover:text-tertiary-900"> 
+                            {% if title == blank %}
+                                {% assign title = ref_collection.title %}
+                            {% endif %}
+                            {{ title }}
+                        </a>
+                    {% endif %}
+
+                    {% if reference.product_variant != blank %}
+                        {% assign ref_variant = reference.product_variant.value %}
+                        {% assign title = reference.link_title %}    
+
+                        <a href="{{ ref_variant.url }}" class="rounded border border-secondary-900 uppercase flex items-center justify-center px-2 py-1 z-[11] text-body-medium-lg transition-all whitespace-nowrap	| hover:bg-secondary-900 hover:text-tertiary-900"> 
+                            {% if title == blank %}
+                                {% assign title = ref_variant.title %}
+                            {% endif %}
+                            {{ title }}
+                        </a>
+                    {% endif %}
+
+                    {% if reference.page != blank %}
+                        {% assign ref_page = reference.page.value %}
+                        {% assign title = reference.link_title %}    
+
+                        <a href="{{ ref_page.url }}" class="rounded border border-secondary-900 uppercase flex items-center justify-center px-2 py-1 z-[11] text-body-medium-lg transition-all whitespace-nowrap	| hover:bg-secondary-900 hover:text-tertiary-900"> 
+                            {% if title == blank %}
+                                {% assign title = ref_page.title %}
+                            {% endif %}
+                            {{ title }}
+                        </a>
+                    {% endif %}
+
+                    {% if reference.url != blank %}
+                    {% assign title = reference.link_title %}    
+
+                        <a href="{{ reference.url }}" class="rounded border border-secondary-900 uppercase flex items-center justify-center px-2 py-1 z-[11] text-body-medium-lg transition-all whitespace-nowrap	| hover:bg-secondary-900 hover:text-tertiary-900"> 
+                            {% if title == blank %}
+                                {% assign title = "link" %}
+                            {% endif %}
+                            {{ title }}
+                        </a>
+                    {% endif %}
+                    
+                {% endfor %}
+        
+
+            </div>
+            <div class="spacer | border border-black my-4"></div>
+
+        {% endif %}       
+            {% endcomment %}
+
+        {% if ss.collection_nav_list != blank%}
+            <div class="navigation-wrapper | flex items-center overflow-x-auto gap-2 w-full flex-grow | lg:flex-wrap | ">
+
+                <div class="nav-title | basis-auto whitespace-nowrap">{{ ss.collection_nav_title }}</div>
+                {% assign current_collection = collection.handle %}
+                {% for collection in ss.collection_nav_list %}
+                    <a  href="{{ collection.url }}" class="rounded border border-secondary-900 uppercase flex items-center justify-center px-2 py-1 z-[11] text-body-medium-lg transition-all whitespace-nowrap	| hover:bg-secondary-900 hover:text-tertiary-900 | {% if collection.handle == current_collection %} bg-secondary-900 text-tertiary-900 {% endif %}"> 
+                            {{ collection.title }}
+                    </a>
+
+                {% endfor %}
+
+            </div>
+            <div class="spacer | border border-black my-4"></div>
+        {% endif %}
+            
+
+
+        {% comment %}
+            END OF NAVIGATION LOGIC
+        {% endcomment %}
+
+    <collection-filters
+        group="main-collection"
+        :filters-object="{{ collectionFilters | strip_newlines | escape }}"
+        :filter-color-options="{{ filtersColourOptions | strip_newlines | escape }}"
+        :content="{{ filtersContent | strip_newlines | escape }}"
+        section-id="{{ section.id }}"></collection-filters>
+
+    {% paginate collection.products by settings.collection_limit %}
+        <div data-collection class="collection | flex flex-wrap w-[calc(100%+16px)] -m-2 lg:w-[calc(100%+24px)] lg:-m-3">
+            <product-collection
+                group="main-collection"
+                :products="{{ collection.products | json | escape }}"
+                :metafields='
+                [{%- for product in collection.products -%}
+                    {%- render 'metafield-loop', name_space: "product_details", object: product -%}
+                    {% unless forloop.last %},{% endunless %}
+                {%- endfor %}]'
+                >
+                <!--
+                    :colours="{{ productCardColors | strip_newlines | escape }}" 
+                    :content="{{ productCardContent | strip_newlines | escape }}"
+                -->
+                {% for product in collection.products %}
+                    <!-- <product-card :colours="{{ productCardColors | strip_newlines | escape }}" :content="{{ productCardContent | strip_newlines | escape }}" :product-object="{{ product | json | escape }}" product-url="{{ product.url | within: collection }}"></product-card> -->
+                {% endfor %}
+            </product-collection>
+        </div>
+
+        {% comment %} {{ paginate | default_pagination }} {% endcomment %}
+        <paginator group="main-collection">
+            <ul class="pagination flex justify-center mt-10 -mx-1 lg:justify-center">
+
+                <li>
+                    <a href="{{ paginate.previous.url }}#order-history" class="h-12 w-12 mx-1 rounded border flex justify-center items-center font-semibold {% if paginate.previous.is_link %}border-primary-500{% else %}bg-neutral-200 border-neutral-200 text-neutral-300{% endif %}">
+                        <span class="material-symbols-outlined text-body-large lg:text-body-large-lg">arrow_back_ios_new</span>
+                    </a>
+                </li>
+
+                {% for part in paginate.parts %}
+                    {% if part.is_link %}
+                        <li class="">
+                            <a class="h-12 w-12 mx-1 rounded border border-primary-500 flex justify-center items-center font-semibold text-neutral-900" href="{{ part.url }}#order-history">{{ part.title }}</a>
+                        </li>
+                    {% else %}
+                        {% if part.title == paginate.current_page %}
+                            <li class="">
+                                <a href="#" class="active h-12 w-12 mx-1 rounded border border-primary-500 flex justify-center items-center font-semibold bg-primary-500 text-neutral-0">{{ part.title }}</a>
+                            </li>
+                        {% else %}
+                            <li class="">
+                                <a href="#" class="h-12 w-12 mx-1 rounded border border-primary-500 flex justify-center items-center font-semibold elipsis">{{ part.title }}</a>
+                            </li>
+                        {% endif %}
+
+                    {% endif %}
+                {% endfor %}
+
+                <li
+                    class="">
+                    <a href="{{ paginate.next.url }}#order-history" class="h-12 w-12 mx-1 rounded border flex justify-center items-center font-semibold {% if paginate.next.is_link %}border-primary-500{% else %}bg-neutral-200 border-neutral-200 text-neutral-300{% endif %}">
+                        <span class="material-symbols-outlined text-body-large lg:text-body-large-lg">arrow_forward_ios</span>
+                    </a>
+                </li>
+
+            </ul>
+            <!-- pagination -->
+        </paginator>
+    {% endpaginate %}
+
+</section>
+
+
+
+{% schema %}
+    {
+        "name": "Collection",
+        "settings": [
+            {
+                "type": "header",
+                "content": "background color"
+            }, 
+            {
+                "type": "text",
+                "id": "filter_btn",
+                "label": "Filter title"
+            }, {
+                "type": "text",
+                "id": "filter_sort_btn",
+                "label": "Filter & Sort toggle button/title"
+            }, {
+                "type": "text",
+                "id": "active_filters_title",
+                "label": "Active Filter Title"
+            },
+            {
+                "type": "text",
+                "id": "collection_nav_title",
+                "label": "Collection nav title"
+            },
+            {
+            "type": "collection_list",
+            "id": "collection_nav_list",
+            "label": "Navigation Collections",
+            "limit": 8
+            }
+        ]
+
+    }
+{% endschema %}

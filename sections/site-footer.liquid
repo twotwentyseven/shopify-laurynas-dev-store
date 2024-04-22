@@ -1,0 +1,599 @@
+{% assign ss = section.settings %}
+
+<footer class="site-footer {{ ss.footer_bg }}-{{ ss.footer_bg_shade }} {{ ss.footer_text_color }}-900 py-10">
+    <div class="site-footer-inner | flex relative justify-between flex-wrap w-full px-container-gutter | lg:px-container-gutter-lg">
+
+        <div class="site-footer-header | order-1 w-full flex flex-col | lg:w-1/3">
+            <a href="/" class="logo mb-gutter-lg">
+                {% if ss.logo != blank %}
+                    <img
+                        alt="{{ shop.name }}-logo"
+                        class="logo-img | w-full max-w-[12rem] object-contain"
+                        src="{{ ss.logo | img_url: '' }}">
+                {% endif %}
+            </a>
+            {% if ss.newsletter %}
+                {% comment %}
+                
+            
+                <div class="newsletter-wrapper my-gutter-lg">
+                    {% if ss.form_title != blank %}
+                        <p class="form-title | text-body-large mb-gutter | lg:text-body-large-lg">{{ ss.form_title }}</p>
+                    {% endif %}
+
+                    {% if ss.form_desc != blank %}
+                        <div class="form-desc | text-body-medium mb-container-gutter | lg:text-body-medium-lg">{{ ss.form_desc }}</div>
+                    {% endif %}
+
+                    <p
+                        data-message-success
+                        class="mc-message-success | hidden text-body-medium mb-container-gutter | lg:text-body-medium-lg"
+                        data-active="block"
+                        data-remove="hidden"></p>
+                    <p
+                        data-message-error
+                        class="mc-message-error | hidden text-body-medium mb-container-gutter | lg:text-body-medium-lg"
+                        data-active="block"
+                        data-remove="hidden"></p>
+
+                    <form
+                        action="{{ ss.form_url_id }}"
+                        method="post"
+                        class="mc-form | w-full"
+                        data-active="hidden"
+                        data-remove="flex">
+
+                        <input
+                            hidden
+                            name="LOCALE"
+                            id="mce-LOCALE"
+                            class="hidden"
+                            type="text"
+                            value="{{ settings.locale }}">
+
+                        {% if ss.f_name != blank %}
+                            <input
+                                name="FNAME"
+                                id="mce-FNAME"
+                                class="text-footer-text-color placeholder:text-footer-text-color mb-gutter bg-transparent-500 border border-white rounded-lg outline-none w-full text-body-medium px-field-x py-field-y"
+                                type="text"
+                                placeholder="{{ ss.f_name }}">
+                        {% endif %}
+
+                        {% if ss.l_name != blank %}
+                            <input
+                                name="LNAME"
+                                id="mce-LNAME"
+                                class="text-footer-text-color placeholder:text-footer-text-color mb-gutter bg-transparent-500 border border-white rounded-lg outline-none w-full text-body-medium px-field-x py-field-y"
+                                type="text"
+                                placeholder="{{ ss.l_name }}">
+                        {% endif %}
+
+                        <input
+                            type="email"
+                            id="mce-EMAIL"
+                            name="EMAIL"
+                            class="text-footer-text-color placeholder:text-footer-text-color mb-gutter bg-transparent-500 border border-white rounded-lg outline-none w-full text-body-medium px-field-x py-field-y"
+                            placeholder="{{ ss.email }}"
+                            required>
+
+                        {% render 'button' element: 'button', type: 'submit', border_color: ss.form_btn_border_color, border_color_shade: '900', border_width: 'border', bg_color: ss.form_btn_color, bg_color_shade: '900', text_color: ss.form_btn_text_color, text_color_shade: '900', hover_bg: ss.form_btn_hover_color, hover_bg_shade: '900', hover_text: ss.form_btn_hover_text_color, hover_text_shade: ss.form_btn_hover_text_color_shade, hover_border_color: ss.btn_hover_border_color, hover_border_color_shade: "900" content: ss.form_btn, custom_class: 'w-full uppercase font-headline', before_icon: '', after_icon: 'send' %}
+
+                        {% if ss.form_terms != blank %}
+                            <div class="">{{ ss.form_terms }}</div>
+                        {% endif %}
+
+                    </form>
+
+                </div>
+                {% endcomment %}
+
+                <div class="form-wrapper pb-4 | lg:pb-0">
+                    <div class="title | mb-4 text-headline-4 text-tertiary-900 font-headline | lg:text-headline-4-lg ">
+                        {{ ss.title }}
+                    </div>
+                    <div class="subtitle | mb-6 text-body-large | lg:text-body-large-lg ">
+                        {{ ss.subtitle }}
+                    </div>
+                    <div class="klaviyo-embed-form klaviyo-form-{{ ss.formid }} "></div>
+                </div>
+            {% endif %}
+
+        </div>
+
+        <div class="site-footer-lists | order-2 w-full flex flex-col mb-gutter | lg:mb-0 lg:flex-row lg:w-1/2">
+
+            {% for block in section.blocks %}
+                <div class="list-wrapper w-full flex flex-col">
+                    {% assign bs = block.settings %}
+
+                    {% if bs.title != blank %}
+                        <a
+                            class="font-body font-semibold uppercase text-body-large relative w-full flex justify-between items-center my-gutter | lg:text-body-large-lg lg:cursor-default"
+                            data-dropdown
+                            href="#">
+                            {{ bs.title }}
+                            <span
+                                class="material-symbols-outlined | leading-6 font-light inline-block rotate-0 | lg:hidden | transition-all duration-animation-speed"
+                                data-add-class="rotate-180"
+                                data-remove-class="rotate-0">expand_more</span>
+                        </a>
+                    {% endif %}
+
+                    {% if bs.navigation != blank %}
+
+                        {% assign nav = bs.navigation %}
+
+                        <div class="accordion-content-wrapper duration-animation-speed transition-all lg:block" data-add-class="expanded">
+                            <ul class="list | overflow-hidden | lg:overflow-visible">
+
+                                {% for link in linklists[nav].links %}
+
+                                    <li class="list-item | text-body-medium font-normal | lg:text-body-medium-lg my-gutter">
+                                        <a href="{{ link.url }}">{{ link.title }}</a>
+                                    </li>
+
+                                {% endfor %}
+
+                                <li class="list-item | mb-gutter mt-container-gutter">
+                                    {% if bs.social_icons %}
+                                        <ul class="flex flex-wrap items-center">
+                                            {% if settings.social_facebook_link != blank %}
+                                                <li class="flex items-center w-6 h-6 mr-2">
+                                                    <a
+                                                        class="w-full h-full text-[0]"
+                                                        target="_blank"
+                                                        href="{{ settings.social_facebook_link }}">
+                                                        {% render 'facebook' %}
+                                                        {{ settings.social_facebook_handle }}
+                                                        <span class="sr-only">Facebook</span>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            {% if settings.social_instagram_link != blank %}
+                                                <li class="flex items-center w-6 h-6 mr-2">
+                                                    <a
+                                                        class="w-full h-full text-[0]"
+                                                        target="_blank"
+                                                        href="{{ settings.social_instagram_link }}">
+                                                        {% render 'instagram' %}
+                                                        {{ settings.social_instagram_handle }}
+                                                        <span class="sr-only">Instagram</span>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            {% if settings.social_tiktok_link != blank %}
+                                                <li class="flex items-center w-6 h-6 mr-2">
+                                                    <a
+                                                        class="w-full h-full text-[0]"
+                                                        target="_blank"
+                                                        href="{{ settings.social_tiktok_link }}">
+                                                        {% render 'tiktok' %}
+                                                        {{ settings.social_tiktok_handle }}
+
+                                                        <span class="sr-only">Tiktok</span>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            {% if settings.social_twitter_link != blank %}
+                                                <li class="flex items-center w-6 h-6 mr-2">
+                                                    <a
+                                                        class="w-full h-full text-[0]"
+                                                        target="_blank"
+                                                        href="{{ settings.social_twitter_link }}">
+                                                        {% render 'twitter' %}
+                                                        {{ settings.social_twitter_handle }}
+
+                                                        <span class="sr-only">Twitter</span>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            {% if settings.social_pinterest_link != blank %}
+                                                <li class="flex items-center w-6 h-6 mr-2">
+                                                    <a
+                                                        class="w-full h-full text-[0]"
+                                                        target="_blank"
+                                                        href="{{ settings.social_pinterest_link }}">
+                                                        {% render 'pinterest' %}
+                                                        {{ settings.social_pinterest_handle }}
+
+                                                        <span class="sr-only">Pinterest</span>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            {% if settings.social_snapchat_link != blank %}
+                                                <li class="flex items-center w-6 h-6 mr-2">
+                                                    <a
+                                                        class="w-full h-full text-[0]"
+                                                        target="_blank"
+                                                        href="{{ settings.social_snapchat_link }}">
+                                                        {% render 'snapchat' %}
+                                                        {{ settings.social_snapchat_handle }}
+
+                                                        <span class="sr-only">Snapchap</span>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            {% if settings.social_tumblr_link != blank %}
+                                                <li class="flex items-center w-6 h-6 mr-2">
+                                                    <a
+                                                        class="w-full h-full text-[0]"
+                                                        target="_blank"
+                                                        href="{{ settings.social_tumblr_link }}">
+                                                        {% render 'tumblr' %}
+                                                        {{ settings.social_tumblr_handle }}
+
+                                                        <span class="sr-only">Tumblr</span>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            {% if settings.social_linkedin_link != blank %}
+                                                <li class="flex items-center w-6 h-6 mr-2">
+                                                    <a
+                                                        class="w-full h-full text-[0]"
+                                                        target="_blank"
+                                                        href="{{ settings.social_linkedin_link }}">
+                                                        {% render 'linkedin' %}
+                                                        {{ settings.social_linkedin_handle }}
+
+                                                        <span class="sr-only">LinkedIn</span>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            {% if settings.social_youtube_link != blank %}
+                                                <li class="flex items-center w-6 h-6 mr-2">
+                                                    <a
+                                                        class="w-full h-full text-[0]"
+                                                        target="_blank"
+                                                        href="{{ settings.social_youtube_link }}">
+                                                        {% render 'youtube' %}
+                                                        {{ settings.social_youtube_handle }}
+
+                                                        <span class="sr-only">YouTube</span>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            {% if settings.social_vimeo_link != blank %}
+                                                <li class="flex items-center w-6 h-6 mr-2">
+                                                    <a
+                                                        class="w-full h-full text-[0]"
+                                                        target="_blank"
+                                                        href="{{ settings.social_vimeo_link }}">
+                                                        {% render 'vimeo' %}
+                                                        {{ settings.social_vimeo_handle }}
+
+                                                        <span class="sr-only">Vimeo</span>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    {% endif %}
+                                </li>
+
+                            </ul>
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+        {% comment %}
+			insert marquee here (should probably be a metafield)
+		{% endcomment %}
+        {% if ss.show_marquee %}
+            <div class="site-footer-marquee marquee | flex absolute right-0 bottom-[calc(56px_+_40px_+_20px)] left-0 !gap-10 px-container-gutter py-gutter text-display-lg font-normal w-full order-3 font-headline | lg:bottom-[calc(17.5px_+_40px_+_8px)] lg:text-display-lg {{ ss.marquee_bg }}-{{ ss.marquee_bg_shade }} {{ ss.marquee_text_color }}-900">
+                <div class="marquee_group flex !gap-10 justify-evenly uppercase ">
+
+                    {% if ss.marquee_text_one %}
+                        <a href="{%if ss.marquee_url_one != blank %} {{ ss.marquee_url_one }} {% else %} # {% endif %}" class="">
+                            {{ ss.marquee_text_one }}
+                        </a>
+                    {% endif %}
+
+                    {% if ss.marquee_text_two != blank %}
+                        <a href="{%if ss.marquee_url_two != blank %} {{ ss.marquee_url_two }} {% else %} # {% endif %}" class="">
+                            {{ ss.marquee_text_two }}
+                        </a>
+                    {% endif %}
+
+                    {% if ss.marquee_text_three != blank %}
+                        <a href="{%if ss.marquee_url_three != blank %} {{ ss.marquee_url_three }} {% else %} # {% endif %}" class="">
+                            {{ ss.marquee_text_three }}
+                        </a>
+                    {% endif %}
+
+                </div>
+
+                <div class="marquee_group flex !gap-10 justify-evenly uppercase">
+
+                    {% if ss.marquee_text_one %}
+                        <a href="{%if ss.marquee_url_one != blank %} {{ ss.marquee_url_one }} {% else %} # {% endif %}" class="">
+                            {{ ss.marquee_text_one }}
+                        </a>
+                    {% endif %}
+
+                    {% if ss.marquee_text_two != blank %}
+                        <a href="{%if ss.marquee_url_two != blank %} {{ ss.marquee_url_two }} {% else %} # {% endif %}" class="">
+                            {{ ss.marquee_text_two }}
+                        </a>
+                    {% endif %}
+
+                    {% if ss.marquee_text_three != blank %}
+                        <a href="{%if ss.marquee_url_three != blank %} {{ ss.marquee_url_three }} {% else %} # {% endif %}" class="">
+                            {{ ss.marquee_text_three }}
+                        </a>
+                    {% endif %}
+
+                </div>
+
+
+            </div>
+        {% endif %}
+
+
+        <div class="site-footer-footer | order-5 w-full flex justify-center flex-wrap | lg:flex-nowrap lg:justify-between | {% if ss.show_marquee %}pt-[calc(86px_+_40px_+_40px_+_56px)] lg:pt-[calc(96px_+_40px_+_40px_+_17.5px)]{%else%} lg:pt-10 {%endif%}">
+            <p class="w-full text-center text-body-medium mt-gutter | lg:mt-0 lg:text-body-small-lg lg:w-1/2 lg:text-left">&copy; {{ shop.name | link_to: routes.root_url }} {{ 'now' | date: "%Y" }} All Rights Reserved</p>
+
+            <p class="w-full text-center text-body-medium mt-gutter | lg:mt-0 lg:text-body-small-lg lg:w-1/2 lg:text-right">Designed & developed by
+                <a
+                    class="text-[#e66ba4]"
+                    target="_blank"
+                    href="https://twotwentyseven.com/">twotwentyseven_</a>
+            </p>
+        </div>
+
+    </div>
+
+</footer>
+
+
+{% schema %}
+    {
+        "name": "Site Footer",
+
+        "settings": [
+
+            {
+                "type": "image_picker",
+                "id": "logo",
+                "label": "Logo",
+                "info": "If this is left empty it will default to the logo set within theme settings"
+            },
+            {
+                "type": "select",
+                "id": "footer_bg",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "bg-tertiary",
+                        "label": "Beige"
+                    },
+                    {
+                        "value": "bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "bg-blue ",
+                        "label": "Blue"
+                    }, {
+                        "value": "bg-orange ",
+                        "label": "Orange"
+                    }, {
+                        "value": "bg-yellow ",
+                        "label": "Yellow"
+                    }, {
+                        "value": "bg-salmon ",
+                        "label": "Salmon"
+                    }, {
+                        "value": "bg-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Footer background colour"
+            },
+            {
+                "type": "range",
+                "id": "footer_bg_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Footer background colour shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            },
+            {
+                "type": "select",
+                "id": "footer_text_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "text-tertiary",
+                        "label": "Beige"
+                    },
+                    {
+                        "value": "text-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "text-salmon",
+                        "label": "Salmon"
+                    }, {
+                        "value": "text-blue",
+                        "label": "Blue"
+                    }, {
+                        "value": "text-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "text-yellow",
+                        "label": "Yellow"
+                    }
+                ],
+                "label": "Footer text colour"
+            }, {
+                "type": "header",
+                "content": "Newsletter"
+            }, {
+                "type": "checkbox",
+                "id": "newsletter",
+                "label": "Show Newsletter"
+            }, {
+                "type": "text",
+                "id": "title",
+                "label": "newsletter title"
+            }, {
+                "type": "textarea",
+                "id": "subtitle",
+                "label": "newsletter subtitle"
+            }, {
+                "type": "text",
+                "id": "formid",
+                "label": "Klaviyo form ID"
+            }, {
+                "type": "checkbox",
+                "id": "show_marquee",
+                "label": "Show looping text?"
+            }, {
+                "type": "text",
+                "id": "marquee_text_one",
+                "label": "marquee Text One"
+            }, {
+                "type": "url",
+                "id": "marquee_url_one",
+                "label": "marquee URL one"
+            }, {
+                "type": "text",
+                "id": "marquee_text_two",
+                "label": "marquee Text Two"
+            }, {
+                "type": "url",
+                "id": "marquee_url_two",
+                "label": "marquee URL Two"
+            }, {
+                "type": "text",
+                "id": "marquee_text_three",
+                "label": "marquee Text Three"
+            }, {
+                "type": "url",
+                "id": "marquee_url_three",
+                "label": "marquee URL Three"
+            }, {
+                "type": "select",
+                "id": "marquee_bg",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "bg-tertiary",
+                        "label": "Beige"
+                    },
+                    {
+                        "value": "bg-neutral",
+                        "label": "White"
+                    }, {
+                        "value": "bg-blue ",
+                        "label": "Blue"
+                    }, {
+                        "value": "bg-orange ",
+                        "label": "Orange"
+                    }, {
+                        "value": "bg-yellow ",
+                        "label": "Yellow"
+                    }, {
+                        "value": "bg-salmon ",
+                        "label": "Salmon"
+                    }, {
+                        "value": "bg-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Marquee background colour"
+            }, {
+                "type": "range",
+                "id": "marquee_bg_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Marquee background colour shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 500
+            }, {
+                "type": "select",
+                "id": "marquee_text_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "text-neutral",
+                        "label": "White"
+                    },
+                    {
+                        "value": "text-salmon",
+                        "label": "Salmon"
+                    }, {
+                        "value": "text-blue",
+                        "label": "Blue"
+                    }, {
+                        "value": "text-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "text-yellow",
+                        "label": "Yellow"
+                    }
+                ],
+                "label": "Marquee text colour"
+            }
+        ],
+
+        "blocks": [
+            {
+                "type": "list",
+                "name": "List",
+                "settings": [
+                    {
+                        "type": "textarea",
+                        "id": "title",
+                        "label": "List title"
+                    }, {
+                        "type": "link_list",
+                        "id": "navigation",
+                        "label": "Navigation",
+                        "info": "Select from Online Store > Naigation"
+                    }, {
+                        "type": "checkbox",
+                        "id": "social_icons",
+                        "label": "Show social icons",
+                        "info": "It is recommended to only have this checked on one block to avoid displaying the social icons on multiple lists"
+                    }
+                ]
+            }
+        ]
+
+    }
+{% endschema %}

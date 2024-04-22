@@ -1,0 +1,1254 @@
+{% assign ss = section.settings %}
+
+<section class="spotlight-carousel | items-center flex flex-col relative w-full py-container-gutter pb-16 |  lg:py-container-gutter-lg | {{ ss.text-align }} {{ ss.bg_color }}-{{ss.bg_color_shade}}">
+
+    <div class="w-full mb-6 px-container-gutter relative | lg:mb-10  lg:px-container-gutter-lg">
+
+        {% if ss.title_image != blank %}
+
+            {% render 'responsive-image' with image: ss.title_image, image_class: 'image object-cover w-full mx-auto max-w-[400px]', wrapper_class: 'image-wrapper mb-10' %}
+
+        {% elsif ss.title != blank or ss.curved_title != blank %}
+            <svg viewBox="0 0 600 {{ ss.curved_title | size | times:12 | plus: 16 }}" class="max-w-[500px] mx-auto">
+                <path
+                    id="curve"
+                    d="M195,163 C253,21 344,20 400,161"
+                    fill="transparent" />
+                <text width="500" class="{{ ss.curved_title_color }}">
+                    <textPath
+                        xlink:href="#curve"
+                        startOffset="50%"
+                        text-anchor="middle"
+                        class="font-headline text-headline-1 ">
+                        {{ ss.curved_title }}
+                    </textPath>
+                </text>
+            </svg>
+
+            <h2 class="title | mb-10 |  {{ ss.title_typeface }} {{ ss.title_weight }} {{ ss.title_color }}-{{ ss.title_color_shade }} {{ ss.title_size }} lg:{{ ss.title_size }}">
+                {{ ss.title | newline_to_br }}
+            </h2>
+
+        {% endif %}
+
+        {% if ss.subtitle != blank %}
+            <div class="content | {{ ss.subtitle_typeface }} {{ ss.subtitle_color }}-{{ ss.subtitle_color_shade }} {{ ss.subtitle_size }} lg:{{ ss.subtitle_size }}">
+                {{ ss.subtitle | newline_to_br }}
+            </div>
+        {% endif %}
+
+        <div class="button-wrapper | relative flex gap-6 justify-end mt-6 | lg:absolute lg:bottom-0 lg:right-container-gutter-lg lg:mt-0">
+
+            <div class="swiper-button-prev !left-0 !h-6 !top-auto !mt-0 !relative after:!content-none | ">
+
+                <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <g id="remix-icons/line/system/arrow-left-line" clip-path="url(#clip0_1174_311)">
+                        <g id="Group">
+                            <path
+                                id="Vector"
+                                d="M7.828 13H20V11H7.828L13.192 5.63601L11.778 4.22202L4 12L11.778 19.778L13.192 18.364L7.828 13Z"
+                                fill="#F6F1E7" />
+                        </g>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_1174_311">
+                            <rect
+                                width="24"
+                                height="24"
+                                fill="white"
+                                transform="matrix(1 0 0 -1 0 24)" />
+                        </clipPath>
+                    </defs>
+                </svg>
+
+            </div>
+
+            <div class="swiper-button-next !right-0 !h-6 !top-auto !mt-0 !relative after:!content-none |">
+                <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <g id="remix-icons/line/system/arrow-right-line" clip-path="url(#clip0_1174_316)">
+                        <g id="Group">
+                            <path
+                                id="Vector"
+                                d="M16.172 13L10.808 18.364L12.222 19.778L20 12L12.222 4.22202L10.808 5.63601L16.172 11H4V13H16.172Z"
+                                fill="#F6F1E7" />
+                        </g>
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_1174_316">
+                            <rect
+                                width="24"
+                                height="24"
+                                fill="white"
+                                transform="matrix(1 0 0 -1 0 24)" />
+                        </clipPath>
+                    </defs>
+                </svg>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div
+        data-swiper
+        data-swiper-settings='{"spaceBetween": 24, "centeredSlides": true, {%if section.blocks.size > 2 %} "initialSlide":1 , {%endif%} "threshold": "20", "speed": 400, "slidesPerView": "auto", "navigation": { "nextEl": ".spotlight-carousel .swiper-button-next", "prevEl": ".spotlight-carousel .swiper-button-prev" }, "breakpoints": { "1024": { "slidesPerView": "auto", "spaceBetween": 24 }}, "autoplay": false, "draggable": true}'
+        class="w-full swiper |">
+
+        <div class="swiper-wrapper">
+
+            {% for block in section.blocks %}
+
+                {% assign bs = block.settings %}
+
+                <div data-spotlight-card class="swiper-slide !w-[calc(100%_-_2rem)] max-w-[600px] overflow-hidden relative | lg:!w-[36.67%] lg:max-w-[33vw] lg:min-w-[500px] {% if bs.shadow_enabled %} shadow-[10px_10px_0px_0px] overflow-hidden rounded-2xl {{ bs.shadow_bg_color }}-{{ bs.shadow_bg_color_shade }} {%endif%}">
+
+                    <div
+                        data-spotlight-card-overlay
+                        class="card-overlay | absolute left-0 bottom-0 translate-y-0 opacity-25 rounded-lg bg-black w-full h-full transition-all duration-500 z-[1] pointer-events-none"
+                        data-remove-class="translate-y-[100%]"
+                        data-add-class="translate-y-0"></div>
+
+                    {% if bs.image %}
+
+                        {% render 'responsive-image' with image: bs.image, image_class: 'image h-full w-full object-cover rounded-2xl min-h-[420px] lg:min-h-full lg:absolute lg:top-0 lg:left-0', wrapper_class: 'image-wrapper relative w-full lg:pt-[100%]' %}
+
+                    {% endif %}
+
+                    <div
+                        data-spotlight-card-content-wrapper
+                        class="slide-wrapper | absolute bottom-1/2 translate-y-1/2 left-0 pl-6 w-4/5 text-left overflow-hidden z-[2] transition-all duration-500"
+                        data-add-class="bottom-6"
+                        data-remove-class="bottom-[calc(0px_+_24px_-_40px)]">
+
+                        <div class="title | mb-10 {{ bs.content_typeface }} font-normal {{ bs.content_size }} {{ bs.content_color }}-{{ bs.content_color_shade }}">{{ bs.title }}</div>
+                        <div
+                            data-spotlight-card-content
+                            class="content accordion-content-wrapper expanded | text-body-large font-body text-tertiary-900 transition-all duration-500 | lg:text-body-large-lg"
+                            data-add-class="expanded"
+                            data-remove-class="inactive">
+
+                            <div class="title-spacer | overflow-hidden ">
+                                {{ bs.content }}
+                            </div>
+                        </div>
+                    </div>
+                    {% comment %}
+                        <div data-spotlight-card-toggle class="trigger-button active | absolute bottom-6 right-6 z-[3] cursor-pointer">
+                        <svg
+                            data-spotlight-card-toggle-plus
+                            width="32"
+                            height="32"
+                            viewBox="0 0 32 32"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            class=""
+                            data-add-class="hidden"
+                            data-remove-class="active">
+                            <rect
+                                x="0.5"
+                                y="0.5"
+                                width="31"
+                                height="31"
+                                rx="15.5"
+                                fill="#F6F1E7" />
+                            <g clip-path="url(#clip0_1174_255)">
+                                <path d="M15 15V9H17V15H23V17H17V23H15V17H9V15H15Z" fill="#30261A" />
+                            </g>
+
+                            <defs>
+                                <clipPath id="clip0_1174_255">
+                                    <rect
+                                        width="24"
+                                        height="24"
+                                        fill="white"
+                                        transform="translate(4 4)" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+
+
+                        <svg
+                            data-spotlight-card-toggle-minus
+                            width="32"
+                            height="32"
+                            viewBox="0 0 32 32"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="hidden"
+                            data-add-class="active"
+                            data-remove-class="hidden">
+
+                            <rect
+                                x="0.5"
+                                y="0.5"
+                                width="31"
+                                height="31"
+                                rx="15.5"
+                                fill="#F6F1E7" />
+                            <g clip-path="url(#clip0_1174_243)">
+                                <path d="M9 15H23V17H9V15Z" fill="#30261A" />
+                            </g>
+
+                            <defs>
+                                <clipPath id="clip0_1174_243">
+                                    <rect
+                                        width="24"
+                                        height="24"
+                                        fill="white"
+                                        transform="translate(4 4)" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </div>
+                    {% endcomment %}
+
+
+                </div>
+
+            {% endfor %}
+        </div>
+
+
+
+    </div>
+
+
+</section>
+
+
+<script>/*Array.from(document.querySelectorAll("[data-spotlight-card]")).forEach(function(element){
+    element.target.querySelector("[data-spotlight-card-toggle]").addEventListener("click",function(e){
+    e.preventDefault();
+    element.querySelector("[data-spotlight-card-overlay]").toggleAnimation();
+    
+    })
+    })*/
+</script>{% schema %}
+{
+    "name": "Spotlight Carousel",
+    "settings": [
+        {
+            "type": "header",
+            "content": "background color"
+        },
+        {
+            "type": "select",
+            "id": "bg_color",
+            "options": [
+                {
+                    "value": "bg-primary",
+                    "label": "Teal"
+                },
+                {
+                    "value": "bg-secondary",
+                    "label": "Brown"
+                },
+                {
+                    "value": "bg-tertiary",
+                    "label": "Beige (yellowish)"
+                },
+                {
+                    "value": "bg-neutral",
+                    "label": "White"
+                }, {
+                    "value": "bg-transparent",
+                    "label": "Transparent"
+                }, {
+                    "value": "bg-blue",
+                    "label": "Blue"
+                }, {
+                    "value": "bg-yellow",
+                    "label": "Yellow"
+                }, {
+                    "value": "bg-salmon",
+                    "label": "Salmon"
+                }, {
+                    "value": "bg-orange",
+                    "label": "Orange"
+                }, {
+                    "value": "",
+                    "label": "None"
+                }
+            ],
+            "label": "Background color"
+        },
+        {
+            "type": "range",
+            "id": "bg_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Background color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        },
+        {
+            "type": "select",
+            "id": "text-align",
+            "options": [
+                {
+                    "value": "text-center justify-center",
+                    "label": "Center"
+                }, {
+                    "value": "text-left justify-start",
+                    "label": "Left"
+                }, {
+                    "value": "text-right justify-end",
+                    "label": "Right"
+                }
+            ],
+            "label": "Text alignment"
+        }, {
+            "type": "header",
+            "content": "Fonts & Copy"
+        }, {
+            "type": "image_picker",
+            "id": "title_image",
+            "label": "Title image",
+            "info": "Recommended size: 400x500px"
+        }, {
+            "type": "text",
+            "id": "curved_title",
+            "label": "Arch title"
+        }, {
+            "type": "textarea",
+            "id": "title",
+            "label": "Title"
+        }, {
+            "type": "select",
+            "id": "title_typeface",
+            "options": [
+                {
+                    "value": "font-headline",
+                    "label": "Headline"
+                }, {
+                    "value": "font-body",
+                    "label": "Body"
+                }
+            ],
+            "label": "Title font"
+        }, {
+            "type": "select",
+            "id": "title_size",
+            "options": [
+                {
+                    "value": "text-headline-6 lg:text-headline-6-lg",
+                    "label": "Heading 6"
+                },
+                {
+                    "value": "text-headline-5 lg:text-headline-5-lg",
+                    "label": "Heading 5"
+                },
+                {
+                    "value": "text-headline-4 lg:text-headline-4-lg",
+                    "label": "Heading 4"
+                },
+                {
+                    "value": "text-headline-3 lg:text-headline-3-lg",
+                    "label": "Heading 3"
+                }, {
+                    "value": "text-headline-2 lg:text-headline-2-lg",
+                    "label": "Heading 2"
+                }, {
+                    "value": "text-headline-1 lg:text-headline-1-lg",
+                    "label": "Heading 1"
+                }, {
+                    "value": "text-display lg:text-display-lg",
+                    "label": "Display"
+                }
+            ],
+            "label": "Title heading size",
+            "default": "text-headline-2 lg:text-headline-2-lg"
+        }, {
+            "type": "select",
+            "id": "title_weight",
+            "options": [
+                {
+                    "value": "font-bold",
+                    "label": "Bold"
+                },
+                {
+                    "value": "font-semibold",
+                    "label": "Semibold"
+                },
+                {
+                    "value": "font-medium",
+                    "label": "Medium"
+                },
+                {
+                    "value": "font-normal",
+                    "label": "Normal"
+                }, {
+                    "value": "font-light",
+                    "label": "Light"
+                }, {
+                    "value": "font-extralight",
+                    "label": "Extralight"
+                }, {
+                    "value": "font-thin",
+                    "label": "Thin"
+                }
+            ],
+            "label": "Title weight"
+        }, {
+            "type": "select",
+            "id": "title_color",
+            "options": [
+                {
+                    "value": "text-primary",
+                    "label": "Teal"
+                },
+                {
+                    "value": "text-secondary",
+                    "label": "Brown"
+                },
+                {
+                    "value": "text-neutral",
+                    "label": "White"
+                },
+                {
+                    "value": "text-tertiary",
+                    "label": "Beige"
+                }, {
+                    "value": "text-yellow",
+                    "label": "Yellow"
+                }, {
+                    "value": "text-orange",
+                    "label": "Orange"
+                }, {
+                    "value": "text-salmon",
+                    "label": "Salmon"
+                }, {
+                    "value": "text-blue",
+                    "label": "Blue"
+                }
+            ],
+            "label": "Title color",
+            "default": "text-secondary"
+        }, {
+            "type": "range",
+            "id": "title_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Title color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        }, {
+            "type": "select",
+            "id": "curved_title_color",
+            "options": [
+                {
+                    "value": "fill-primary-900",
+                    "label": "Teal"
+                },
+                {
+                    "value": "fill-secondary-900",
+                    "label": "Brown"
+                },
+                {
+                    "value": "fill-neutral-900",
+                    "label": "White"
+                },
+                {
+                    "value": "fill-tertiary-900",
+                    "label": "Beige"
+                }, {
+                    "value": "fill-yellow-900",
+                    "label": "Yellow"
+                }, {
+                    "value": "fill-orange-900",
+                    "label": "Orange"
+                }, {
+                    "value": "fill-salmon-900",
+                    "label": "Salmon"
+                }, {
+                    "value": "fill-blue-900",
+                    "label": "Blue"
+                }
+            ],
+            "label": "Curved title color"
+        }, {
+            "type": "richtext",
+            "id": "subtitle",
+            "label": "Subtitle"
+        }, {
+            "type": "select",
+            "id": "subtitle_typeface",
+            "options": [
+                {
+                    "value": "font-headline",
+                    "label": "Headline"
+                }, {
+                    "value": "font-body",
+                    "label": "Body"
+                }
+            ],
+            "label": "Subtitle font"
+        }, {
+            "type": "select",
+            "id": "subtitle_size",
+            "options": [
+                {
+                    "value": "text-body-small lg:text-body-small-lg",
+                    "label": "Body Small"
+                },
+                {
+                    "value": "text-body-medium lg:text-body-medium-lg",
+                    "label": "Body Medium"
+                },
+                {
+                    "value": "text-body-large lg:text-body-large-lg",
+                    "label": "Body Large"
+                },
+                {
+                    "value": "text-headline-6 lg:text-headline-6-lg",
+                    "label": "Heading 6"
+                }, {
+                    "value": "text-headline-5 lg:text-headline-5-lg",
+                    "label": "Heading 5"
+                }, {
+                    "value": "text-headline-4 lg:text-headline-4-lg",
+                    "label": "Heading 4"
+                }, {
+                    "value": "text-headline-3 lg:text-headline-3-lg",
+                    "label": "Heading 3"
+                }, {
+                    "value": "text-headline-2 lg:text-headline-2-lg",
+                    "label": "Heading 2"
+                }, {
+                    "value": "text-headline-1 lg:text-headline-1-lg",
+                    "label": "Heading 1"
+                }, {
+                    "value": "text-display lg:text-display-lg",
+                    "label": "Display"
+                }
+            ],
+            "label": "Subtitle heading size"
+        }, {
+            "type": "select",
+            "id": "subtitle_weight",
+            "options": [
+                {
+                    "value": "font-bold",
+                    "label": "Bold"
+                },
+                {
+                    "value": "font-semibold",
+                    "label": "Semibold"
+                },
+                {
+                    "value": "font-medium",
+                    "label": "Medium"
+                },
+                {
+                    "value": "font-normal",
+                    "label": "Normal"
+                }, {
+                    "value": "font-light",
+                    "label": "Light"
+                }, {
+                    "value": "font-extralight",
+                    "label": "Extralight"
+                }, {
+                    "value": "font-thin",
+                    "label": "Thin"
+                }
+            ],
+            "label": "Title weight"
+        }, {
+            "type": "select",
+            "id": "subtitle_color",
+            "options": [
+                {
+                    "value": "text-primary",
+                    "label": "Teal"
+                },
+                {
+                    "value": "text-secondary",
+                    "label": "Brown"
+                },
+                {
+                    "value": "text-neutral",
+                    "label": "White"
+                },
+                {
+                    "value": "text-tertiary",
+                    "label": "Beige"
+                }, {
+                    "value": "text-yellow",
+                    "label": "Yellow"
+                }, {
+                    "value": "text-orange",
+                    "label": "Orange"
+                }, {
+                    "value": "text-salmon",
+                    "label": "Salmon"
+                }, {
+                    "value": "text-blue",
+                    "label": "Blue"
+                }
+
+            ],
+            "label": "Subtitle color"
+        }, {
+            "type": "range",
+            "id": "subtitle_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Subtitle color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        }, {
+            "type": "header",
+            "content": "button 1"
+        }, {
+            "type": "text",
+            "id": "btn_text",
+            "label": "Button text"
+        }, {
+            "type": "url",
+            "id": "btn_url",
+            "label": "Button URL"
+        }, {
+            "type": "select",
+            "id": "btn_color",
+            "options": [
+                {
+                    "value": "bg-primary",
+                    "label": "Teal"
+                },
+                {
+                    "value": "bg-secondary",
+                    "label": "Brown"
+                },
+                {
+                    "value": "bg-tertiary",
+                    "label": "Beige (yellowish)"
+                },
+                {
+                    "value": "bg-neutral",
+                    "label": "White"
+                }, {
+                    "value": "bg-transparent",
+                    "label": "Transparent"
+                }, {
+                    "value": "bg-blue",
+                    "label": "Blue"
+                }, {
+                    "value": "bg-yellow",
+                    "label": "Yellow"
+                }, {
+                    "value": "bg-salmon",
+                    "label": "Salmon"
+                }, {
+                    "value": "bg-orange",
+                    "label": "Orange"
+                }, {
+                    "value": "",
+                    "label": "None"
+                }
+            ],
+            "label": "Button color"
+        }, {
+            "type": "range",
+            "id": "btn_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Button color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        }, {
+            "type": "select",
+            "id": "btn_border_color",
+            "options": [
+                {
+                    "value": "border-primary",
+                    "label": "Border Teal"
+                }, {
+                    "value": "border-secondary",
+                    "label": "Border Brown"
+                }, {
+                    "value": "border-neutral",
+                    "label": "Border White"
+                }, {
+                    "value": "border-transparent ",
+                    "label": "None"
+                }
+            ],
+            "label": "Button border color"
+        }, {
+            "type": "range",
+            "id": "btn_border_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Button border color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        }, {
+            "type": "select",
+            "id": "btn_text_color",
+            "options": [
+                {
+                    "value": "text-primary",
+                    "label": "Teal"
+                },
+                {
+                    "value": "text-secondary",
+                    "label": "Brown"
+                },
+                {
+                    "value": "text-tertiary",
+                    "label": "Beige"
+                },
+                {
+                    "value": "text-neutral",
+                    "label": "White"
+                }, {
+                    "value": "text-salmon",
+                    "label": "Salmon"
+                }, {
+                    "value": "text-yellow",
+                    "label": "Yellow"
+                }, {
+                    "value": "text-orange",
+                    "label": "Orange"
+                }, {
+                    "value": "text-blue",
+                    "label": "Blue"
+                }
+            ],
+            "label": "Button text color"
+        }, {
+            "type": "range",
+            "id": "btn_text_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Button text color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        }, {
+            "type": "header",
+            "content": "button 1 hover styles"
+        }, {
+            "type": "select",
+            "id": "btn_hover_color",
+            "options": [
+                {
+                    "value": "hover:bg-primary",
+                    "label": "Teal"
+                }, {
+                    "value": "hover:bg-secondary",
+                    "label": "Brown"
+                }, {
+                    "value": "hover:bg-neutral",
+                    "label": "White"
+                }, {
+                    "value": "hover:bg-transparent ",
+                    "label": "None"
+                }
+            ],
+            "label": "Button hover color"
+        }, {
+            "type": "range",
+            "id": "btn_hover_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Button color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        }, {
+            "type": "select",
+            "id": "btn_hover_border_color",
+            "options": [
+                {
+                    "value": "hover:border-primary",
+                    "label": "Border Teal"
+                }, {
+                    "value": "hover:border-secondary",
+                    "label": "Border Brown"
+                }, {
+                    "value": "hover:border-neutral",
+                    "label": "Border White"
+                }, {
+                    "value": "hover:border-transparent ",
+                    "label": "None"
+                }
+            ],
+            "label": "Button hover border color"
+        }, {
+            "type": "range",
+            "id": "btn_hover_border_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Button hover color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        }, {
+            "type": "select",
+            "id": "btn_hover_text_color",
+            "options": [
+                {
+                    "value": "hover:text-primary",
+                    "label": "Teal"
+                }, {
+                    "value": "hover:text-secondary",
+                    "label": "Brown"
+                }, {
+                    "value": "hover:text-neutral",
+                    "label": "White"
+                }
+            ],
+            "label": "Button hover text color"
+        }, {
+            "type": "range",
+            "id": "btn_hover_text_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Button hover text color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        }, {
+            "type": "header",
+            "content": "button 2"
+        }, {
+            "type": "text",
+            "id": "alt_btn_text",
+            "label": "Alt button text"
+        }, {
+            "type": "url",
+            "id": "alt_btn_url",
+            "label": "Alt button URL"
+        }, {
+            "type": "select",
+            "id": "alt_btn_color",
+            "options": [
+                {
+                    "value": "bg-primary",
+                    "label": "Teal"
+                },
+                {
+                    "value": "bg-secondary",
+                    "label": "Brown"
+                },
+                {
+                    "value": "bg-tertiary",
+                    "label": "Beige (yellowish)"
+                },
+                {
+                    "value": "bg-neutral",
+                    "label": "White"
+                }, {
+                    "value": "bg-transparent",
+                    "label": "Transparent"
+                }, {
+                    "value": "bg-blue",
+                    "label": "Blue"
+                }, {
+                    "value": "bg-yellow",
+                    "label": "Yellow"
+                }, {
+                    "value": "bg-salmon",
+                    "label": "Salmon"
+                }, {
+                    "value": "bg-orange",
+                    "label": "Orange"
+                }, {
+                    "value": "",
+                    "label": "None"
+                }
+            ],
+            "label": "Alt button color"
+        }, {
+            "type": "range",
+            "id": "alt_btn_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Alt Button color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        }, {
+            "type": "select",
+            "id": "alt_btn_border_color",
+            "options": [
+                {
+                    "value": "border-primary",
+                    "label": "Border Teal"
+                }, {
+                    "value": "border-secondary",
+                    "label": "Border Brown"
+                }, {
+                    "value": "border-neutral",
+                    "label": "Border White"
+                }, {
+                    "value": "border-transparent ",
+                    "label": "None"
+                }
+            ],
+            "label": "Alt Button border color"
+        }, {
+            "type": "range",
+            "id": "alt_btn_border_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Alt Button color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        }, {
+            "type": "select",
+            "id": "alt_btn_text_color",
+            "options": [
+                {
+                    "value": "text-primary",
+                    "label": "Teal"
+                }, {
+                    "value": "text-secondary",
+                    "label": "Brown"
+                }, {
+                    "value": "text-neutral",
+                    "label": "White"
+                }
+            ],
+            "label": "Alt Button text color"
+        }, {
+            "type": "range",
+            "id": "alt_btn_text_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Alt button text color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        }, {
+            "type": "header",
+            "content": "button 2 hover styles"
+        }, {
+            "type": "select",
+            "id": "alt_btn_hover_color",
+            "options": [
+                {
+                    "value": "hover:bg-primary",
+                    "label": "Teal"
+                }, {
+                    "value": "hover:bg-secondary",
+                    "label": "Brown"
+                }, {
+                    "value": "hover:bg-neutral",
+                    "label": "White"
+                }, {
+                    "value": "hover:bg-transparent ",
+                    "label": "None"
+                }
+            ],
+            "label": "Button hover color"
+        }, {
+            "type": "range",
+            "id": "alt_btn_hover_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Alt Button hover color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        }, {
+            "type": "select",
+            "id": "alt_btn_hover_border_color",
+            "options": [
+                {
+                    "value": "hover:border-primary",
+                    "label": "Border Teal"
+                }, {
+                    "value": "hover:border-secondary",
+                    "label": "Border Brown"
+                }, {
+                    "value": "hover:border-neutral",
+                    "label": "Border White"
+                }, {
+                    "value": "hover:border-transparent ",
+                    "label": "None"
+                }
+            ],
+            "label": "Alt Button hover border color"
+        }, {
+            "type": "range",
+            "id": "alt_btn_hover_border_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Alt Button hover border color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        }, {
+            "type": "select",
+            "id": "alt_btn_hover_text_color",
+            "options": [
+                {
+                    "value": "hover:text-primary",
+                    "label": "Teal"
+                }, {
+                    "value": "hover:text-secondary",
+                    "label": "Brown"
+                }, {
+                    "value": "hover:text-neutral",
+                    "label": "White"
+                }
+            ],
+            "label": "Alt Button hover text color"
+        }, {
+            "type": "range",
+            "id": "alt_btn_hover_text_color_shade",
+            "min": 0,
+            "max": 900,
+            "step": 100,
+            "label": "Alt Button hover text color shade",
+            "info": "Number range 0 - 900. Lighest to darkest",
+            "default": 500
+        }, {
+            "type": "header",
+            "content": "Carousel Settings"
+        }
+    ],
+    "blocks": [
+        {
+            "type": "Slide",
+            "name": "Slide",
+            "settings": [
+                {
+                    "type": "header",
+                    "content": "background media"
+                },
+                {
+                    "type": "textarea",
+                    "id": "title",
+                    "label": "Title"
+                },
+                {
+                    "type": "textarea",
+                    "id": "content",
+                    "label": "Content",
+                    "info": "Try to limit copy to 400 characters"
+
+
+                },
+                {
+                    "type": "image_picker",
+                    "id": "image",
+                    "label": "Image",
+                    "info": "Recommended size: 380x440px"
+                }, {
+                    "type": "select",
+                    "id": "content_typeface",
+                    "options": [
+                        {
+                            "value": "font-headline",
+                            "label": "Headline"
+                        }, {
+                            "value": "font-body",
+                            "label": "Body"
+                        }
+                    ],
+                    "label": "Title font"
+                }, {
+                    "type": "select",
+                    "id": "content_size",
+                    "options": [
+                        {
+                            "value": "text-body-small lg:text-body-small-lg",
+                            "label": "Body Small"
+                        },
+                        {
+                            "value": "text-body-medium lg:text-body-medium-lg",
+                            "label": "Body Medium"
+                        },
+                        {
+                            "value": "text-body-large lg:text-body-large-lg",
+                            "label": "Body Large"
+                        },
+                        {
+                            "value": "text-headline-6 lg:text-headline-6-lg",
+                            "label": "Heading 6"
+                        }, {
+                            "value": "text-headline-5 lg:text-headline-5-lg",
+                            "label": "Heading 5"
+                        }, {
+                            "value": "text-headline-4 lg:text-headline-4-lg",
+                            "label": "Heading 4"
+                        }, {
+                            "value": "text-headline-3 lg:text-headline-3-lg",
+                            "label": "Heading 3"
+                        }, {
+                            "value": "text-headline-2 lg:text-headline-2-lg",
+                            "label": "Heading 2"
+                        }, {
+                            "value": "text-headline-1 lg:text-headline-1-lg",
+                            "label": "Heading 1"
+                        }, {
+                            "value": "text-display lg:text-display-lg",
+                            "label": "Display"
+                        }
+                    ],
+                    "label": "Title heading size",
+                    "default": "text-headline-2 lg:text-headline-2-lg"
+                }, {
+                    "type": "select",
+                    "id": "content_weight",
+                    "options": [
+                        {
+                            "value": "font-bold",
+                            "label": "Bold"
+                        },
+                        {
+                            "value": "font-semibold",
+                            "label": "Semibold"
+                        },
+                        {
+                            "value": "font-medium",
+                            "label": "Medium"
+                        },
+                        {
+                            "value": "font-normal",
+                            "label": "Normal"
+                        }, {
+                            "value": "font-light",
+                            "label": "Light"
+                        }, {
+                            "value": "font-extralight",
+                            "label": "Extralight"
+                        }, {
+                            "value": "font-thin",
+                            "label": "Thin"
+                        }
+                    ],
+                    "label": "Title weight"
+                }, {
+                    "type": "select",
+                    "id": "content_color",
+                    "options": [
+                        {
+                            "value": "text-primary",
+                            "label": "Teal"
+                        },
+                        {
+                            "value": "text-secondary",
+                            "label": "Brown"
+                        },
+                        {
+                            "value": "text-tertiary",
+                            "label": "Beige"
+                        },
+                        {
+                            "value": "text-neutral",
+                            "label": "White"
+                        }, {
+                            "value": "text-salmon",
+                            "label": "Salmon"
+                        }, {
+                            "value": "text-yellow",
+                            "label": "Yellow"
+                        }, {
+                            "value": "text-orange",
+                            "label": "Orange"
+                        }, {
+                            "value": "text-blue",
+                            "label": "Blue"
+                        }
+                    ],
+                    "label": "Title color",
+                    "default": "text-tertiary"
+                }, {
+                    "type": "range",
+                    "id": "content_color_shade",
+                    "min": 0,
+                    "max": 900,
+                    "step": 100,
+                    "label": "Content color shade",
+                    "info": "Number range 0 - 900. Lighest to darkest",
+                    "default": 500
+                }, {
+                    "type": "checkbox",
+                    "id": "shadow_enabled",
+                    "label": "Enable background shadow"
+                }, {
+                    "type": "select",
+                    "id": "shadow_bg_color",
+                    "options": [
+                        {
+                            "value": "shadow-primary",
+                            "label": "Teal"
+                        },
+                        {
+                            "value": "shadow-secondary",
+                            "label": "Brown"
+                        },
+                        {
+                            "value": "shadow-tertiary",
+                            "label": "Beige (yellowish)"
+                        },
+                        {
+                            "value": "shadow-neutral",
+                            "label": "White"
+                        }, {
+                            "value": "shadow-transparent",
+                            "label": "Transparent"
+                        }, {
+                            "value": "shadow-blue",
+                            "label": "Blue"
+                        }, {
+                            "value": "shadow-yellow",
+                            "label": "Yellow"
+                        }, {
+                            "value": "shadow-salmon",
+                            "label": "Salmon"
+                        }, {
+                            "value": "shadow-orange",
+                            "label": "Orange"
+                        }, {
+                            "value": "",
+                            "label": "None"
+                        }
+                    ],
+                    "label": "Shadow background",
+                    "default": "shadow-primary"
+                }, {
+                    "type": "range",
+                    "id": "shadow_bg_color_shade",
+                    "min": 0,
+                    "max": 900,
+                    "step": 100,
+                    "label": "Color shade",
+                    "info": "Number range 0 - 900. Lighest to darkest",
+                    "default": 500
+                }
+
+            ]
+        }
+
+    ],
+    "presets": [
+        {
+            "name": "Spotlight Card carousel"
+        }
+    ]
+
+}
+{% endschema %}

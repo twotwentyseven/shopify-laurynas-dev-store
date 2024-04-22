@@ -1,0 +1,130 @@
+{
+  "sections": {
+    "main": {
+      "type": "contact-form",
+      "blocks": {
+        "844f2ebe-84a0-4ca8-a85d-f26f3166d996": {
+          "type": "text-field",
+          "settings": {
+            "field_label": "Name",
+            "field_placeholder": "",
+            "field_id": "name",
+            "field_required": true,
+            "field_col_width": "lg:w-full"
+          }
+        },
+        "f25bd877-2474-4264-8430-12c5ba20aa9a": {
+          "type": "email-field",
+          "settings": {
+            "field_label": "Email address",
+            "field_placeholder": "",
+            "field_id": "email",
+            "field_required": true,
+            "field_col_width": "lg:w-full"
+          }
+        },
+        "6852e508-ab77-4810-9b88-63079e5b8f0a": {
+          "type": "select-field",
+          "settings": {
+            "field_placeholder": "Subject",
+            "field_id": "reason",
+            "field_option": "Expired product, Complaint",
+            "field_required": true,
+            "field_col_width": "lg:w-[calc(50%-0.625rem)]"
+          }
+        },
+        "b535bdf7-dbeb-4719-9516-59adf8e17b63": {
+          "type": "text-field",
+          "disabled": true,
+          "settings": {
+            "field_label": "Subject",
+            "field_placeholder": "Subject",
+            "field_id": "subject",
+            "field_required": true,
+            "field_col_width": "lg:w-full"
+          }
+        },
+        "2b92a062-c381-41b3-b5c1-fec883eda9bd": {
+          "type": "textarea-field",
+          "settings": {
+            "field_label": "Message",
+            "field_placeholder": "Type your message here...",
+            "field_id": "message",
+            "field_required": true,
+            "field_col_width": "lg:w-full"
+          }
+        }
+      },
+      "block_order": [
+        "844f2ebe-84a0-4ca8-a85d-f26f3166d996",
+        "f25bd877-2474-4264-8430-12c5ba20aa9a",
+        "6852e508-ab77-4810-9b88-63079e5b8f0a",
+        "b535bdf7-dbeb-4719-9516-59adf8e17b63",
+        "2b92a062-c381-41b3-b5c1-fec883eda9bd"
+      ],
+      "settings": {
+        "bg_color": "bg-primary",
+        "image": "shopify:\/\/shop_images\/Timbo.jpg",
+        "title": "GET IN TOUCH",
+        "subtitle": "<p>Pick up the phone, drop us an email or fill in the form.<\/p>",
+        "contact_email": "info@roastingparty.co.uk",
+        "contact_phone": "01962 867377",
+        "contact_phone_title": "Customer queries",
+        "wholesale_phone": "07468 563387",
+        "wholesale_phone_title": "Wholesale queries",
+        "success-msg": "Success! We received your message!",
+        "btn_text": "Send Message"
+      }
+    },
+    "c9fab55c-d258-4595-9047-e6ee46209714": {
+      "type": "contact-locations",
+      "blocks": {
+        "e3e8f35b-7e7c-49d4-b355-edcb3185aa9f": {
+          "type": "location",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/PAV.jpg",
+            "address": "253 Pavilion Rd, London, SW1X 0BP",
+            "email": "stores@roastingparty.co.uk",
+            "phone": "020 7730 6655",
+            "cta_text": "view more",
+            "cta_url": "shopify:\/\/pages\/our-stores"
+          }
+        },
+        "eceb2e1f-98a9-40de-8c56-7a5e0a0c53ab": {
+          "type": "location",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/MOORGATGE.jpg",
+            "address": "71 Moorgate, London, EC2R 6BH",
+            "email": "stores@roastingparty.co.uk",
+            "phone": "020 7730 6655",
+            "cta_text": "view more",
+            "cta_url": "shopify:\/\/pages\/our-stores"
+          }
+        },
+        "7eccdc5a-919c-47db-b70d-b3906354ddfb": {
+          "type": "location",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/MILL.jpg",
+            "address": "Station Mill, Station Rd, Alresford, SO24 9JQ",
+            "email": "stores@roastingparty.co.uk",
+            "phone": "07387 265123",
+            "cta_text": "view more",
+            "cta_url": "shopify:\/\/pages\/our-stores"
+          }
+        }
+      },
+      "block_order": [
+        "e3e8f35b-7e7c-49d4-b355-edcb3185aa9f",
+        "eceb2e1f-98a9-40de-8c56-7a5e0a0c53ab",
+        "7eccdc5a-919c-47db-b70d-b3906354ddfb"
+      ],
+      "settings": {
+        "title": "OUR STORES"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "c9fab55c-d258-4595-9047-e6ee46209714"
+  ]
+}

@@ -1,0 +1,27 @@
+{% comment %} Add Google fonts link {% endcomment %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link  media="print" onload="this.onload=null;this.removeAttribute('media');" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<link  media="print" onload="this.onload=null;this.removeAttribute('media');" href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,700,500,600,300&display=swap" rel="stylesheet">
+<link  media="print" onload="this.onload=null;this.removeAttribute('media');" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" rel="stylesheet" />
+<link  media="print" onload="this.onload=null;this.removeAttribute('media');" href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css?display=swap" rel="stylesheet">
+
+{% comment %} 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css" media="print" onload="this.media='all'"/>
+<noscript>{{ 'https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.6.6/css/flag-icons.min.css' | stylesheet_tag }}</noscript> {% endcomment %}
+
+
+<link rel="stylesheet" href="{{ 'style-base.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'style-base.css' | asset_url | stylesheet_tag }}</noscript>
+
+{% comment %}
+<link rel="stylesheet" href="{{ 'tw-base.css' | asset_url }}">
+{% endcomment %}
+
+
+{{ 'tw-base.css' | asset_url | stylesheet_tag: preload:true }}
+<noscript>{{ 'tw-base.css' | asset_url | stylesheet_tag }}</noscript>
+
+<link href="{{ 'swiper-bundle.min.css' | asset_url }}" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript>{{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}</noscript>

@@ -1,0 +1,111 @@
+{% assign ss = section.settings %}
+
+{% if ss.enable_modal %}
+
+    <button
+        data-newsletter-trigger
+        class="newletter-button | fixed opacity-100 bottom-10 right-4 text-secondary-900 bg-yellow-900 text-body-large rounded-full px-4 z-[15] w-[96px] h-[96px] | lg:text-headline-6-lg lg:w-[120px] lg:h-[120px] | aria-hidden:-bottom-[50vh] aria-hidden:opacity-0 | transition-all duration-500"
+        aria-hidden="true">
+        <p
+            class="copy | ">
+            {{ ss.copy }}
+        </p>
+    </button>
+
+    <section data-newsletter-overlay
+        class="newsletter-modal z-[100] fixed -top-[100vh] left-0 h-screen w-screen bg-neutral-900 bg-opacity-40 | transition-all duration-animation-speed"
+        data-add-class="top-0 visible"
+        data-remove-class="-top-[100vh]">
+
+
+        {% comment %}
+        <div
+            data-newsletter-modal
+            class="modal | fixed -bottom-[100vh] my-10 mx-4 left-0 right-0  | md:right-auto | lg:-top-[100vh] lg:left-1/2 lg:-translate-x-[50%] lg:-translate-y-[50%] lg:bottom-auto | transition-all duration-animation-speed"
+            data-add-class="lg:top-1/2 bottom-0 "
+            data-remove-class="-bottom-[100vh] lg:-top-[100vh]">        
+            {% endcomment %}
+        <div
+            data-newsletter-modal
+            class="modal | fixed flex flex-col w-full max-w-[500px] max-h-screen overflow-auto py-10 px-4 -top-[100vh] left-1/2 -translate-x-[50%] -translate-y-[50%] bottom-auto | transition-all duration-animation-speed | lg:flex-row lg:max-w-[1000px] lg:max-h-[100%]"
+            data-add-class="top-1/2"
+            data-remove-class="-top-[100vh]">
+
+            <a
+                href="#"
+                data-close-newsletter-modal
+                class="close-icon absolute text-neutral-500 text-headline-5 z-10 right-6 top-11 active cursor-pointer">
+                <i
+                    class="ri-close-circle-line | text-headline-2"></i>
+            </a>
+
+            {% render 'responsive-image' with image: ss.image, image_class: 'image h-full w-full object-cover rounded-tl-2xl rounded-tr-2xl absolute top-0 left-0  | lg:rounded-tr-none lg:rounded-bl-2xl ', wrapper_class: 'image-wrapper relative pt-[calc(320_/_380_*_100%)] w-full lg:pt-[40%] lg:basis-1/2' %}
+            {% comment %}
+                TODO:: Add conditional logic to check if there is a klaviyo id to render the popup at all
+            {% endcomment %}
+            <div
+                class="form-wrapper | flex flex-col p-6 bg-secondary-900 rounded-br-2xl rounded-bl-2xl text-tertiary-900 | lg:rounded-bl-none lg:rounded-tr-2xl lg:basis-1/2 lg:max-h-full lg:overflow-auto">
+                <div
+                    class="title | mb-4 text-headline-5 text-tertiary-900 font-headline | lg:text-headline-4-lg ">
+                    {{ ss.title }}
+                </div>
+                <div
+                    class="subtitle | mb-4 text-body-small | lg:text-body-large-lg lg:mb-6">
+                    {{ ss.subtitle }}
+                </div>
+                <div
+                    class="klaviyo-embed-form klaviyo-form-{{ ss.formid }} "></div>
+            </div>
+
+
+        </div>
+
+    </section>
+{% endif %}
+
+
+{% schema %}
+    {
+        "name": "Newsletter Modal",
+
+        "settings": [
+            {
+                "type": "checkbox",
+                "id": "enable_modal",
+                "default": false,
+                "label": "Enable newsletter modal"
+            },
+            {
+                "type": "image_picker",
+                "id": "image",
+                "label": "Image"
+            },
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Popup title"
+            },
+            {
+                "type": "textarea",
+                "id": "subtitle",
+                "label": "Popup subtitle"
+            }, {
+                "type": "text",
+                "id": "copy",
+                "label": "Sticky button text"
+            }, {
+                "type": "text",
+                "id": "formid",
+                "label": "Klaviyo form ID"
+            }
+
+
+        ],
+        "presets": [
+            {
+                "name": "Newsletter Modal"
+            }
+        ]
+
+    }
+{% endschema %}

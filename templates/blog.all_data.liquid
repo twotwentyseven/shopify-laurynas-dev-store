@@ -1,0 +1,182 @@
+{% layout none %}
+{% comment %} 
+This is a JSON object template for the data of a Blog
+- NOT intended to be selected as a Blog template from the CMS.
+- Should be used in API calls with the ?view=all_data flag.
+- take blog.all_tags group all the tags which all contain the same text before the first ':' (the label) - count would be the number of unique items
+  everything after the ':' will be our active, inactive and values (the value)
+  url_to_add & url_to_remove would be ?{{handleized-tag}}
+- need to workout how inactive and active are updated. as this might be handled by storefront
+{% endcomment %}
+{% assign full_url = request.path %}
+{% unless full_url contains 'tagged' %}
+    {% assign full_url = full_url | append: '/tagged/' %}
+{% else %}
+    {% assign full_url = full_url | append: '+' %}
+{% endunless %}
+
+
+
+{% assign activeFilter = full_url | remove: '?view=all_data' | split: '/tagged/' | last | split: '+' %}
+
+{
+    "title": {{ blog.title | json | remove: "\n" }},
+    "description": {{ blog.description | json | remove: "\n" }},
+    "featured_image": {{ blog.image | img_url: '' | json }},
+    {% comment %}  
+    <!-- Blogs doesn't have a sort by liquid property -->
+    "sort_by": {{ blog.sort_by | json }},
+    <!-- Default sort order of the collection -->
+    "default_sort_by": {{ blog.default_sort_by | json }},  
+    "sort_options": [
+        {% for option in blog.sort_options %}
+            {
+                "name":{{ option.name | json }},
+                "value":{{ option.value | json }}
+            }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+    ], 
+    {% endcomment %}
+    "blog_filters": [
+    {% comment %}blogs has to be filtered by tags {% endcomment %}
+        {%- for filter in blog.all_tags | sort -%}
+            {% assign label = filter | split: ':' | first | downcase %}
+            {% if pre_label %}
+                {% unless label == pre_label %},{% endunless %}
+            {% endif %}
+            {% unless label == pre_label %}
+            {
+                "param_name":{{ label | json }},
+                "type":"list",
+                "values":[
+                    {% assign pre_fv = false %} {% comment %} reset pre_fv to stop invalid json{% endcomment %}
+                    
+                    {%- for fv in blog.all_tags | sort -%}
+                        {% assign handle_fv = fv | handleize %}
+                        {% assign count = 0 %}
+                        {% for article in blog.articles %}
+                            {% for tag in article.tags %}
+                                {% if fv == tag %}
+                                    {% assign count = count | plus: 1 %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                        {%- if fv contains label -%}
+                            {% if pre_fv %}
+                                {%- unless fv == pre_fv -%},{% else %}{% assign count = 0 %}{%- endunless -%}
+                            {% endif %}
+                            {% assign fv_label = fv | split: ':' | first %}
+                            {% assign value = fv | split: ':' | last %}
+                            {
+                                "active": {% if full_url contains handle_fv %}true{% else %}false{% endif %},
+                                "count":{{ count | json }},
+                                "label":{{ value | capitalize | replace: '-', ' ' | json }},
+                                "param_name": "{{ fv | handleize }}",
+                                {% if full_url contains handle_fv %}
+                                    {% assign add_url = full_url | remove: handle_fv | remove: '+' %}
+                                {% else %}
+                                    {% assign add_url = full_url %}
+                                {% endif %}
+                                "url_to_add":"{{add_url }}{{ fv | handleize }}?view=all_data",
+                                "url_to_remove":"{{ full_url }}?view=all_data",
+                                "value":{{ value | json }}
+                            }
+                            {%- assign pre_fv = fv -%}
+                        {%- endif -%}
+                    {% endfor %}
+                ],
+                     
+                "active_values":[
+                {% assign pre_fv = false %} {% comment %} reset pre_fv to stop invalid json{% endcomment %}
+                {% assign count = 0 %}
+                
+                {% for filter in activeFilter %} {%comment %} loop through active filter{% endcomment %}
+                    {%- for fv in blog.all_tags | sort -%} {%comment %} loop through  all tags{% endcomment %}
+                    {% assign handle_fv = fv | handleize %}
+                        {%- if fv contains label -%}
+                            {% if handle_fv == filter %}
+                                {% if pre_fv %}
+                                    {%- unless fv == pre_fv -%},{% else %}{% assign count = 0 %}{%- endunless -%}
+                                {% endif %}
+                                {% for article in blog.articles %}
+                                    {% for tag in article.tags %}
+                                        {% assign tag = tag | handleize %}
+                                        {% if filter == tag %}
+                                            {% assign count = count | plus: 1 %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+                                {% assign fv_label = fv | split: ':' | first %}
+                                {% assign value = fv | split: ':' | last %}
+                                    {
+                                        "active": {% if full_url contains handle_fv %}true{% else %}false{% endif %},
+                                        "count":{{ count | json }},
+                                        "label":{{ value | capitalize | replace: '-', ' ' | json }},
+                                        "param_name": "{{ fv | handleize }}",
+                                        {% if full_url contains handle_fv %}
+                                            {% assign add_url = full_url | remove: handle_fv | remove: '+' %}
+                                        {% else %}
+                                            {% assign add_url = full_url %}
+                                        {% endif %}
+                                        "url_to_add":"{{add_url }}{{ fv | handleize }}?view=all_data",
+                                        "url_to_remove":"{{full_url | remove: '+' }}?view=all_data",
+                                        "value":{{ value | json }}
+                                    }
+                                {%- assign pre_fv = fv -%}
+                            {%- endif -%}
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                ],
+                "inactive_values":[
+                {% assign pre_fv = false %} {% comment %} reset pre_fv to stop invalid json{% endcomment %}
+                {% assign count = 0 %}
+                
+                {%- for fv in blog.all_tags | sort -%} {%comment %} loop through  all tags{% endcomment %}
+                {% assign handle_fv = fv | handleize %}
+                    {%- if fv contains label -%}
+                        {% unless full_url contains handle_fv %}
+                            {% if pre_fv %}
+                                {%- unless fv == pre_fv -%},{% else %}{% assign count = 0 %}{%- endunless -%}
+                            {% endif %}
+                            {% for article in blog.articles %}
+                                {% for tag in article.tags %}
+                                    {% assign tag = tag | handleize %}
+                                    {% if filter == tag %}
+                                        {% assign count = count | plus: 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                            {% assign fv_label = fv | split: ':' | first %}
+                            {% assign value = fv | split: ':' | last %}
+                            {
+                                "active": {% if full_url contains handle_fv %}true{% else %}false{% endif %},
+                                "count":{{ count | json }},
+                                "label":{{ value | capitalize | replace: '-', ' ' | json }},
+                                "param_name": "{{ fv | handleize }}",
+                                {% if full_url contains handle_fv %}
+                                    {% assign add_url = full_url | remove: handle_fv | remove: '+' %}
+                                {% else %}
+                                    {% assign add_url = full_url %}
+                                {% endif %}
+                                "url_to_add":"{{add_url }}{{ fv | handleize }}?view=all_data",
+                                "url_to_remove":"{{full_url | remove: '+' }}?view=all_data",
+                                "value":{{ value | json }}
+                            }
+                            {%- assign pre_fv = fv -%}
+                        {%- endunless -%}
+                    {% endif %}
+                {% endfor %}
+                ],
+                "label":{{ label | capitalize | json }},
+                "url_to_remove":"{{blog.url}}?{{ filter | handleize |  remove: "view=all_data" | remove: "view=article_data" }}"
+            }
+            {% assign pre_label = filter | split: ':' | first | downcase %}
+            {% endunless %}
+        {% endfor %}
+    ],
+    "article_count": {{ blog.article_count | json }},
+    {% comment %} Tags that are currently applied to a filtered collection, built from products of that collection {% endcomment %}
+    "blog_tags": {{ blog.tags | json }},
+    {% render 'blog-filters', remove_object_wrapper: true %}
+}

@@ -1,0 +1,242 @@
+{% assign ss = section.settings %}
+    {% if section.blocks != blank %}
+
+    {% assign video_categories = "" %}
+
+    {% comment %}
+        Multi category implementation for this
+
+         {% for block in section.blocks %}
+        {% assign block_categories = block.settings.categories | split: "," %}
+        {% for category in block_categories %}
+            {% assign category_handle = category | handle %}
+            {% if parentloop.last and forloop.last %}
+                {% assign video_categories = video_categories | append: category_handle %}
+            {% else %}
+                {% assign video_categories = video_categories | append: category_handle | append: ',' %}
+
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+    {% assign video_categories = video_categories | split: "," | uniq | sort | join: ',' %}
+    {% assign nav_list = video_categories | replace: '-', ' ' | split: "," | uniq | sort %}
+    {% endcomment %}
+
+
+
+    {% comment %}
+        Single category implementation
+    {% endcomment %}
+        {% for block in section.blocks %}
+        {% assign bs = block.settings %}
+        {% assign category_handle = bs.category | handle %}
+            {% if forloop.last %}
+            {% assign video_categories = video_categories | append: category_handle %}
+        {% else %}
+            {% assign video_categories = video_categories | append: category_handle | append: ',' %}
+        {% endif %}
+    {% endfor %}
+    {% assign nav_list = video_categories | replace: '-', ' ' | split: "," | uniq | sort %}
+
+
+
+    <section id="education-videos" class="education-videos | relative">
+        <div class="section-wrapper | relative w-full px-container-gutter pt-2 pb-16 mx-auto | lg:pb-20 lg:pt-10 lg:px-container-gutter-lg | text-center justify-center bg-neutral-900 fill-neutral-900">
+
+            {% if ss.title != blank %}
+                <h2 class="title | mb-4 font-headline text-left font-normal text-secondary-900 text-headline-2 lg:text-headline-2-lg lg:mb-10">
+                    {{ ss.title }}
+                </h2>
+            {% endif %}
+
+            <div class="nav | flex gap-2 items-center ">
+                <p class="pb-4 uppercase text-body-large ">Videos:
+                </p>
+                <div class="flex items-center pb-4 overflow-x-auto gap-2 basis-[85%] flex-grow | lg:basis-4/5">
+
+                    <button
+                        class="nav-link | rounded border border-secondary-900 uppercase flex items-center justify-center px-2 py-1 z-[11] text-body-medium-lg transition-all whitespace-nowrap	| hover:bg-secondary-900 hover:text-tertiary-900 | aria-pressed:bg-secondary-900 aria-pressed:text-tertiary-900"
+                        href="{{ category | handle }}"
+                        data-video-nav-link="all"
+                        aria-pressed="true">
+                        all
+                    </button>
+
+                    {% for category in nav_list %}
+                        <button class="nav-link | rounded border border-secondary-900 uppercase flex items-center justify-center px-2 py-1 z-[11] text-body-medium-lg transition-all whitespace-nowrap	| hover:bg-secondary-900 hover:text-tertiary-900 | aria-pressed:bg-secondary-900 aria-pressed:text-tertiary-900" data-video-nav-link={{ category | handle }}>
+                            {{ category }}
+                        </button>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="spacer | border border-black mt-1 mb-6"></div>
+            <div class="video-output fluid flex flex-wrap">
+                {% for block in section.blocks %}
+                    {% assign bs = block.settings %}
+                    {% comment %}
+                        handleize the categories related to the video
+                        multi category logic
+
+                        {% assign category_array = bs.categories | split: ',' %}
+                        {% assign handleized_categories = "" %}
+                        {% for category in category_array %}
+                            {%- capture category_handle -%}
+                                {{ category | handle }}{%- endcapture -%}
+                            {% if forloop.last %}
+                                {% assign handleized_categories = handleized_categories | append: category_handle %}
+                            {% else %}
+                                {% assign handleized_categories = handleized_categories | append: category_handle | append: "," %}
+                            {% endif %}
+
+                        {% endfor %}
+                    {% endcomment %}
+
+
+                    <div
+                        class="video-card | w-full md:w-6/12 lg:w-4/12 pb-6 md:px-[12px] | aria-hidden:hidden"
+                        data-video-card-cat="{{ bs.category | handle | strip }}"
+                        aria-hidden>
+                        <div class="img-wrapper | overflow-hidden w-full pt-[100%] relative block">
+                            <div class="cat-flag | absolute top-4 right-4 z-[1] rounded bg-secondary-900 text-neutral-900 uppercase px-2 py-1">
+                                {{ bs.category }}
+                            </div>
+                            <button
+                                data-video-overlay-trigger
+                                data-video-id="{{ bs.vimeo-id }}"
+                                class="play-btn | absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%] z-[1] cursor-pointer ">
+                                <i class="ri-play-fill text-neutral-900 text-[120px]"></i>
+                            </button>
+                            {% if bs.thumbnail_img %}
+                                {% render 'responsive-image' with image: bs.thumbnail_img, mobile_image: bs.thumbnail_img_mobile, image_class: 'thumbnail-img | rounded-2xl object-cover w-full h-full absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%]', wrapper_class: '' %}
+                            {% else %}
+                                <img
+                                    class="thumbnail-img | rounded-2xl object-cover w-full h-full absolute top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%]"
+                                    srcset="https://vumbnail.com/{{ bs.vimeo-id }}_large.jpg 640w, https://vumbnail.com/{{ bs.vimeo-id }}_medium.jpg 200w, https://vumbnail.com/{{ bs.vimeo-id }}_small.jpg 100w"
+                                    sizes="(max-width: 640px) 100vw, 640px"
+                                    src="https://vumbnail.com/{{ bs.vimeo-id }}.jpg">
+                            {% endif %}
+                        </div>
+                        <div class="title | mt-3 font-semibold text-headline-5 text-start | lg:text-headline-5-lg lg:text-center ">
+                            <p>{{ bs.title }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endif %}
+
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const navButtons = document.querySelectorAll("[data-video-nav-link]");
+        const videoCards = document.querySelectorAll(".education-videos [data-video-card-cat]");
+
+        // setup initial cards to show
+        Array
+            .from(videoCards)
+            .forEach((card) => {
+
+                // if show all button logic is active
+                card.removeAttribute("aria-hidden");
+
+                // if not
+
+                /*let cardCategories = card.dataset.videoCardCat.split(",");
+            if (cardCategories.includes(document.querySelector("[data-video-nav-link][aria-pressed]").dataset.videoNavLink)) {
+            card.removeAttribute("aria-hidden");
+            } else {
+            card.setAttribute("aria-hidden", true);
+            }*/
+            })
+
+            Array
+            .from(navButtons)
+            .forEach((button) => {
+                button.addEventListener("click", function(e) {
+
+                    // Remove active state from the current nav link and set the next active
+                    document.querySelector("[data-video-nav-link][aria-pressed]").removeAttribute("aria-pressed");
+                    button.setAttribute("aria-pressed", true);
+                    const category = button.dataset.videoNavLink;
+                    if (category == "all") {
+                        Array.from(videoCards).forEach((card) => {
+                            card.removeAttribute("aria-hidden")
+                        });
+                    } else {
+                        Array.from(videoCards).forEach((card) => {
+                            let cardCategories = card.dataset.videoCardCat.split(",");
+                            if (cardCategories.includes(category)) {
+                                card.removeAttribute("aria-hidden");
+                            } else {
+                                card.setAttribute("aria-hidden", true);
+                            }
+                        })
+                    }
+
+
+                })
+            })
+    });
+</script>
+{% schema %}
+    {
+        "name": "Education videos",
+        "class": "education-videos",
+        "settings": [
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title"
+            }
+        ],
+        "blocks": [
+            {
+                "type": "video",
+                "name": "Video",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "title",
+                        "label": "Video title"
+
+                    },
+                    {
+                        "type": "textarea",
+                        "id": "categories",
+                        "label": "Categories",
+                        "info": "Each category should be separated with a comma e.g(coffee 101, home tips, brew guides etc.. )"
+
+                    },
+                    {
+                        "type": "text",
+                        "id": "category",
+                        "label": "Video category"
+                    },
+                    {
+                        "type": "text",
+                        "id": "vimeo-id",
+                        "label": "Vimeo id"
+
+                    }, {
+                        "type": "image_picker",
+                        "id": "thumbnail_img",
+                        "label": "Thumbnail image"
+                    }, {
+                        "type": "image_picker",
+                        "id": "thumbnail_img_mobile",
+                        "label": "Thumbnail image"
+                    }
+                ]
+            }
+        ],
+
+
+        "presets": [
+            {
+                "name": "Education videos"
+            }
+        ]
+    }
+{% endschema %}

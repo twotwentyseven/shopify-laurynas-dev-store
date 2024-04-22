@@ -1,0 +1,138 @@
+<template
+    v-slot="props">
+
+    <template
+        v-if="props.article != null">
+
+        <template
+            v-if="props.loading"
+            class="skeleton-card"><!-- loading... -->
+        </template>
+
+        <template
+            v-else>
+
+            <div
+                :key="`article_item_${article.id}`"
+                class="article-card group relative h-full">
+
+                <a
+                    class="rounded-lg overflow-hidden w-full pt-[100%] relative block"
+                    :class="props.tagManipulator(article, 'product:', 'bg-', '')"
+                    :href="article.url">
+                    <img
+                        v-if="props.lazyLoading"
+                        :src="article.images?.src"
+                        loading="lazy"
+                        :alt="article.images?.alt"
+                        class="transition-all duration-300 rounded-lg group-hover:opacity-90 absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-full h-full object-cover">
+                    <img
+                        v-else
+                        :data-src="article.images?.src"
+                        :alt="article.images?.alt"
+                        class="transition-all duration-300 rounded-lg group-hover:opacity-90 absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-full h-full object-cover">
+                </a>
+
+                <a
+                    v-if="article.product"
+                    class="transition-all duration-300 absolute top-0 left-0 w-full pt-[100%] z-2 opacity-0 group-hover:opacity-100 block"
+                    :href="article.url">
+                    <img
+                        v-if="props.lazyLoading"
+                        :src="article.product?.images?.src"
+                        loading="lazy"
+                        :alt="article.product?.images?.alt"
+                        class="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-2/3 h-2/3 object-contain">
+                    <img
+                        v-else
+                        :data-src="article.product?.images?.src"
+                        :alt="article.product?.images?.alt"
+                        class="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-2/3 h-2/3 object-contain">
+                </a>
+
+
+
+                <div
+                    class="article-content flex flex-col justify-between gap-4 text-left mt-4 | lg:mt-4"
+                    data-match-height="article-description">
+
+                    {% comment %}
+                    <div class="category">
+                        {% for tag in article.tags %}
+                            {% if tag contains 'type:' %}
+                                <span>{{ tag | remove : 'type:' }}</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endcomment %}
+
+                    <h5
+                        class="font-headline text-headline-5 | lg:text-headline-5-lg "
+                        :class="props.tagManipulator(article, 'product:', 'text-', '')">${ article.title }</h5>
+                    {% comment %}
+                        This is for the tag-based additional information like time, people served etc.. 
+                        <p class="mb-5 text-[16px] leading-[20px] lg:text-lg font-header flex w-full justify-center"><span class="flex items-center justify-start mr-2.5 w-auto">${ article.published_at }</span><span v-if="props.article.tags.filter(item => { return item.indexOf('time:') != -1 }).length > 0" class="time flex items-center justify-start mr-2.5 w-auto"> | <span class="mx-2.5">{% render 'clock' %}</span> ${ props.tagManipulator(article, 'time:', '', '').replaceAll('_', ' ').replace('read', '') }</span><span v-if="props.article.tags.filter(item => { return item.indexOf('time:') != -1 }).length > 0 && props.article.tags.filter(item => { return item.indexOf('serves:') != -1 }).length > 0"> | </span><span v-if="props.article.tags.filter(item => { return item.indexOf('serves:') != -1 }).length > 0" class="serves flex justify-start items-center ml-2.5"><span class="mr-2.5">{% render 'servers' %}</span> Serves ${ props.tagManipulator(article, 'serves:', '', '') }</span></p>
+                    {% endcomment %}
+
+                    <div
+                        class="article-excerpt | text-body-large | lg:text-body-large-lg ">
+                        <div>${ article.excerpt }
+                        </div>
+                    </div>
+
+                    <div class="btn-flex justify-start | md:justify-center">
+                        {% comment %}
+                            
+                        <a
+                            class="btn w-full md:w-auto"
+                            :class="props.tagManipulator(article, 'product:', 'btn-', '')"
+                            :href="article.url">Read More</a>
+                        {% endcomment %}
+
+                        <div
+                            v-if="article.metafields.metafields.time != null"
+                            class="time | flex items-center gap-2">
+                            <i
+                                class="clock ri-time-line text-headline-5"></i>
+                            <p
+                                class="text-body-medium | lg:text-body-large-lg">
+                                ${ article?.metafields?.metafields.time?.value }
+                            </p>
+                        </div>
+
+                    </div>
+
+                    {% comment %}
+                    <div class="tags">
+                        
+                        {% if ss.enable_author %}
+
+                            {% if author != blank %}
+                                <span>by {{ author }}</span>
+                            {% endif %}
+
+                        {% endif %}
+                    
+                        
+                        {% if ss.enable_date %}
+                            <span>{{ article.published_at | date: "%d %B %Y" }}</span>
+                        {% endif %}
+                        
+
+                    </div>
+                    {% endcomment %}
+                    {% comment %}
+                    <div class="exceprt">
+                        <p>{{ article.excerpt_or_content | strip_html | truncate: 120 }}</p>
+                    </div>
+                    {% endcomment %}
+
+                </div>
+
+            </div>
+
+        </template>
+
+    </template>
+
+</template>

@@ -1,0 +1,102 @@
+{% liquid
+    assign details = ""
+    assign custom_color = ""
+    assign bg_color = "custom-color"
+    if product.metafields.product_details.product_information != blank 
+
+        assign details = product.metafields.product_details.product_information.value 
+
+        if details.image_background.value.custom_colour != blank  
+            assign custom_color = details.image_background.value.custom_colour
+        else
+            assign bg_color = 'bg-' | append: details.image_background.value.defined_colors | append: '-' | append: details.image_background.value.defined_colors_shade  
+        endif 
+        
+    endif 
+    
+%}
+
+
+{% if details != blank %}
+    <section class="product-information-card-section | px-container-gutter py-16 min-h-[500px] | lg:py-20 lg:px-container-gutter-lg  bg-secondary-900">
+
+        {% if details.main_title != blank %}
+            <div class="main-title | mb-10 w-full text-center text-tertiary-900 font-headline text-display | lg:text-display-lg">
+                {{ details.main_title }}
+            </div>
+        {% endif %}
+
+        <div class="information-card | flex flex-wrap | lg:flex-nowrap lg:max-w-[800px] lg:mx-auto">
+            
+            <div style="background: {{ custom_color }};" class="information-card-image | relative rounded-tl-2xl rounded-tr-2xl w-full | lg:rounded-tl-2xl lg:rounded-bl-2xl  lg:rounded-tr-none | {{ bg_color }} ">
+
+                <div class="product-title | absolute top-2 text-center left-0 w-full font-headline z-[2] | {%if product.title.size > 8 %} text-headline-3  lg:text-headline-2-lg {% else %} text-display lg:text-display-lg {% endif %}">{{ product.title }}</div>
+                    {% comment %}
+                        {% render 'responsive-image' with image: details.image, wrapper_class: "img-wrap pointer-events-none rounded-lg z-[3] relative", image_class: "primary-img  w-full h-full rounded-lg" %}
+                    {% endcomment %}
+                    {% render 'responsive-image' with image: details.image, wrapper_class: "img-wrap pt-[100%] h-full pointer-events-none rounded-lg z-[3] relative", image_class: "primary-img object-contain absolute top-0 left-0 w-full h-full rounded-lg" %}
+                    {% if details.blend_type != blank %}
+                        <div class="product-blend | absolute bottom-2 text-center left-0 w-full text-body-medium font-semibold z-[3] | lg:text-body-medium-lg ">{{ details.blend_type }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="information | bg-tertiary-900 text-secondary-900 w-full text-left rounded-bl-2xl rounded-br-2xl px-4 py-6 | lg:rounded-bl-none lg:rounded-tr-2xl">
+                {% if details.title_one != blank %}
+                    <div class="title-one-wrapper | ">
+                        <div class="title | font-semibold ">
+                            {{ details.title_one }}
+                        </div>
+                        <div class="spacer w-full border my-2 border-black"></div>
+                        <div class="copy | font-headline text-headline-4 | lg:text-headline-4-lg ">
+                            {{ details.copy_one }}
+                        </div>
+                    </div>
+                {% endif %}
+                {% if details.title_two != blank %}
+                    <div class="title-two-wrapper | mt-6 ">
+                        <div class="title | font-semibold ">
+                            {{ details.title_two }}
+                        </div>
+                        <div class="spacer w-full border my-2 border-black"></div>
+                        <div class="copy | font-headline text-headline-4 | lg:text-headline-4-lg ">
+                            {{ details.copy_two }}
+                        </div>
+                    </div>
+                {% endif %}
+                {% if details.title_three != blank %}
+                    <div class="title-three-wrapper | mt-6 ">
+                        <div class="title | font-semibold ">
+                            {{ details.title_three }}
+                        </div>
+                        <div class="spacer w-full border my-2 border-black"></div>
+                        <div class="copy | font-headline text-headline-4 | lg:text-headline-4-lg ">
+                            {{ details.copy_three }}
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if details.footnote != blank %}
+                    <div class="footnote | mt-2 ">
+                        <div class="title | font-semibold ">
+                            {{ details.footnote }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+{% endif %}
+
+{% schema %}
+    {
+        "name": "Product information card",
+        "settings": [],
+        "presets": [
+            {
+                "name": "Product information card (metaobject)"
+            }
+        ]
+
+    }
+{% endschema %}

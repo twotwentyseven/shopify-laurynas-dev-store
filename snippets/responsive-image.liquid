@@ -1,0 +1,81 @@
+{% comment %}
+
+    Properties to pass into this snippet are:
+    link: [add a valid URL here]
+    image: [add a valid image URL here]
+    lazy: [false] if above the fold (show the image shows straight away, alternatively just leave this property off altogether
+
+    Animated loading icons available from: https://loading.io/
+
+{% endcomment %}
+
+{%- assign image_widths = '1080,1296,1512,1728,1944,2160,2376,2592,2808,3024' | split: ',' -%}
+{%- assign mobile_widths = '180,360,540,720,900' | split: ',' -%}
+{%- assign loading_icon = 'loading.svg' | asset_url -%}
+
+{% capture srcset %}
+    {% for width in image_widths %}
+        {% assign imageWidth = width | append: 'x' %}
+        {{ image | img_url: imageWidth }} {{ width | append: 'w' }},      
+    {% endfor %}
+{% endcapture %}
+
+{% if mobile_image == blank %}{% assign mobile_image = image %}{% endif %}
+
+{% capture mob_srcset %}
+    {% for width in mobile_widths %}
+        {% assign imageWidth = width | append: 'x' %}
+        {{ mobile_image | img_url: imageWidth }} {{ width | append: 'w' }},      
+    {% endfor %}
+{% endcapture %}
+
+{% if link != blank %}<a href="{{ link }}" {% if new_tab %}target="_blank"{%endif%}{% else %}<div{% endif %} {% if wrapper_class != blank %}class="{{ wrapper_class }}"{% endif %} {{ wrapper_attributes }}>
+<picture style=" {% if mobile_image != blank %}--mobile-focal-point: {{ mobile_image.presentation.focal_point }};{%endif%} {% if image != blank %}--desktop-focal-point: {{ image.presentation.focal_point}}{%endif%}">
+    
+    <source
+    {% if mobile_image != blank %}media="(min-width: 40em)"{%endif%}
+      srcset="{% if mobile_image == blank %}{{ mob_srcset }}{% endif %}{{ srcset }}"
+      alt="{{ image.alt | escape }}"
+      loading="lazy"
+    />
+    {% if mobile_image != blank %}
+    <source
+      srcset="{{ mob_srcset }}"
+      alt="{{ image.alt | escape }}"
+      loading="lazy"
+    />
+    {% endif %}
+    <img class="{{ image_class }} object-[position:var(--mobile-focal-point)] lg:object-[position:var(--desktop-focal-point)]" {% if show_loading == true %} src="{{ loading_icon }}"{% else %}src="{{ image | img_url: '180px' }}"{% endif %} loading="lazy" decoding="async"  alt="{{ image.alt | escape }}"  />
+</picture>
+<noscript>
+    <img class="{{ image_class }} object-[position:var(--mobile-focal-point)] lg:object-[position:var(--desktop-focal-point)]" src="{{ image | img_url: '1728x' }}" alt="{{ image.alt | escape }}">
+</noscript>
+{% if link != blank %}</a>{% else %}</div>{% endif %}
+
+
+
+
+{% comment %}
+{% if lazy == false %} 
+
+    <div {% if wrapper_class != blank %}class="{{ wrapper_class }}"{% endif %} {{ wrapper_attributes }}>
+        
+        {% if link != blank %}<a href="{{ link }}" {% if new_tab %}target="_blank"{% endif %}>{% endif %}
+            <img class="{{ image_class }}" src="{{ loading_icon }}" srcset="{{ srcset }}" alt="{{ image.alt | escape }}" {{ image_attributes }}>
+
+            {% if link != blank %}</a>{% endif %}
+
+    </div>
+
+{% else %}
+
+    <div {% if wrapper_class != blank %}class="{{ wrapper_class }}"{% endif %} {{ wrapper_attributes }}>
+        {% if link != blank %}<a href="{{ link }}" {% if new_tab %}target="_blank"{% endif %}>{% endif %}
+            
+            <img class="{{ image_class }} lazyload" data-src="{{ image | img_url: '300' }}" data-srcset="{{ srcset }}" alt="{{ image.alt | escape }}" loading="lazy" {{ image_attributes }}>
+            
+            {% if link != blank %}</a>{% endif %}
+    </div>
+
+{% endif %}
+{% endcomment %}

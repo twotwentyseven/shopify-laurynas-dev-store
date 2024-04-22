@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "main": {
+      "type": "article-section",
+      "settings": {}
+    },
+    "2ab09487-4bfa-46bc-96cb-70aba05fbeef": {
+      "type": "article-related",
+      "settings": {
+        "related-article-title": "Our latest articles",
+        "articles-to-show": 6
+      }
+    }
+  },
+  "order": [
+    "main",
+    "2ab09487-4bfa-46bc-96cb-70aba05fbeef"
+  ]
+}

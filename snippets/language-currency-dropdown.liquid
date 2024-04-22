@@ -1,0 +1,106 @@
+{%- form 'localization', class: 'multi-selectors | px-container-gutter', data-localization-form: ' ' -%}
+
+    {% if currenry_picker %}
+
+        <div class="select-wrapper | relative my-container-gutter">
+
+            <select class="currency-selector | bg-secondary-900 border-none text-header-text-color outline-none w-full" data-currency-selector>
+                {%- for currency in form.available_currencies -%}
+                    <option value="{{ currency.iso_code }}"{% if currency.iso_code == form.current_currency.iso_code %}selected{% endif %}>{{ currency.iso_code }}
+                        {%- if currency.symbol -%}
+                            {{ currency.symbol }}{%- endif -%}
+                    </option>
+                {%- endfor -%}
+            </select>
+
+            <noscript>
+                <button class="btn">{{ update_currency }}</button>
+            </noscript>
+
+            <details class="pointer-events-none w-full absolute top-0 left-0 list-none text-secondary-900 md:pointer-events-auto bg-tertiary-900" data-currency-selector-trigger>
+                <summary class="flex items-center">
+                    <span class="rounded-full bg-secondary-500 h-6 w-6 text-body-large-lg inline-flex items-center justify-center text-center mr-gutter">
+                        {%- if form.current_currency.symbol -%}
+                            {{ form.current_currency.symbol }}{%- endif -%}
+                    </span>
+                    <span class="text-body-large uppercase flex items-center">
+                        {{ form.current_currency.iso_code }}
+                        <span class="material-symbols-outlined | font-light ml-1 inline-block">expand_more</span>
+                    </span>
+                </summary>
+                <ul class="absolute bottom-full left-0">
+                    {%- for currency in form.available_currencies -%}
+
+                        <li>
+                            <button data-currency-iso-value="{{ currency.iso_code }}">
+                                <span class="rounded-full bg-secondary-500 h-6 w-6 inline-flex items-center justify-center text-center mr-1">
+                                    {%- if currency.symbol -%}
+                                        {{ currency.symbol }}{%- endif -%}
+                                </span>
+                                <span>
+                                    {{ currency.iso_code }}
+                                </span>
+                            </button>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </details>
+
+        </div>
+
+    {% endif %}
+
+    {% if language_picker %}
+
+        <div class="select-wrapper | relative my-container-gutter">
+
+            <select
+                class="localization-selector | bg-secondary-900 border-none text-header-text-color outline-none w-full"
+                name="locale_code"
+                data-locale-selector>
+
+                {%- for locale in form.available_locales -%}
+
+                    <option
+                        value="{{ locale.iso_code }}"
+                        lang="{{ locale.iso_code }}"
+                        {% if locale.iso_code == form.current_locale.iso_code %}
+                        selected
+                        {% endif %}>
+                        {{ locale.endonym_name | capitalize }}
+                    </option>
+
+                {%- endfor -%}
+
+            </select>
+            <noscript>
+                <button class="btn">{{ update_language }} {{ form.current_locale.iso_code }}</button>
+            </noscript>
+
+            <details class="pointer-events-none w-full absolute top-0 left-0 list-none text-secondary-900 md:pointer-events-auto bg-tertiary-900" data-locale-selector-trigger>
+                <summary class="flex items-center">
+                    <span class="rounded-full h-6 !w-6 mr-gutter fi fi-{% if form.current_locale.iso_code == 'en' %}gb{% else %}{{ form.current_locale.iso_code }}{% endif %} fis"></span>
+                    <span>
+                        {{ form.current_locale.endonym_name }}
+                    </span>
+                </summary>
+                <ul class="absolute bottom-full left-0">
+                    {%- for locale in form.available_locales -%}
+
+                        <li>
+                            <button data-locale-iso-value="{{ locale.iso_code }}">
+                                <span class="rounded-full h-6 !w-6 mr-1 fi fi-{% if locale.iso_code == 'en' %}gb{% else %}{{ locale.iso_code }}{% endif %} fis"></span>
+                                <span>{{ locale.endonym_name | capitalize }}</span>
+                            </button>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </details>
+
+        </div>
+
+    {% endif %}
+
+
+
+{%- endform -%}

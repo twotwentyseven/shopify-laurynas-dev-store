@@ -1,0 +1,275 @@
+{% assign ss = section.settings %}
+
+<header class="site-header | fixed z-[100] top-0 left-0 w-full bg-primary-900">
+
+	{% if ss.announcement_text != blank %}
+		<a href="{{ ss.announcement_url }}" class="announcement-bar | flex items-center justify-center bg-primary-500 w-full px-container-gutter py-gutter text-header-text-color text-center text-body-medium | lg:text-body-medium-lg">
+			{{ ss.announcement_text }}
+		</a>
+	{% endif %}
+
+	<div class="site-header-inner | flex items-stretch px-container-gutter py-header-padding-y | lg:px-0 lg:flex-wrap lg:py-0 lg:relative">
+
+		<a href="/" class="logo | w-1/2 order-2 px-gutter flex items-center justify-center | lg:order-1 lg:ml-[25%] lg:py-header-padding-y">
+			{% if ss.logo != blank %}
+				<img alt="{{ shop.name }}-logo" class="logo-img | mx-auto w-full max-w-[10rem] lg:max-w-[12rem] object-contain" src="{{ ss.logo | img_url: '' }}">
+            {% else %}
+				<img alt="{{ shop.name }}-logo" class="logo-img | mx-auto w-full max-w-[10rem] lg:max-w-[12rem] object-contain | lg:m-0" src="{{ settings.logo | img_url: '' }}">
+			{% endif %}
+		</a>
+		
+		<div class="w-1/4 order-1 pr-gutter | lg:hidden">
+			<a data-menu-icon class="burger-menu | h-6 w-6 block relative" href="#" aria-label="Mobile navigation menu button">
+				<span class="a block rounded-sm w-5 h-0.5 bg-header-text-color absolute left-1/2 translate-x-[-50%] top-1 | duration-animation-speed transition-all" data-add-class="rotate-45 top-1/2" data-remove-class="top-1"></span>
+				<span class="b block rounded-sm w-5 h-0.5 bg-header-text-color absolute left-1/2 translate-x-[-50%] top-2.5 | duration-animation-speed transition-all" data-add-class="opacity-0"></span>
+				<span class="c block rounded-sm w-5 h-0.5 bg-header-text-color absolute left-1/2 translate-x-[-50%] top-4 | duration-animation-speed transition-all" data-add-class="-rotate-45 top-1/2" data-remove-class="top-4"></span>
+			</a>
+		</div>
+		
+		<div data-nav class="mobile-nav | absolute -left-full top-full w-screen h-[calc(100vh-100%)] overflow-hidden z-40 bg-primary-900 flex flex-col justify-between | lg:overflow-visible lg:order-3 lg:w-full lg:static lg:border-t lg:border-white/25 lg:px-container-gutter-lg | duration-animation-speed transition-all" data-add-class="left-0 overflow-y-scroll overflow-x-hidden" data-remove-class="-left-full overflow-hidden">
+
+			<div class="mobile-nav-header">
+
+				<a href="/account" class="mobile-account-link | text-header-text-color text-body-large bg-primary-500 w-full p-container-gutter flex items-center | lg:hidden">
+					{% if customer %}
+						<span class="text-headline-6 material-symbols-outlined font-light mr-gutter inline-block">account_circle</span> Hi {{ customer.name }}
+					{% else %}
+						<span class="text-headline-6 material-symbols-outlined font-light mr-gutter inline-block">account_circle</span> Sign in
+					{% endif %}
+				</a>
+
+				{% if ss.navigation != blank %}
+
+					{% assign nav = ss.navigation %}
+
+					{% if linklists[nav].links != blank %}
+
+						<nav class="desktop-mega-menu | p-container-gutter relative | lg:p-0">
+
+							<ul class="text-header-text-color | lg:flex lg:justify-center">
+
+								{% for link in linklists[nav].links %}
+
+									<li class="my-container-gutter h-6 | lg:h-auto lg:my-0 lg:mx-3">
+
+										<a class="font-headline font-semibold uppercase text-headline-6 relative w-full flex justify-between items-center | lg:font-body lg:text-body-large-lg lg:py-2" {% if link.links != blank %}data-dropdown{% endif %} href="{{ link.url }}" data-add-class="absolute left-0 top-0 -translate-y-full text-center text-header-text-color text-body-large bg-primary-500 p-container-gutter font-body text-body-lg lg:static lg:translate-y-0 lg:bg-transparent-500 lg:px-0" data-remove-class="relative text-headline-6 font-headline">
+											{% if link.links != blank %}<span class="material-symbols-outlined | leading-6 font-light opacity-0 hidden | lg:hidden" data-add-class="opacity-100 inline-block" data-remove-class="opacity-0 hidden">arrow_back</span>{% endif %}
+											{{ link.title }}
+											{% if link.links != blank %}<span class="material-symbols-outlined | leading-6 font-light inline-block opacity-100 | lg:opacity-100 lg:rotate-90 lg:ml-0.5 | transition-all duration-animation-speed" data-add-class="opacity-0 lg:-rotate-90" data-remove-class="opacity-100 lg:rotate-90">arrow_forward</span>{% endif %}
+										</a>
+										
+										{% if link.links != blank %}
+
+											<ul class="absolute top-0 left-full bg-primary-900 p-container-gutter h-full w-full | lg:fixed lg:h-auto lg:py-0 lg:left-0 lg:max-h-0 lg:overflow-hidden lg:top-site-header-height-lg lg:bg-primary-800 lg:flex lg:justify-center | duration-animation-speed transition-all z-10" data-add-class="left-0 max-h-[800px] lg:py-6" data-remove-class="left-full lg:max-h-0 lg:py-0">
+
+												{% for child_link in link.links %} 
+
+													<li class="mb-gutter lg:mx-11">
+														<a class="font-body font-semibold uppercase text-body-large relative w-full flex justify-between items-center py-gutter border-b border-white/25 | lg:border-none lg:pt-0 lg:text-body-large-lg" {% if child_link.links != blank %}data-dropdown{% endif %} href="{{ child_link.url }}" data-add-class="absolute left-0 top-0 -translate-y-full text-center text-header-text-color text-body-large bg-primary-500 p-container-gutter font-body text-body-lg lg:static" data-remove-class="relative py-gutter border-b">
+															{% if child_link.links != blank %}<span class="material-symbols-outlined | leading-6 font-light opacity-0 hidden | lg:hidden" data-add-class="opacity-100 inline-block" data-remove-class="opacity-0 hidden">arrow_back</span>{% endif %}
+															{{ child_link.title }}
+															{% if child_link.links != blank %}<span class="material-symbols-outlined | leading-6 font-light inline-block opacity-100 | lg:hidden" data-add-class="opacity-0" data-remove-class="opacity-100">arrow_forward</span>{% endif %}
+														</a>
+
+														{% if child_link.links != blank %}
+
+															<ul class="absolute top-0 left-full bg-primary-900 p-container-gutter h-full w-full | lg:static lg:bg-primary-800 lg:p-0 | duration-animation-speed transition-all z-20" data-add-class="left-0" data-remove-class="left-full">
+						
+																{% for grandchild_link in child_link.links %} 
+						
+																	<li class="mb-gutter lg:mb-0">
+																		<a class="font-body font-normal text-body-medium w-full block py-gutter border-b border-white/25 | lg:border-none lg:text-body-medium-lg" href="{{ grandchild_link.url }}">{{ grandchild_link.title }}</a>
+																	</li>
+						
+																{% endfor %}
+						
+															</ul>
+						
+														{% endif %}
+													</li>
+
+												{% endfor %}
+
+											</ul>
+
+										{% endif %}
+
+									</li>
+
+								{% endfor %}
+
+							</ul>
+
+						</nav>
+
+					{% endif %}
+
+				{% endif %}
+
+			</div>
+
+			<div class="mobile-nav-footer lg:hidden">
+
+				{% if ss.navigation_footer != blank %}
+
+					{% assign nav-footer = ss.navigation_footer %}
+
+					{% if linklists[nav-footer].links != blank %}
+
+							<ul class="text-header-text-color px-container-gutter">
+
+								{% for link in linklists[nav-footer].links %}
+
+									<li class="my-container-gutter">
+										<a class="font-body font-normal text-body-large" href="{{ link.url }}">{{ link.title }}</a>
+									</li>
+
+								{% endfor %}
+
+							</ul>
+
+					{% endif %}
+
+				{% endif %}
+
+				{% render 'language-currency-dropdown' with update_language: ss.update_language, update_currency: ss.update_currency, language_picker: ss.language_picker, currenry_picker: ss.currenry_picker %}
+
+				<div class="contact-details | text-header-text-color text-body-large bg-primary-500 w-full p-container-gutter flex items-center justify-center mt-container-gutter | lg:hidden">
+					{% if shop.email %}
+						<a class="flex items-center px-gutter" href="mailto:{{ shop.email }}">
+							<span class="text-headline-6 material-symbols-outlined font-light mr-gutter inline-block">mail</span>{{ shop.email }}
+						</a>
+					{% endif %}
+					{% if shop.phone %}
+						<span class="px-gutter">|</span>
+						<a class="flex items-center px-gutter" href="tel:{{ shop.phone }}">
+							<span class="text-headline-6 material-symbols-outlined font-light mr-gutter inline-block">call</span>{{ shop.phone}}
+						</a>
+					{% endif %}
+					
+				</div>
+
+			</div>
+
+		</div>
+		
+        <div class="w-1/4 order-3 pl-gutter | lg:flex lg:items-center lg:justify-end lg:order-2 lg:pr-container-gutter-lg">
+			<div class="controls | flex items-center text-header-text-color justify-end">
+				<a data-search-trigger class="h-6 w-6 ml-gutter-lg" href="#"><span class="text-headline-6 material-symbols-outlined font-light">search</span></a>
+				<a class="hidden h-6 w-6 ml-gutter-lg | lg:block" href="#"><span class="text-headline-6 material-symbols-outlined font-light">account_circle</span></a>
+				<a data-toggle-cart class="h-6 w-6 ml-gutter-lg" href="#"><span class="text-headline-6 material-symbols-outlined font-light">shopping_bag</span></a>
+			
+				<div data-search-form class="search-bar | bg-primary-800 top-full left-0 absolute max-h-0 h-full w-full overflow-hidden z-50 | transition-all duration-animation-speed" data-add-class="max-h-12" data-remove-class="max-h-0">
+					<form action="{{ routes.search_url }}" class="flex items-center w-full px-container-gutter py-[0.875rem] text-header-text-color">
+						<button class="text-body-medium"><span class="material-symbols-outlined | font-light text-body-medium">search</span></button>
+						<input class="text-header-text-color placeholder:text-header-text-color bg-transparent-500 border-none outline-none w-full text-body-medium px-gutter" type="text" name="q" placeholder="{{ ss.search_placeholder }}" value="{{ search.terms | escape }}">
+						<a data-search-trigger class="text-body-medium" href="#"><span class="material-symbols-outlined | font-light text-body-medium">close</span></a>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		
+
+	</div>
+
+</header>
+
+<div class="h-site-header-height lg:h-site-header-height-lg"></div>
+
+<script type="application/ld+json">
+	{
+	  "@context":"http://schema.org",
+	  "@type":"ItemList",
+	  "itemListElement":[
+		{% for link in linklists[nav].links %}
+		{
+		  "@type":"SiteNavigationElement",
+		  "position": {{ forloop.index }},
+		  "name": "{{ link.title }}",
+		  "url":"{{ link.url }}"
+		}{% unless forloop.last %},{% endunless %}
+		{% endfor %}
+	  ]
+	}
+</script>
+
+{% schema %}
+  {
+    "name": "Site header",
+
+    "settings": [
+		{
+			"type": "image_picker",
+			"id": "logo",
+			"label": "Logo",
+            "info": "If this is left empty it will default to the logo set within theme settings"
+		},
+        {
+            "type": "link_list",
+            "id": "navigation",
+            "label": "Navigation",
+            "info": "Select from Online Store > Naigation"
+        },
+		{
+            "type": "link_list",
+            "id": "navigation_footer",
+            "label": "Navigation Footer",
+            "info": "Select from Online Store > Naigation"
+        },
+		{
+			"type": "header",
+			"content": "Announcement Bar"
+		},
+		{
+			"type": "text",
+			"id": "announcement_text",
+			"label": "Announcement Text"
+		},
+		{
+			"type": "url",
+			"id": "announcement_url",
+			"label": "Announcement URL"
+		},
+		{
+			"type": "header",
+			"content": "Search"
+		},
+		{
+			"type": "text",
+			"id": "search_placeholder",
+			"label": "Input placeholder"
+		},
+		{
+			"type": "header",
+			"content": "Lang & Currency"
+		},
+		{
+			"type": "checkbox",
+			"id": "language_picker",
+			"label": "Show language picker"
+		},
+		{
+			"type": "text",
+			"id": "update_language",
+			"label": "Update Language Button",
+			"default": "Update Language",
+			"info": "This only shows if scripts are disabled"
+		},
+		{
+			"type": "checkbox",
+			"id": "currenry_picker",
+			"label": "Show currency picker"
+		},
+		{
+			"type": "text",
+			"id": "update_currency",
+			"label": "Update Currency Button",
+			"default": "Update Currency",
+			"info": "This only shows if scripts are disabled"
+		}
+        
+    ]
+
+  }
+{% endschema %}

@@ -1,0 +1,1154 @@
+{% assign ss = section.settings %}
+
+<section class="collection-carousel-new | items-center flex flex-col flex-wrap relative w-full py-16 px-4 | md:px-0 md:pt-20 {{ ss.text-align }} {{ ss.bg_color }}-{{ss.bg_color_shade}}">
+
+    <div class="w-full mb-10  | lg:mb-12 lg:w-1/2">
+
+        {% if ss.title_image != blank %}
+            {% render 'responsive-image' with image: ss.title_image, image_class: 'image object-cover w-full mx-auto max-w-[400px]', wrapper_class: 'image-wrapper mb-10' %}
+        {% elsif ss.title != blank or ss.curved_title != blank %}
+            <svg viewBox="0 0 600 {{ ss.curved_title | size | times:12 | plus: 2 }}">
+                <path
+                    id="curve"
+                    d="M195,163 C253,21 344,20 400,161"
+                    fill="transparent" />
+                <text width="500" class="{{ ss.curved_title_color }}">
+                    <textPath
+                        xlink:href="#curve"
+                        startOffset="50%"
+                        text-anchor="middle"
+                        class="font-headline text-headline-1 ">
+                        {{ ss.curved_title }}
+                    </textPath>
+                </text>
+            </svg>
+
+            <h2 class="title | mb-8 |  {{ ss.title_typeface }} {{ ss.title_weight }} {{ ss.title_color }}-{{ ss.title_color_shade }} {{ ss.title_size }} lg:{{ ss.title_size }}">
+                {{ ss.title }}
+            </h2>
+        {% endif %}
+
+        {% if ss.subtitle != blank %}
+            <div class="content | | {{ ss.subtitle_typeface }} {{ ss.subtitle_color }}-{{ ss.subtitle_color_shade }} {{ ss.subtitle_size }} lg:{{ ss.subtitle_size }}">
+                {{ ss.subtitle }}
+            </div>
+        {% endif %}
+        {% if ss.btn_url != blank or ss.alt_btn_url != blank %}
+            <div class="btn-wrapper | mt-10 -mx-gutter flex {{ ss.text-align }} | lg:mt-8">
+
+                {% if ss.btn_url != blank %}
+                    {% render 'button' element: 'a', type: '', href: ss.btn_url, target: '', border_color: ss.btn_border_color, border_color_shade: ss.btn_border_color_shade, border_width: 'border', bg_color: ss.btn_color, bg_color_shade: ss.btn_color_shade, text_color: ss.btn_text_color, text_color_shade: ss.btn_text_color_shade, hover_bg: ss.btn_hover_color, hover_bg_shade: ss.btn_hover_color_shade, hover_border_color: ss.btn_hover_border_color, hover_border_color_shade: ss.btn_border_hover_color_shade, hover_text: ss.btn_hover_text_color, hover_text_shade: ss.btn_hover_text_color_shade, content: ss.btn_text, custom_class: 'mx-gutter font-headline', before_icon: '', after_icon: '' %}
+                {% endif %}
+
+                {% if ss.alt_btn_url != blank %}
+                    {% render 'button' element: 'a', type: '', href: ss.alt_btn_url, target: '', border_color: ss.alt_btn_border_color, border_color_shade: ss.alt_btn_border_color_shade, border_width: 'border', bg_color: ss.alt_btn_color, text_color: ss.alt_btn_text_color, text_color_shade: ss.alt_btn_text_color_shade, hover_bg: ss.alt_btn_hover_color, hover_bg_shade: ss.alt_btn_hover_color_shade, hover_border_color: ss.alt_btn_hover_border_color, hover_border_color_shade: ss.alt_btn_border_hover_color_shade, hover_text: ss.alt_btn_hover_text_color, hover_text_shade: ss._alt_btn_hover_text_color_shade content: ss.alt_btn_text, custom_class: 'mx-gutter font-headline', before_icon: '', after_icon: '' %}
+                {% endif %}
+
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="carousel-controls | flex justify-end gap-4 w-full basis-[10%] h-[32px] mb-6 items-end | md:hidden">
+        <div class="swiper-button-prev mobile !block !h-auto !static !mt-0 !right-auto !ml-[7vw] !justify-start after:!content-none !w-auto ">
+
+            <i class="ri-arrow-left-line text-headline-5 text-secondary-900"></i>
+
+        </div>
+        <div class="swiper-button-next mobile !block !h-auto !static !mt-0 !left-auto !justify-end after:!content-none !w-auto | ">
+
+            <i class="ri-arrow-right-line text-headline-5 text-secondary-900"></i>
+
+        </div>
+    </div>
+
+    <div
+        data-swiper
+        data-swiper-settings='{"spaceBetween": 24, "centeredSlides": true, "threshold": "10", "speed": 500, "slidesPerView": "auto", "loop":true, "navigation": { "nextEl": ".collection-carousel-new .swiper-button-next.mobile", "prevEl": ".collection-carousel-new .swiper-button-prev.mobile" }, "breakpoints":{ "768": { "slidesPerView": "1.1", "spaceBetween": 24 , "direction":"horizontal" , "centeredSlides": true, "navigation": { "nextEl": ".collection-carousel-new .swiper-button-next.desktop", "prevEl": ".collection-carousel-new .swiper-button-prev.desktop" } }, "1400": { "slidesPerView": "1.5", "spaceBetween": 24 , "direction":"horizontal" , "centeredSlides": true ,  "navigation": { "nextEl": ".collection-carousel-new .swiper-button-next.desktop", "prevEl": ".collection-carousel-new .swiper-button-prev.desktop" } }}, "autoplay": false, "draggable": true}'
+        class="w-full swiper collection-swiper-carousel">
+
+        <div class="swiper-wrapper mb-7 ">
+
+            {% for block in section.blocks %}
+
+                {% assign bs = block.settings %}
+
+                {% assign collection_handle = bs.collection.handle %}
+
+                {% for collection in collections %}
+
+                    {% if collection.handle == collection_handle %}
+
+                        <div class="swiper-slide relative max-w-[1440px]" data-slide-color-scheme="{{ bs.carousel_pagination_color }}">
+
+                            {% if collection.image %}
+
+                                {% render 'responsive-image' with image: bs.image, mobile_image: bs.image_mob, image_class: 'image h-full w-full object-cover absolute top-0 left-0 rounded-2xl', wrapper_class: 'image-wrapper relative w-full pt-[420px] md:pt-[560px] rounded-2xl' %}
+                            {% else %}
+
+                                {% render 'responsive-image' with image: collection.image, mobile_image: bs.image_mob, image_class: 'image h-full w-full object-cover absolute top-0 left-0 rounded-2xl', wrapper_class: 'image-wrapper relative w-full pt-[420px] md:pt-[560px] rounded-2xl' %}
+
+                            {% endif %}
+                            {% comment %}
+                                <div class="title | absolute right-4 bottom-4 {{ bs.content_typeface }} {{ bs.content_weight }} {{ bs.content_size }} {{ bs.content_color }}-{{ bs.content_color_shade }}">
+                                    {{ collection.title }}
+                                </div>
+                            {% endcomment %}
+
+
+                            {% if bs.btn_url != blank %}
+                                {% render 'button' element: 'a', type: '', href: bs.btn_url, target: '', border_color: bs.btn_border_color, border_color_shade: bs.btn_border_color_shade, border_width: 'border', bg_color: bs.btn_color, bg_color_shade: bs.btn_color_shade, text_color: bs.btn_text_color, text_color_shade: bs.btn_text_color_shade, hover_bg: bs.btn_hover_color, hover_bg_shade: bs.btn_hover_color_shade, hover_border_color: bs.btn_hover_border_color, hover_border_color_shade: bs.btn_border_hover_color_shade, hover_text: bs.btn_hover_text_color, hover_text_shade: bs.btn_hover_text_color_shade, content: bs.btn_text, custom_class: '!absolute uppercase right-4 bottom-4 lg:right-10 lg:bottom-10 font-headline pointer-events-auto', before_icon: '', after_icon: '' %}
+                            {% else %}
+                                {% render 'button' element: 'a', type: '', href: collection.url, target: '', border_color: bs.btn_border_color, border_color_shade: bs.btn_border_color_shade, border_width: 'border', bg_color: bs.btn_color, bg_color_shade: bs.btn_color_shade, text_color: bs.btn_text_color, text_color_shade: bs.btn_text_color_shade, hover_bg: bs.btn_hover_color, hover_bg_shade: bs.btn_hover_color_shade, hover_border_color: bs.btn_hover_border_color, hover_border_color_shade: bs.btn_border_hover_color_shade, hover_text: bs.btn_hover_text_color, hover_text_shade: bs.btn_hover_text_color_shade, content: bs.btn_text, custom_class: '!absolute uppercase right-4 bottom-4 lg:right-10 lg:bottom-10 font-headline pointer-events-auto', before_icon: '', after_icon: '' %}
+                            {% endif %}
+
+                        </div>
+
+                    {% endif %}
+
+                {% endfor %}
+
+            {% endfor %}
+        </div>
+
+        <div class="swiper-button-next desktop !hidden !top-[50%] translate-y-[-50%] !left-auto  !justify-end after:!content-none !w-auto | md:!block">
+
+            <i class="ri-arrow-right-line text-headline-5 text-secondary-900"></i>
+
+        </div>
+
+        <div class="swiper-button-prev desktop !hidden !top-[50%] translate-y-[-50%] !right-auto  !justify-start after:!content-none !w-auto | md:!block">
+
+            <i class="ri-arrow-left-line text-headline-5 text-secondary-900"></i>
+
+        </div>
+
+
+
+    </div>
+
+
+</section>
+
+<script>
+    const adjustCarouselArrows = () => {
+        if (window.innerWidth > 768) { 
+            // Grab a single slide and calc the gap between slide and sides of viewport
+            const slideWidth = document.querySelector(".collection-carousel-new .swiper-slide").offsetWidth
+            const gapWidth = (window.innerWidth - slideWidth) / 2 + 16;
+            // Set desktop arrow positions
+            document.querySelector(".collection-carousel-new .swiper-button-next.desktop").style.right = gapWidth + 'px';
+            document.querySelector(".collection-carousel-new .swiper-button-prev.desktop").style.left = gapWidth + 'px';
+        }
+    }
+    const changeArrowColour = () => {
+        if(document.querySelector(".collection-carousel-new .collection-swiper-carousel")){
+		const carousel = document.querySelector(".collection-carousel-new .collection-swiper-carousel");
+		const arrows = document.querySelectorAll(".collection-carousel-new .swiper-button-next.desktop, .collection-carousel-new .swiper-button-prev.desktop");
+		carousel.swiper.on('transitionEnd', function () {
+            const currentSlide = carousel.querySelector(".swiper-slide-active");
+			const colorScheme = currentSlide.dataset.slideColorScheme;
+			if (colorScheme == 'light-mode') {
+                arrows.forEach(arrow => {
+                    arrow.classList.remove("dark-mode")
+                    arrow.classList.add("light-mode")
+                })
+			}
+			else{
+                arrows.forEach(arrow => {
+                    arrow.classList.add("dark-mode")
+                    arrow.classList.remove("light-mode")
+                })
+			}
+		  })
+        }
+    }
+    window.addEventListener("resize", adjustCarouselArrows)
+    window.addEventListener("load", ()=>{
+        adjustCarouselArrows()
+        changeArrowColour()
+    })
+</script>
+
+
+{% schema %}
+    {
+        "name": "Collection Carousel",
+        "settings": [
+            {
+                "type": "header",
+                "content": "background color"
+            },
+            {
+                "type": "select",
+                "id": "bg_color",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "bg-neutral",
+                        "label": "Neutral (white/grey/black)"
+                    },
+                    {
+                        "value": "bg-tertiary",
+                        "label": "Beige"
+                    }, {
+                        "value": "bg-salmon",
+                        "label": "Salmon"
+                    }, {
+                        "value": "bg-orange",
+                        "label": "Orange"
+                    }, {
+                        "value": "bg-blue",
+                        "label": "blue"
+                    }, {
+                        "value": "bg-yellow",
+                        "label": "Yellow"
+                    }, {
+                        "value": "",
+                        "label": "None"
+                    }
+                ],
+                "label": "Background color",
+                "default": "bg-secondary"
+            },
+            {
+                "type": "range",
+                "id": "bg_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Background color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            },
+            {
+                "type": "select",
+                "id": "text-align",
+                "options": [
+                    {
+                        "value": "text-center justify-center",
+                        "label": "Center"
+                    }, {
+                        "value": "text-left justify-start",
+                        "label": "Left"
+                    }, {
+                        "value": "text-right justify-end",
+                        "label": "Right"
+                    }
+                ],
+                "label": "Text alignment",
+                "default": "text-center justify-center"
+            }, {
+                "type": "header",
+                "content": "Fonts & Copy"
+            }, {
+                "type": "image_picker",
+                "id": "title_image",
+                "label": "Title image",
+                "info": "Recommended size: 380x440px"
+            }, {
+                "type": "text",
+                "id": "curved_title",
+                "label": "Arch title"
+            }, {
+                "type": "select",
+                "id": "curved_title_color",
+                "options": [
+                    {
+                        "value": "fill-primary-900",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "fill-secondary-900",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "fill-neutral-900",
+                        "label": "Neutral (white/grey/black)"
+                    },
+                    {
+                        "value": "fill-tertiary-900",
+                        "label": "Beige"
+                    }, {
+                        "value": "fill-yellow-900",
+                        "label": "Yellow"
+                    }, {
+                        "value": "fill-orange-900",
+                        "label": "Orange"
+                    }, {
+                        "value": "fill-salmon-900",
+                        "label": "Salmon"
+                    }, {
+                        "value": "fill-blue-900",
+                        "label": "Blue"
+                    }
+                ],
+                "label": "Curved title color",
+                "default": "fill-secondary-900"
+            }, {
+                "type": "textarea",
+                "id": "title",
+                "label": "Title"
+            }, {
+                "type": "select",
+                "id": "title_typeface",
+                "options": [
+                    {
+                        "value": "font-headline",
+                        "label": "Headline"
+                    }, {
+                        "value": "font-body",
+                        "label": "Body"
+                    }
+                ],
+                "label": "Title font",
+                "default": "font-headline"
+            }, {
+                "type": "select",
+                "id": "title_size",
+                "options": [
+                    {
+                        "value": "text-headline-6 lg:text-headline-6-lg",
+                        "label": "Heading 6"
+                    },
+                    {
+                        "value": "text-headline-5 lg:text-headline-5-lg",
+                        "label": "Heading 5"
+                    },
+                    {
+                        "value": "text-headline-4 lg:text-headline-4-lg",
+                        "label": "Heading 4"
+                    },
+                    {
+                        "value": "text-headline-3 lg:text-headline-3-lg",
+                        "label": "Heading 3"
+                    }, {
+                        "value": "text-headline-2 lg:text-headline-2-lg",
+                        "label": "Heading 2"
+                    }, {
+                        "value": "text-headline-1 lg:text-headline-1-lg",
+                        "label": "Heading 1"
+                    }, {
+                        "value": "text-display lg:text-display-lg",
+                        "label": "Display"
+                    }
+                ],
+                "label": "Title heading size",
+                "default": "text-display lg:text-display-lg"
+            }, {
+                "type": "select",
+                "id": "title_weight",
+                "options": [
+                    {
+                        "value": "font-bold",
+                        "label": "Bold"
+                    },
+                    {
+                        "value": "font-semibold",
+                        "label": "Semibold"
+                    },
+                    {
+                        "value": "font-medium",
+                        "label": "Medium"
+                    },
+                    {
+                        "value": "font-normal",
+                        "label": "Normal"
+                    }, {
+                        "value": "font-light",
+                        "label": "Light"
+                    }, {
+                        "value": "font-extralight",
+                        "label": "Extralight"
+                    }, {
+                        "value": "font-thin",
+                        "label": "Thin"
+                    }
+                ],
+                "label": "Title weight",
+                "default": "font-normal"
+            }, {
+                "type": "select",
+                "id": "title_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "text-neutral",
+                        "label": "Neutral (white/grey/black)"
+                    }
+                ],
+                "label": "Title color",
+                "default": "text-secondary"
+            }, {
+                "type": "range",
+                "id": "title_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Title color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }, {
+                "type": "richtext",
+                "id": "subtitle",
+                "label": "Subtitle"
+            }, {
+                "type": "select",
+                "id": "subtitle_typeface",
+                "options": [
+                    {
+                        "value": "font-headline",
+                        "label": "Headline"
+                    }, {
+                        "value": "font-body",
+                        "label": "Body"
+                    }
+                ],
+                "label": "Subtitle font",
+                "default": "font-body"
+            }, {
+                "type": "select",
+                "id": "subtitle_size",
+                "options": [
+                    {
+                        "value": "text-body-small lg:text-body-small-lg",
+                        "label": "Body Small"
+                    },
+                    {
+                        "value": "text-body-medium lg:text-body-medium-lg",
+                        "label": "Body Medium"
+                    },
+                    {
+                        "value": "text-body-large lg:text-body-large-lg",
+                        "label": "Body Large"
+                    },
+                    {
+                        "value": "text-headline-6 lg:text-headline-6-lg",
+                        "label": "Heading 6"
+                    }, {
+                        "value": "text-headline-5 lg:text-headline-5-lg",
+                        "label": "Heading 5"
+                    }, {
+                        "value": "text-headline-4 lg:text-headline-4-lg",
+                        "label": "Heading 4"
+                    }, {
+                        "value": "text-headline-3 lg:text-headline-3-lg",
+                        "label": "Heading 3"
+                    }, {
+                        "value": "text-headline-2 lg:text-headline-2-lg",
+                        "label": "Heading 2"
+                    }, {
+                        "value": "text-headline-1 lg:text-headline-1-lg",
+                        "label": "Heading 1"
+                    }, {
+                        "value": "text-display lg:text-display-lg",
+                        "label": "Display"
+                    }
+                ],
+                "label": "Subtitle heading size",
+                "default": "text-body-large lg:text-body-large-lg"
+            }, {
+                "type": "select",
+                "id": "subtitle_weight",
+                "options": [
+                    {
+                        "value": "font-bold",
+                        "label": "Bold"
+                    },
+                    {
+                        "value": "font-semibold",
+                        "label": "Semibold"
+                    },
+                    {
+                        "value": "font-medium",
+                        "label": "Medium"
+                    },
+                    {
+                        "value": "font-normal",
+                        "label": "Normal"
+                    }, {
+                        "value": "font-light",
+                        "label": "Light"
+                    }, {
+                        "value": "font-extralight",
+                        "label": "Extralight"
+                    }, {
+                        "value": "font-thin",
+                        "label": "Thin"
+                    }
+                ],
+                "label": "Title weight",
+                "default": "font-normal"
+            }, {
+                "type": "select",
+                "id": "subtitle_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "text-neutral",
+                        "label": "Neutral (white/grey/black)"
+                    }
+                ],
+                "label": "Subtitle color",
+                "default": "text-secondary"
+            }, {
+                "type": "range",
+                "id": "subtitle_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Subtitle color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }, {
+                "type": "header",
+                "content": "button 1"
+            }, {
+                "type": "text",
+                "id": "btn_text",
+                "label": "Button text"
+            }, {
+                "type": "url",
+                "id": "btn_url",
+                "label": "Button URL"
+            }, {
+                "type": "select",
+                "id": "btn_color",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "bg-neutral",
+                        "label": "Neutral (white/grey/black)"
+                    }, {
+                        "value": "bg-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button color",
+                "default": "bg-secondary"
+            }, {
+                "type": "range",
+                "id": "btn_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }, {
+                "type": "select",
+                "id": "btn_border_color",
+                "options": [
+                    {
+                        "value": "border-primary",
+                        "label": "Border Teal"
+                    }, {
+                        "value": "border-secondary",
+                        "label": "Border Brown"
+                    }, {
+                        "value": "border-neutral",
+                        "label": "Border Neutral (white/grey/black)"
+                    }, {
+                        "value": "border-transparent",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button border color",
+                "default": "border-transparent"
+            }, {
+                "type": "range",
+                "id": "btn_border_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button border color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }, {
+                "type": "select",
+                "id": "btn_text_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "text-neutral",
+                        "label": "Neutral (white/grey/black)"
+                    }, {
+                        "value": "text-tertiary",
+                        "label": "Beige"
+                    }
+                ],
+                "label": "Button text color",
+                "default": "text-tertiary"
+            }, {
+                "type": "range",
+                "id": "btn_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }, {
+                "type": "header",
+                "content": "button 1 hover styles"
+            }, {
+                "type": "select",
+                "id": "btn_hover_color",
+                "options": [
+                    {
+                        "value": "hover:bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "hover:bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "hover:bg-tertiary",
+                        "label": "Beige"
+                    },
+                    {
+                        "value": "hover:bg-neutral",
+                        "label": "Neutral (white/grey/black)"
+                    }, {
+                        "value": "hover:bg-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button hover color",
+                "default": "hover:bg-tertiary"
+            }, {
+                "type": "range",
+                "id": "btn_hover_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }, {
+                "type": "select",
+                "id": "btn_hover_border_color",
+                "options": [
+                    {
+                        "value": "hover:border-primary",
+                        "label": "Border Teal"
+                    }, {
+                        "value": "hover:border-secondary",
+                        "label": "Border Brown"
+                    }, {
+                        "value": "hover:border-neutral",
+                        "label": "Border Neutral (white/grey/black)"
+                    }, {
+                        "value": "hover:border-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Button hover border color",
+                "default": "hover:border-secondary"
+            }, {
+                "type": "range",
+                "id": "btn_hover_border_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button hover color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }, {
+                "type": "select",
+                "id": "btn_hover_text_color",
+                "options": [
+                    {
+                        "value": "hover:text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "hover:text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "hover:text-neutral",
+                        "label": "Neutral (white/grey/black)"
+                    }
+                ],
+                "label": "Button hover text color",
+                "default": "hover:text-secondary"
+            }, {
+                "type": "range",
+                "id": "btn_hover_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Button hover text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }, {
+                "type": "header",
+                "content": "button 2"
+            }, {
+                "type": "text",
+                "id": "alt_btn_text",
+                "label": "Alt button text"
+            }, {
+                "type": "url",
+                "id": "alt_btn_url",
+                "label": "Alt button URL"
+            }, {
+                "type": "select",
+                "id": "alt_btn_color",
+                "options": [
+                    {
+                        "value": "bg-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "bg-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "bg-neutral",
+                        "label": "Neutral (white/grey/black)"
+                    }, {
+                        "value": "bg-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Alt button color",
+                "default": "bg-secondary"
+            }, {
+                "type": "range",
+                "id": "alt_btn_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Alt Button color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }, {
+                "type": "select",
+                "id": "alt_btn_border_color",
+                "options": [
+                    {
+                        "value": "border-primary",
+                        "label": "Border Teal"
+                    }, {
+                        "value": "border-secondary",
+                        "label": "Border Brown"
+                    }, {
+                        "value": "border-neutral",
+                        "label": "Border Neutral (white/grey/black)"
+                    }, {
+                        "value": "border-transparent",
+                        "label": "None"
+                    }
+                ],
+                "label": "Alt Button border color",
+                "default": "border-transparent"
+            }, {
+                "type": "range",
+                "id": "alt_btn_border_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Alt Button color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }, {
+                "type": "select",
+                "id": "alt_btn_text_color",
+                "options": [
+                    {
+                        "value": "text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "text-neutral",
+                        "label": "Neutral (white/grey/black)"
+                    }, {
+                        "value": "text-tertiary",
+                        "label": "Beige"
+                    }
+                ],
+                "label": "Alt Button text color",
+                "default": "text-tertiary"
+            }, {
+                "type": "range",
+                "id": "alt_btn_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Alt button text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }, {
+                "type": "header",
+                "content": "button 2 hover styles"
+            }, {
+                "type": "select",
+                "id": "alt_btn_hover_color",
+                "options": [
+                    {
+                        "value": "hover:bg-primary",
+                        "label": "Teal"
+                    },
+                    {
+                        "value": "hover:bg-secondary",
+                        "label": "Brown"
+                    },
+                    {
+                        "value": "hover:bg-neutral",
+                        "label": "Neutral (white/grey/black)"
+                    },
+                    {
+                        "value": "hover:bg-transparent ",
+                        "label": "None"
+                    }, {
+                        "value": "hover:bg-tertiary",
+                        "label": "Beige"
+                    }
+                ],
+                "label": "Button hover color",
+                "default": "hover:bg-tertiary"
+            }, {
+                "type": "range",
+                "id": "alt_btn_hover_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Alt Button hover color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }, {
+                "type": "select",
+                "id": "alt_btn_hover_border_color",
+                "options": [
+                    {
+                        "value": "hover:border-primary",
+                        "label": "Border Teal"
+                    }, {
+                        "value": "hover:border-secondary",
+                        "label": "Border Brown"
+                    }, {
+                        "value": "hover:border-neutral",
+                        "label": "Border Neutral (white/grey/black)"
+                    }, {
+                        "value": "hover:border-transparent ",
+                        "label": "None"
+                    }
+                ],
+                "label": "Alt Button hover border color",
+                "default": "hover:border-secondary"
+            }, {
+                "type": "range",
+                "id": "alt_btn_hover_border_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Alt Button hover border color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }, {
+                "type": "select",
+                "id": "alt_btn_hover_text_color",
+                "options": [
+                    {
+                        "value": "hover:text-primary",
+                        "label": "Teal"
+                    }, {
+                        "value": "hover:text-secondary",
+                        "label": "Brown"
+                    }, {
+                        "value": "hover:text-neutral",
+                        "label": "Neutral (white/grey/black)"
+                    }
+                ],
+                "label": "Alt Button hover text color",
+                "default": "hover:text-secondary"
+            }, {
+                "type": "range",
+                "id": "alt_btn_hover_text_color_shade",
+                "min": 0,
+                "max": 900,
+                "step": 100,
+                "label": "Alt Button hover text color shade",
+                "info": "Number range 0 - 900. Lighest to darkest",
+                "default": 900
+            }
+
+
+        ],
+        "blocks": [
+            {
+                "type": "collection",
+                "name": "Collection",
+                "settings": [
+                    {
+                        "type": "header",
+                        "content": "background media"
+                    },
+                    {
+                        "type": "select",
+                        "id": "carousel_pagination_color",
+                        "options": [
+                            {
+                                "value": "light-mode",
+                                "label": "Light"
+                            }, {
+                                "value": "dark-mode",
+                                "label": "Dark"
+                            }
+                        ],
+                        "label": "Carousel arrow color scheme",
+                        "default": "dark-mode"
+                    },
+                    {
+                        "type": "collection",
+                        "id": "collection",
+                        "label": "Collection"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "image",
+                        "label": "Image",
+                        "info": "Recommended size: 1300x560px, alternative to collection image"
+                    }, {
+                        "type": "image_picker",
+                        "id": "image_mob",
+                        "label": "mobile Image",
+                        "info": "Recommended size: 485x420px"
+                    }, {
+                        "type": "header",
+                        "content": "button 1"
+                    }, {
+                        "type": "text",
+                        "id": "btn_text",
+                        "label": "Button text"
+                    }, {
+                        "type": "url",
+                        "id": "btn_url",
+                        "label": "Button URL"
+                    }, {
+                        "type": "select",
+                        "id": "btn_color",
+                        "options": [
+                            {
+                                "value": "bg-primary",
+                                "label": "Teal"
+                            },
+                            {
+                                "value": "bg-secondary",
+                                "label": "Brown"
+                            },
+                            {
+                                "value": "bg-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            },
+                            {
+                                "value": "bg-transparent ",
+                                "label": "None"
+                            }, {
+                                "value": "bg-tertiary ",
+                                "label": "Beige"
+                            }
+                        ],
+                        "label": "Button color",
+                        "default": "bg-secondary"
+
+                    }, {
+                        "type": "range",
+                        "id": "btn_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Button color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 900
+                    }, {
+                        "type": "select",
+                        "id": "btn_border_color",
+                        "options": [
+                            {
+                                "value": "border-primary",
+                                "label": "Border Teal"
+                            }, {
+                                "value": "border-secondary",
+                                "label": "Border Brown"
+                            }, {
+                                "value": "border-neutral",
+                                "label": "Border Neutral (white/grey/black)"
+                            }, {
+                                "value": "border-transparent ",
+                                "label": "None"
+                            }
+                        ],
+                        "label": "Button border color",
+                        "default": "border-secondary"
+                    }, {
+                        "type": "range",
+                        "id": "btn_border_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Button border color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 900
+                    }, {
+                        "type": "select",
+                        "id": "btn_text_color",
+                        "options": [
+                            {
+                                "value": "text-primary",
+                                "label": "Teal"
+                            }, {
+                                "value": "text-secondary",
+                                "label": "Brown"
+                            }, {
+                                "value": "text-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            }, {
+                                "value": "text-tertiary",
+                                "label": "Beige"
+                            }
+                        ],
+                        "label": "Button text color",
+                        "default": "text-tertiary"
+                    }, {
+                        "type": "range",
+                        "id": "btn_text_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Button text color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 900
+                    }, {
+                        "type": "header",
+                        "content": "button 1 hover styles"
+                    }, {
+                        "type": "select",
+                        "id": "btn_hover_color",
+                        "options": [
+                            {
+                                "value": "hover:bg-primary",
+                                "label": "Teal"
+                            },
+                            {
+                                "value": "hover:bg-secondary",
+                                "label": "Brown"
+                            },
+                            {
+                                "value": "hover:bg-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            },
+                            {
+                                "value": "hover:bg-transparent ",
+                                "label": "None"
+                            }, {
+                                "value": "hover:bg-tertiary",
+                                "label": "Beige"
+                            }
+                        ],
+                        "label": "Button hover color",
+                        "default": "hover:bg-tertiary"
+                    }, {
+                        "type": "range",
+                        "id": "btn_hover_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Button color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 900
+                    }, {
+                        "type": "select",
+                        "id": "btn_hover_border_color",
+                        "options": [
+                            {
+                                "value": "hover:border-primary",
+                                "label": "Border Teal"
+                            }, {
+                                "value": "hover:border-secondary",
+                                "label": "Border Brown"
+                            }, {
+                                "value": "hover:border-neutral",
+                                "label": "Border Neutral (white/grey/black)"
+                            }, {
+                                "value": "hover:border-transparent ",
+                                "label": "None"
+                            }
+                        ],
+                        "label": "Button hover border color",
+                        "default": "hover:border-secondary"
+                    }, {
+                        "type": "range",
+                        "id": "btn_hover_border_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Button hover color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 900
+                    }, {
+                        "type": "select",
+                        "id": "btn_hover_text_color",
+                        "options": [
+                            {
+                                "value": "hover:text-primary",
+                                "label": "Teal"
+                            }, {
+                                "value": "hover:text-secondary",
+                                "label": "Brown"
+                            }, {
+                                "value": "hover:text-neutral",
+                                "label": "Neutral (white/grey/black)"
+                            }
+                        ],
+                        "label": "Button hover text color",
+                        "default": "hover:text-secondary"
+                    }, {
+                        "type": "range",
+                        "id": "btn_hover_text_color_shade",
+                        "min": 0,
+                        "max": 900,
+                        "step": 100,
+                        "label": "Button hover text color shade",
+                        "info": "Number range 0 - 900. Lighest to darkest",
+                        "default": 900
+                    }
+                ]
+            }
+
+        ],
+        "presets": [
+            {
+                "name": "Collection Carousel"
+            }
+        ]
+
+    }
+{% endschema %}

@@ -1,0 +1,187 @@
+{
+  "sections": {
+    "main": {
+      "type": "faq-template",
+      "blocks": {
+        "d66af313-2aa8-435e-ae59-112ec75f2fae": {
+          "type": "category",
+          "settings": {
+            "category": "Shipping"
+          }
+        },
+        "29cc216a-2757-43f0-b5c3-867d168c221f": {
+          "type": "question",
+          "settings": {
+            "question": "How long will my order take to arrive?",
+            "answer": "<p>It’ll take between 2-3 working days from when you place your order. But we’ll do everything we can to get it out to you via next day delivery.<\/p>"
+          }
+        },
+        "af114ac4-c535-416a-abe9-63a97707eaaf": {
+          "type": "question",
+          "settings": {
+            "question": "How much is shipping?",
+            "answer": "<p>Shipping is free for all orders over £24. For orders under £24, prices start at £3.50.<\/p>"
+          }
+        },
+        "3ed8f09e-0eb6-40fe-bd88-d35ab1deb4a7": {
+          "type": "question",
+          "settings": {
+            "question": "Do you ship internationally?",
+            "answer": "<p>Yes, but shipping costs will vary, so please get in touch with us to get a quote <strong>before<\/strong> placing your order - <a href=\"mailto:info@theroastingparty.co.uk\" target=\"_blank\" title=\"mailto:info@theroastingparty.co.uk\">info@theroastingparty.co.uk<\/a>.<\/p>"
+          }
+        },
+        "657923ca-41b7-4f90-b4e8-9279684eaf86": {
+          "type": "category",
+          "settings": {
+            "category": "Product"
+          }
+        },
+        "94f19488-ff5b-4aa8-a13d-952ba372a039": {
+          "type": "question",
+          "settings": {
+            "question": "How do I choose my grind type?",
+            "answer": "<p>Your grind type will depend on your equipment, so check out our <a href=\"\/pages\/brewtube\" title=\"Education\">guides<\/a> to get the best from your beans.<br\/><br\/>For the freshest taste, we recommend buying whole beans and grinding at home.<\/p>"
+          }
+        },
+        "86438e24-ec09-4ee0-a31a-7611a27e2269": {
+          "type": "question",
+          "settings": {
+            "question": "What’s the difference between a blend and a single origin?",
+            "answer": "<p>Single origins use beans that come from one coffee-growing region, delivering unaltered, authentic flavours best suited to brewed coffees. We offer a roaster-approved rotation of single origins, depending on what’s in season.<br\/><br\/>Blends are based on beans from various countries or regions, combined by our roasters to develop a unique flavour profile. Best suited to espresso-based drinks.<\/p>"
+          }
+        },
+        "93d27fd5-1051-4d0e-8f34-8f4a01ca8826": {
+          "type": "question",
+          "settings": {
+            "question": "How should I store my coffee?",
+            "answer": "<p>Coffee should be stored in its original packaging with the zip lock firmly closed, or in an airtight container. Keep at room temperature and out of direct sunlight.<br\/><br\/>There’s a common myth that you can store coffee in the freezer – we don’t subscribe to that.<\/p>"
+          }
+        },
+        "51a2383d-d938-465d-94bc-0c49df878bb2": {
+          "type": "question",
+          "settings": {
+            "question": "When will my coffee expire?",
+            "answer": "<p>For ground coffee, use within a month, but it’s at its best within 2 weeks of being roasted.<br\/><br\/>Whole beans are at their best about 2 weeks <strong>after<\/strong> roasting.<br\/><br\/>To get fresh coffee on tap, check out our <a href=\"\/collections\/subscribe-save\" title=\"Subscribe & Save\">subscriptions<\/a>.<br\/><br\/>Please note that the date stamped on the packaging is the date your coffee was roasted, not an expiration date.<\/p>"
+          }
+        },
+        "5e26b2cd-6213-4de0-bfba-ebc099eb02c6": {
+          "type": "category",
+          "settings": {
+            "category": "Other"
+          }
+        },
+        "56634cf4-ba13-42b7-afbf-f0b796380055": {
+          "type": "question",
+          "settings": {
+            "question": "Is your packaging recyclable?",
+            "answer": "<p>Our coffee bags are made from recycled materials formerly destined for landfill.<br\/><br\/>Our compostable takeaway cups are collected at the end of every day by ultra-low emission vehicles, before being taken to a UK-based plant where they’re broken down into a nutrient-rich fertiliser.<br\/><br\/>Our soon-to-drop aluminium coffee pods come with pre-paid post bags, so you can send spent pods straight back to us to recycle.<br\/><br\/>You can read more about our journey with compostable packaging on the <a href=\"\/blogs\/news\" title=\"News\">blog<\/a>.<\/p>"
+          }
+        },
+        "2c1f6414-2f35-4e74-8a2b-0466ea1e5b90": {
+          "type": "question",
+          "settings": {
+            "question": "Why have you changed your bag sizes?",
+            "answer": "<p>We want to bring the best at-home coffee experience possible, but realised our old bags weren’t working for you. So, we landed on a whole new type of packaging in two new sizes - 100g and 340g. We reckon the larger 340g size is the perfect months’ supply. The 100g, a size suited to your weekend sampling sessions – and an easy way to try something new if you’re not quite ready to commit.<\/p>"
+          }
+        },
+        "f5e6a094-d0e0-4b0f-9951-38013fc55c0a": {
+          "type": "question",
+          "settings": {
+            "question": "Why have you increased your pricing?",
+            "answer": "<p>There’s been a huge increase in the worldwide cost of coffee. Challenging conditions in coffee-growing regions have forced prices up everywhere. Shipping rates within our supply chain have blown up.  <br\/><br\/>We made every effort to try and absorb these growing costs, working harder and smarter wherever possible. But reality had to bite sooner or later. <br\/><br\/>That said, with a small price increase comes huge investment in your coffee experience. You’ll start to notice some changes soon, perhaps you already have, allowing us to share more of our knowledge with you (for free), new coffees, and a bigger and better loyalty programme.<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "d66af313-2aa8-435e-ae59-112ec75f2fae",
+        "29cc216a-2757-43f0-b5c3-867d168c221f",
+        "af114ac4-c535-416a-abe9-63a97707eaaf",
+        "3ed8f09e-0eb6-40fe-bd88-d35ab1deb4a7",
+        "657923ca-41b7-4f90-b4e8-9279684eaf86",
+        "94f19488-ff5b-4aa8-a13d-952ba372a039",
+        "86438e24-ec09-4ee0-a31a-7611a27e2269",
+        "93d27fd5-1051-4d0e-8f34-8f4a01ca8826",
+        "51a2383d-d938-465d-94bc-0c49df878bb2",
+        "5e26b2cd-6213-4de0-bfba-ebc099eb02c6",
+        "56634cf4-ba13-42b7-afbf-f0b796380055",
+        "2c1f6414-2f35-4e74-8a2b-0466ea1e5b90",
+        "f5e6a094-d0e0-4b0f-9951-38013fc55c0a"
+      ],
+      "settings": {
+        "title": "FAQs",
+        "subtitle": "Got a question? We've got it covered.",
+        "search": true,
+        "placeholder": "Search...",
+        "error": ""
+      }
+    },
+    "0092cdb2-f834-4341-86a2-b108f0722329": {
+      "type": "contact-form",
+      "blocks": {
+        "7eb5280a-549f-460c-9192-8801f6e907f1": {
+          "type": "text-field",
+          "settings": {
+            "field_label": "Name",
+            "field_placeholder": "Name",
+            "field_id": "name",
+            "field_required": true,
+            "field_col_width": "lg:w-full"
+          }
+        },
+        "18486f68-aca6-4d9b-b22f-d328095bb4be": {
+          "type": "email-field",
+          "settings": {
+            "field_label": "Email address",
+            "field_placeholder": "Email address",
+            "field_id": "email",
+            "field_required": true,
+            "field_col_width": "lg:w-full"
+          }
+        },
+        "32c5889f-754b-41a7-abc8-0b3c5ae1cf36": {
+          "type": "select-field",
+          "settings": {
+            "field_placeholder": "Subject",
+            "field_id": "reason",
+            "field_option": "Shipping,Product,Subscriptions,Shops,Wholesale,Education,Other",
+            "field_required": true,
+            "field_col_width": "lg:w-full"
+          }
+        },
+        "8548f803-1cfb-4b27-8538-4aa71a9c981e": {
+          "type": "textarea-field",
+          "settings": {
+            "field_label": "Message",
+            "field_placeholder": "Type your message here...",
+            "field_id": "message",
+            "field_required": true,
+            "field_col_width": "lg:w-full"
+          }
+        }
+      },
+      "block_order": [
+        "7eb5280a-549f-460c-9192-8801f6e907f1",
+        "18486f68-aca6-4d9b-b22f-d328095bb4be",
+        "32c5889f-754b-41a7-abc8-0b3c5ae1cf36",
+        "8548f803-1cfb-4b27-8538-4aa71a9c981e"
+      ],
+      "settings": {
+        "bg_color": "bg-primary",
+        "image": "shopify:\/\/shop_images\/Timbo.jpg",
+        "title": "Hit us up",
+        "subtitle": "<p>We'd love to hear from you. Just pick up the phone or fill in the form.<\/p>",
+        "contact_email": "",
+        "contact_phone": "",
+        "contact_phone_title": "Customer queries",
+        "wholesale_phone": "",
+        "wholesale_phone_title": "Wholesale queries",
+        "success-msg": "Thanks for your message. One of our team will be in touch very soon.",
+        "btn_text": "SUBMIT"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "0092cdb2-f834-4341-86a2-b108f0722329"
+  ]
+}

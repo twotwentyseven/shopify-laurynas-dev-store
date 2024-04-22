@@ -1,0 +1,258 @@
+{% assign hasVariants = false %}
+{% assign hasSubscriptions = false %}
+{% assign oneOff = true %}
+
+{% if product.requires_selling_plan %}
+    {% assign oneOff = false %}
+{% endif %}
+
+{% if product.selling_plan_groups.size > 0 %}
+    {% assign hasSubscriptions = true %}
+{% endif %}
+
+{% if product.variants.size > 1 %}
+
+	{% assign hasVariants = true %}
+
+{% endif %}
+
+{% unless form_id %}{%- capture form_id -%}{{product.id}}{%- endcapture -%}{% endunless %}
+
+<div class="ecommerce-options">
+
+	{% form "product", product, id: form_id %}
+		{% liquid 
+
+			assign has-variants = false
+			if product.variants.size != 0 and product.selected_or_first_available_variant.title != 'Default Title'
+				assign has-variants = true
+            else
+                assign variant_class_1 = 'hidden'
+			endif
+
+			assign upsell-product = product.metafields.product.upsell_product.value
+		%}
+
+        {% if hasVariants or hasSubscriptions %}
+            <a href="{{ product.url }}">
+
+                <p data-match-height="product-title" class="title font-headline font-semibold text-headline-6 uppercase mb-2 | lg:text-headline-6-lg">{{ product.title }}</p>
+
+                <div class="product_rating_wrapper">
+
+                    <div class="trustpilot-widget-wrap">
+                        <div class="inner"></div>
+                    </div>
+        
+                </div><!-- product_rating_wrapper -->
+                
+                {% if product.compare_at_price_min > product.price %}
+                    <p data-match-height="price" class="price mb-4">
+                        <del class="opacity-25">{{ product.compare_at_price_min | money }}</del>
+                        {% if product.price_varies %}From {% endif %} {{ product.price | money  }}
+                    </p>
+                {% else %}
+                    <p data-match-height="price" class="price mb-4">{% if product.price_varies %}From {% endif %} {{ product.price | money  }}</p>
+                {% endif %}
+
+            </a>
+        {% endif %}
+
+        {% comment %} {% if hasSubscriptions and oneOff %}
+
+        <div class="flex justify-center">
+            <div class="border rounded-full py-2 px-3 inline-flex justify-center">
+                <a data-sub-toggle="{{ section.id }}_{{ product.id }}" data-one-time href="#" class="active | {{settings.pc_btn_text_color}} py-1 px-3 rounded-full text-body-medium {{ settings.pc_btn_color }}-{{ settings.pc_btn_color_shade }}" data-remove-class="active {{ settings.pc_btn_color }}-{{ settings.pc_btn_color_shade }}">{{ settings.one_time }}</a>
+                <a data-sub-toggle="{{ section.id }}_{{ product.id }}" data-subscribe href="#" class="{{settings.pc_btn_text_color}} py-1 px-3 rounded-full text-body-medium" data-add-class="active {{ settings.pc_btn_color }}-{{ settings.pc_btn_color_shade }}">{{ settings.subscription }}</a>
+            </div>
+        </div>
+
+        
+        {% endif %} {% endcomment %}
+
+		<div class="form-controls">
+			<div class="hidden">
+				<input type="hidden" name="_tags" value="{{ product.tags | json | escape_once }}" data-property />
+				<input type="hidden" name="_upsell-product" value="{{ upsell-product | json | escape_once }}" data-property />
+			</div>
+
+			<div>
+				
+				<select 
+					data-multi-option='{{ product | json | escape }}' 
+					id="product-selector-{{ form_id }}"
+					name="id"
+					data-multi-option-scope="form"
+					data-option-1-type="radio"
+					data-option-1-target=".variant-option_1-{{ product.id }}"
+					data-option-2-type="select"
+					data-option-2-target=".variant-option_2-{{ product.id }}"
+					data-option-3-type="select"
+                    data-option-3-target=".variant-option_3-{{ product.id }}"
+				>
+					{% for variant in product.variants %}
+					<option {% if variant == product.selected_or_first_available_variant %} selected{% endif %} value="{{ variant.id }}">
+						{{ variant.title }} - {{ variant.price | money }}
+					</option>
+					{% endfor %}
+				</select>
+			</div>
+
+			
+		</div>
+        
+        <div class="flex flex-wrap">
+            <div class="relative z-[3] variant-option_1-{{ product.id }} {{variant_class_1}} {{ bg_color }}-{{bg_color_shade}} {{ settings.pc_modal_select_border_color }}-{{ settings.pc_modal_select_border_shade }}"></div>
+            <div class="relative z-[2] variant-option_2-{{ product.id }} {{variant_class_2}} {{ bg_color }}-{{bg_color_shade}} {{ settings.pc_modal_select_border_color }}-{{ settings.pc_modal_select_border_shade }}"></div>
+            <div class="relative z-[1] variant-option_3-{{ product.id }} {{variant_class_3}} {{ bg_color }}-{{bg_color_shade}} {{ settings.pc_modal_select_border_color }}-{{ settings.pc_modal_select_border_shade }}"></div>
+        </div>
+
+        {% if hasSubscriptions and oneOff %}
+            
+            <div class="purchase-type | border {{ settings.pc_modal_select_border_color }}-{{ settings.pc_modal_select_border_shade }} mb-2 mt-4">
+                <a data-sub-toggle="{{ section.id }}_{{ product.id }}" data-one-time href="#" class="active | flex relative items-center py-3 px-4 text-body-medium uppercase bg-primary-100 text-neutral-900 | lg:text-body-medium-lg | before:h-4 before:w-4 before:content-[''] before:rounded-full before:border before:border-neutral-900 before:block before:mr-2 before:transition-all before:duration-animation-speed | after:h-2 after:w-2 after:block after:absolute after:left-5 after:rounded-full after:content-[''] after:bg-primary-500 after:transition-all after:duration-animation-speed" data-add-class="before:border-neutral-400 bg-primary-100" data-remove-class="active bg-primary-0 before:border-neutral-900 after:bg-primary-500">{{ settings.one_time }}</a>
+            </div>
+
+        {% endif %}
+        
+        {% if hasSubscriptions %}
+
+            <div class="purchase-type | border {{ settings.pc_modal_select_border_color }}-{{ settings.pc_modal_select_border_shade }}">
+                
+                {% if hasSubscriptions and oneOff %}
+                <a data-sub-toggle="{{ section.id }}_{{ product.id }}" data-subscribe href="#" class="flex relative items-center py-3 px-4 text-body-medium uppercase {% if oneOff %}bg-primary-0{% else %}bg-primary-100{% endif %} text-neutral-900 | lg:text-body-medium-lg | before:h-4 before:w-4 before:content-[''] before:rounded-full before:border {% if oneOff %}before:border-neutral-400{% else %}before:border-neutral-900{% endif %} before:block before:mr-2 before:transition-all before:duration-animation-speed | after:h-2 after:w-2 after:block after:absolute after:left-5 after:rounded-full after:content-[''] {% if oneOff %}{% else %}after:bg-primary-500{% endif %} after:transition-all after:duration-animation-speed" data-add-class="active bg-primary-0 before:border-neutral-900 after:bg-primary-500" data-remove-class="before:border-neutral-400 bg-primary-100">{{ settings.subscription }}</a>
+                {% endif %}
+                
+                {% if product.selling_plan_groups and product.selling_plan_groups[0].selling_plans %}
+                    <div data-frequency-selector="{{ section.id }}_{{ product.id }}" class="subscription-wrapper selector-wrapper | {% if oneOff %}hidden{% endif %} w-full !bg-primary-100 text-neutral-900 p-4" {% if oneOff %}data-add-class="block" data-remove-class="hidden"{% endif %}>
+                        <div class="selectCustom js-selectCustom border-neutral-900 border" aria-hidden="true">
+                            <div class="selectCustom-trigger">{{settings.no_subscription}}</div>
+                            <div class="selectCustom-options bottom-11 !top-auto">
+                                <div data-value="" class="selectCustom-option">{{settings.no_subscription}}</div>
+                                {% for selling_plan in product.selling_plan_groups[0].selling_plans %}
+                                <div data-value="{{ selling_plan.id }}" class="selectCustom-option">
+                                    {{ selling_plan.name }}
+                                    {% if selling_plan.price_adjustments[0] %}
+                                        - {% if selling_plan.price_adjustments[0].value_type == 'percentage' %}
+                                            {{ selling_plan.price_adjustments[0].value }}% discount
+                                        {% endif %}
+                                        {% if selling_plan.price_adjustments[0].value_type == 'value' %}
+                                            {{ selling_plan.price_adjustments[0].value | money }} discount
+                                        {% endif %} 
+                                    {% endif %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <select class="js-selectNative selectNative border-neutral-900 border"
+                            data-selling-groups='{{ product.selling_plan_groups | json | escape }}'
+                            name="properties[selling_plan]"
+                        >
+                            <option value="">{{settings.no_subscription}}</option>
+                            {% for selling_plan in product.selling_plan_groups[0].selling_plans %}
+                            <option value="{{ selling_plan.id }}">
+                                {{ selling_plan.name }} {% if selling_plan.price_adjustments[0] %}
+                                    - {% if selling_plan.price_adjustments[0].value_type == 'percentage' %}
+                                        {{ selling_plan.price_adjustments[0].value }}% discount
+                                    {% endif %}
+                                    {% if selling_plan.price_adjustments[0].value_type == 'value' %}
+                                        {{ selling_plan.price_adjustments[0].value | money }} discount
+                                    {% endif %}
+            
+                                {% endif %}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        {% if settings.subscription_key_points %}
+                        <div class="sub-benefits | mt-2 ">{{ settings.subscription_key_points }}</div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        
+        {% endif %}
+
+		<div class="flex-grid">
+			{% assign btn-add-label = "Add to cart" %}
+			{% assign btn-sold-out-label = "Sold out" %}
+			
+			{% if product.available %}
+				<div class="qty-wrapper w-full border-t {{ settings.pc_modal_select_border_color }}-{{ settings.pc_modal_select_border_shade }} pt-2 mt-4 {% if hideQty %}hidden{% endif %}">
+                    <label class="w-full uppercase text-body-small block mb-1">{{ settings.quantity }}</label>
+                    <div class="flex">
+                        <a href="#" class="decrement qty-btn | py-2 px-4 border {{ settings.pc_modal_select_border_color }}-{{ settings.pc_modal_select_border_shade }}" data-qty-btn data-decrement>-</a>
+                        <input class="mx-4 border {{ settings.pc_modal_select_border_color }}-{{ settings.pc_modal_select_border_shade }} bg-transparent-500 w-full text-center text-body-small outline-none" name="quantity" type="number" data-qty-selector value="1">
+                        <a href="#" class="increment qty-btn | py-2 px-4 border {{ settings.pc_modal_select_border_color }}-{{ settings.pc_modal_select_border_shade }}" data-qty-btn data-increment>+</a>
+                    </div>
+				</div>
+
+                {% comment %} {% if product.selling_plan_groups and product.selling_plan_groups[0].selling_plans %}
+                <div data-frequency-selector="{{ section.id }}_{{ product.id }}" class="subscription-wrapper selector-wrapper | {% if oneOff %}hidden{% endif %} w-full border-t border-neutral-0/25 pt-2" {% if oneOff %}data-add-class="block" data-remove-class="hidden"{% endif %}>
+                    <label class="w-full uppercase text-body-small block mb-1">{{ settings.delivery_frequency }}</label>
+                    <div class="selectCustom !top-7 js-selectCustom {{ bg_color }}-{{bg_color_shade}}" aria-hidden="true">
+                        <div class="selectCustom-trigger">{{settings.no_subscription}}</div>
+                        <div class="selectCustom-options bottom-11 !top-auto">
+                            <div data-value="" class="selectCustom-option">{{settings.no_subscription}}</div>
+                            {% for selling_plan in product.selling_plan_groups[0].selling_plans %}
+                            <div data-value="{{ selling_plan.id }}" class="selectCustom-option"> {{ selling_plan.name }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <select class="js-selectNative selectNative {{ bg_color }}-{{bg_color_shade}}"
+                        data-selling-groups='{{ product.selling_plan_groups | json | escape }}'
+                        name="properties[selling_plan]"
+                    >
+                        <option value="">{{settings.no_subscription}}</option>
+                        {% for selling_plan in product.selling_plan_groups[0].selling_plans %}
+                        <option value="{{ selling_plan.id }}">
+                            {{ selling_plan.name }} {% if selling_plan.price_adjustments[0] %}
+                                - {% if selling_plan.price_adjustments[0].value_type == 'percentage' %}
+                                    {{ selling_plan.price_adjustments[0].value }}% discount
+                                {% endif %}
+                                {% if selling_plan.price_adjustments[0].value_type == 'value' %}
+                                    {{ selling_plan.price_adjustments[0].value | money }}% discount
+                                {% endif %}
+        
+                            {% endif %}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endif %} {% endcomment %}
+
+                {% if hasVariants or hasSubscriptions %}
+				<div class="w-full border-t {{ settings.pc_modal_select_border_color }}-{{ settings.pc_modal_select_border_shade }} pt-4 mt-4">
+                {% endif %}
+                    {% render 'button' element: 'button', type: '', data: 'cart-add-async', href: '#', border_color: settings.pc_btn_color, border_width: 'border', bg_color: settings.pc_btn_color, bg_color_shade: settings.pc_btn_color_shade, text_color: settings.pc_btn_text_color, text_color_shade: settings.pc_btn_text_color_shade, hover_bg: settings.pc_btn_hover_color, hover_bg_shade: settings.pc_btn_hover_color_shade, hover_text: settings.pc_btn_hover_text_color, hover_text_shade: settings.pc_btn_hover_text_color_shade, content: settings.pc_buy_now, custom_class: 'w-full', before_icon: '', after_icon: '' %}
+                {% if hasVariants or hasSubscriptions %}
+                </div>
+                
+                <p class="delivery-fee-msg | text-center mb-4 mt-4 text-body-small">{{ settings.delivery_fee_msg }}</p>
+
+                {% endif %}
+
+                
+			{% else %}
+                <div class="w-full border-t {{ settings.pc_modal_select_border_color }}-{{ settings.pc_modal_select_border_shade }} pt-4 mt-4">
+                {% render 'button' element: 'button', type: '', data: '', href: '#', border_color: settings.pc_btn_color, border_width: 'border', bg_color: settings.pc_btn_color, bg_color_shade: settings.pc_btn_color_shade, text_color: settings.pc_btn_text_color, text_color_shade: settings.pc_btn_text_color_shade, hover_bg: settings.pc_btn_hover_color, hover_bg_shade: settings.pc_btn_hover_color_shade, hover_text: settings.pc_btn_hover_text_color, hover_text_shade: settings.pc_btn_hover_text_color_shade, content: btn-sold-out-label, custom_class: 'disabled w-full', before_icon: '', after_icon: '' %}
+                </div>
+			{% endif %}
+
+			
+
+		</div>
+        {% if hasVariants and oneOff %}
+            {% if product.available %}
+            <div class="express-wrapper">
+                <p class="express-msg | text-center mb-2 text-body-small">{{ settings.express_msg }}</p>
+                {{ form | payment_button }}
+            </div>
+            {% endif %}
+        {% endif %}
+
+	{% endform %}
+
+
+</div>

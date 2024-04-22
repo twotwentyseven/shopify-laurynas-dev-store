@@ -1,0 +1,259 @@
+{% comment %}
+    1.Hero - might have to switch to using metafields for images and blog description for the copy + title
+    2.Blog listing section - metafield nav, data tags on each article card. Will use metafields to output all the available types of blogs but consider switching to meta objects in blogs for specific categories or I can implement both.
+    if metaobject available only display types from the metaobject entry otherwise default to outputting everything through article metafield.
+    Also can an article have more than one type if so the metafields need to change
+{% endcomment %}
+
+{% assign ss = section.settings %}
+
+{% comment %}
+    uniq, sort, join 
+{% endcomment %}
+{% comment %}
+        {% assign article_types = "" %}
+    {% for article in blog.articles %}
+        {% if article.metafields.article.type != blank %}
+        {% assign type = article.metafields.article.type | handleize %}
+            {% if forloop.first %}
+                {% assign article_types = article_types | append: type %}
+            {% else %}
+                {% assign article_types = article_types | append: ',' | append: type %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endcomment %}
+
+{% assign article_types = "" %}
+    {% for article in blog.articles %}
+        {% if article.metafields.article.types != blank %}
+            {% for value in article.metafields.article.types.value %}
+            {% assign type = value.type | handleize %}
+                {% if forloop.parentloop.first and forloop.first %}
+                {% assign article_types = article_types | append: type %}
+            {% else %}
+                {% assign article_types = article_types | append: ',' | append: type %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endfor %}
+{% assign article_types = article_types | split: "," | uniq | sort | join: ',' %}
+{% comment %}
+{{ article_types }}
+    
+{% endcomment %}
+
+<section
+    class="w-full py-8 px-container-gutter relative overflow-hidden flex items-center min-h-[220px] | lg:min-h-[320px] lg:text-left lg:py-16 lg:px-container-gutter-lg | ">
+
+
+    <div
+        class="content-wrapper | w-fit max-w-xl">
+        {% if ss.title != blank %}
+            <h1
+                class="font-headline text-headline-1 text-tertiary-900 | lg:text-headline-1-lg">{{ ss.title }}</h1>
+        {% endif %}
+
+        {% if ss.description != blank %}
+            <div
+                class="description | text-tertiary-900 text-body-large | lg:text-body-large-lg ">{{ ss.description | newline_to_br }}</div>
+        {% endif %}
+    </div>
+    {% if ss.image != blank %}
+
+        {% render 'responsive-image' with image: ss.image, image_class: 'image object-cover h-full w-full', wrapper_class: "image-wrapper absolute h-full w-full left-0 top-0 overflow-hidden -z-[1] | after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full after:bg-black after:opacity-50" %}
+
+    {% endif %}
+
+</section>
+
+{% comment %}
+    
+<section
+    class="blog-listing-section | py-10 px-container-gutter | lg:px-container-gutter-lg">
+
+    {% if article_types != blank %}
+        {% assign article_types = article_types | split: "," %}
+        <div
+            class="navigation-wrapper | flex items-center justify-between overflow-x-auto gap-2 w-full flex-grow flex-wrap | ">
+            <div
+                class="title| text-headline-2 font-headline basis-full | lg:basis-auto lg:text-headline-2-lg ">{{ ss.title }}</div>
+            <div
+                class="link-wrapper | basis-full flex gap-2 flex-wrap | lg:basis-auto">
+                <button
+                    data-article-filter-toggle
+                    data-article-type="default-all"
+                    aria-selected="true"
+                    class="rounded border border-secondary-900 uppercase flex items-center justify-center px-2 py-1 z-[11] text-body-medium-lg transition-all whitespace-nowrap	| aria-selected:bg-secondary-900 aria-selected:text-tertiary-900">
+                    All
+                </button>
+                {% for type in article_types %}
+                    <button
+                        data-article-filter-toggle
+                        data-article-type="{{ type }}"
+                        class="rounded border border-secondary-900 uppercase flex items-center justify-center px-2 py-1 z-[11] text-body-medium-lg transition-all whitespace-nowrap	| aria-selected:bg-secondary-900 aria-selected:text-tertiary-900">
+                        {{ type | replace: '-', ' ' }}
+                    </button>
+                {% endfor %}
+            </div>
+        </div>
+        <div
+            class="spacer | border border-black my-4"></div>
+    {% endif %}
+
+    <div
+        class="blog-grid-wrapper">
+        {% paginate blog.articles by 6 %}
+           
+            <div
+                data-articles="default-all"
+                class="blog-grid | hidden grid-cols-[repeat(auto-fit,max(350px,calc(100%_/_3_-_1rem)))] gap-6 justify-center | aria-selected:grid"
+                aria-selected="true">
+
+                {% for article in blogs[blog.handle].articles %}
+                    <div
+                        class="article-card | flex flex-col gap-4">
+                        {% render 'responsive-image' with image: article.image, image_class: 'rounded-2xl image object-cover h-full w-full', wrapper_class: "" %}
+
+                        <div
+                            class="article-title | font-headline text-headline-5 | lg:text-headline-5-lg "
+                            data-match-height="article-title">
+                            <a
+                                href="{{ article.url }}">{{ article.title }}
+                            </a>
+                        </div>
+
+                        <div
+                            class="article-excerpt | text-body-large | lg:text-body-large-lg ">
+                            <div
+                                data-match-height="article-description">{{ article.excerpt }}
+                            </div>
+                        </div>
+
+                        {% if article.metafields.article.time != blank %}
+                            <div
+                                data-match-height="article-time"
+                                class="time | flex items-center gap-2">
+                                <i
+                                    class="clock ri-time-line text-headline-5"></i>
+                                <p
+                                    class="text-body-medium | lg:text-body-large-lg">
+                                    {{ article.metafields.article.time }}
+                                </p>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            {% for type in article_types %}
+                {% assign filter_category = type | handleize %}
+                <div
+                    data-articles="{{ type }}"
+                    class="blog-grid | hidden grid-cols-[repeat(auto-fit,max(350px,calc(100%_/_3_-_1rem)))] gap-6 justify-center aria-selected:grid">
+                    {% for article in blogs[blog.handle].articles %}
+                        {% for value in article.metafields.article.types.value %}
+                            {% assign article_category = value.type | handleize %}
+                            {% if article_category == filter_category %}
+                                <div
+                                    class="article-card | flex flex-col gap-4">
+                                    {% render 'responsive-image' with image: article.image, image_class: 'rounded-2xl image object-cover h-full w-full', wrapper_class: "" %}
+
+                                    <div
+                                        class="article-title | font-headline text-headline-5 | lg:text-headline-5-lg "
+                                        data-match-height="article-title">
+                                        <a
+                                            href="{{ article.url }}">{{ article.title }}
+                                        </a>
+                                    </div>
+
+                                    <div
+                                        class="article-excerpt | text-body-large | lg:text-body-large-lg ">
+                                        <div
+                                            data-match-height="article-description">{{ article.excerpt }}
+                                        </div>
+                                    </div>
+
+                                    {% if article.metafields.article.time != blank %}
+                                        <div
+                                            data-match-height="article-time"
+                                            class="time | flex items-center gap-2">
+                                            <i
+                                                class="clock ri-time-line text-headline-5"></i>
+                                            <p
+                                                class="text-body-medium | lg:text-body-large-lg">
+                                                {{ article.metafields.article.time }}
+                                            </p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        {% endpaginate %}
+
+    </div>
+</section>
+
+
+<script>
+    // Process: set the clicked button active and others inactive -> get data attr from the button clicked -> grab the corresponding listing-wrapper -> set the wrapper as active and others as inactive
+
+    function getAllSiblings(element, parent) {
+        const children = [... parent.children];
+        return children.filter(child => child !== element);
+    }
+
+    function activateBlogFilter(element) {
+
+        const siblings = getAllSiblings(element, element.parentNode);
+        siblings.forEach(sibling => {
+            sibling.removeAttribute('aria-selected');
+        })
+
+        // activate the element itself
+        element.setAttribute('aria-selected', 'true')
+    }
+
+    document.addEventListener("click", function(e) {
+        if (e.target.matches('[data-article-filter-toggle]')) { // set button to active
+            activateBlogFilter(e.target);
+            let activeID = e.target.dataset.articleType
+            let activeCollection = document.querySelector(`[data-articles="${activeID}"]`)
+            activateBlogFilter(activeCollection)
+            window.dispatchEvent(new Event("resize")); // hacky dispatch to trigger equalHeight
+
+
+        }
+    })
+</script>
+{% endcomment %}
+
+{% schema %}
+    {
+        "name": "Blog listings",
+        "settings": [
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Blog title"
+            }, {
+                "type": "richtext",
+                "id": "description",
+                "label": "Blog description"
+            }, {
+                "type": "image_picker",
+                "id": "image",
+                "label": "Image"
+            }, {
+                "type": "text",
+                "id": "listings_title",
+                "label": "Listings title"
+            }
+
+        ]
+
+    }
+{% endschema %}

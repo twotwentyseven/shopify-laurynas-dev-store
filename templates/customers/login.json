@@ -1,0 +1,56 @@
+{
+  "sections": {
+    "main": {
+      "type": "customer-login",
+      "settings": {
+        "bg_color": "bg-tertiary",
+        "bg_color_shade": 900,
+        "image_align_mob": "order-1",
+        "image_align": "order-1",
+        "image_bleed": "no-space",
+        "text-align": "text-center justify-center",
+        "title": "Log in",
+        "title_reset": "Forgot password?",
+        "title_guest": "Continue as guest",
+        "title_typeface": "font-headline",
+        "title_size": "text-headline-3 lg:text-headline-3-lg",
+        "title_weight": "font-medium",
+        "title_color": "text-secondary",
+        "title_color_shade": 900,
+        "subtitle": "",
+        "subtitle_reset": "",
+        "subtitle_typeface": "font-headline",
+        "subtitle_color": "text-secondary",
+        "subtitle_color_shade": 900,
+        "input_color": "border-secondary",
+        "input_color_shade": 900,
+        "input_text_color": "text-secondary",
+        "email_label": "Email Address",
+        "email_placeholder": "name@domain.co.uk",
+        "password_label": "Password",
+        "password_placeholder": "At least 8 characters",
+        "forgotten_password": "Forgot your password?",
+        "is_customer": "Already have an account?",
+        "register": "Create an account",
+        "btn_text": "JOIN THE PARTY!",
+        "btn_reset_text": "RESET PASSWORD",
+        "btn_guest_text": "CHECKOUT AS GUEST",
+        "btn_color": "bg-secondary",
+        "btn_color_shade": 900,
+        "btn_border_color": "border-secondary",
+        "btn_border_color_shade": 900,
+        "btn_text_color": "text-tertiary",
+        "btn_text_color_shade": 900,
+        "btn_hover_color": "hover:bg-tertiary",
+        "btn_hover_color_shade": 700,
+        "btn_hover_border_color": "hover:border-secondary",
+        "btn_hover_border_color_shade": 900,
+        "btn_hover_text_color": "hover:text-secondary",
+        "btn_hover_text_color_shade": 900
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

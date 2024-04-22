@@ -1,0 +1,30 @@
+{
+  "sections": {
+    "nav": {
+      "type": "customer-account-nav",
+      "settings": {}
+    },
+    "main": {
+      "type": "customer-order-template",
+      "settings": {
+        "return": "RETURN TO ORDER HISTORY",
+        "title": "Order",
+        "order": "Order",
+        "quantity": "Quantity",
+        "btn_text": "Buy again",
+        "btn_color": "bg-secondary",
+        "btn_color_shade": 900,
+        "btn_text_color": "text-tertiary",
+        "btn_text_color_shade": 900,
+        "btn_hover_color": "hover:bg-yellow",
+        "btn_hover_color_shade": 900,
+        "btn_hover_text_color": "hover:text-secondary",
+        "btn_hover_text_color_shade": 900
+      }
+    }
+  },
+  "order": [
+    "nav",
+    "main"
+  ]
+}

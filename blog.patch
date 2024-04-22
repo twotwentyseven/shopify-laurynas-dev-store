@@ -1,0 +1,760 @@
+diff --git a/sections/blog-listing.liquid b/sections/blog-listing.liquid
+new file mode 100644
+index 0000000..594bf6b
+--- /dev/null
++++ b/sections/blog-listing.liquid
+@@ -0,0 +1,379 @@
++{% comment %} Fontawesome import (temporary) {% endcomment %}
++<link
++  rel="stylesheet"
++  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
++  integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
++  crossorigin="anonymous"
++  referrerpolicy="no-referrer"
++>
++<section id="vue-blog-listing">
++  <blog-listing page-handle={{ blog.handle | json }} >
++    <template v-slot="props">
++      <!-- this can be removed. only here to apply the vue dev tools to rerender -->
++      <div v-for="f in props.getActiveFilters" style="display:none">${f}</div>
++      <!-- end -->
++
++      <section class=" mb-10 | md:border-b-2 md:border-b-primary lg:pt-16 lg:mb-20">
++        <div class="fluid flex flex-col relative | md:items-end md:justify-between md:flex-row">
++          <div class="mt-[9rem] md:w-[calc(100%-17rem)] mb-5 md:mb-0">
++            <p class="text-xs text-primary">
++              <a href="/">Home</a> / <a href="{{ blog.url }}">{{ blog.title }}</a>
++            </p>
++
++            <h1 class="font-header font-bold text-4xl mb-0 uppercase text-black md:mb-10">{{ blog.title }}</h1>
++
++            <form
++              class="filter-form | transition-all duration-300 | absolute top-full left-0 bg-true-white mb-5 w-full max-h-10 overflow-hidden | md:max-h-none md:flex md:bg-transparent md:static md:overflow-x-scroll no-scrollbar"
++              @submit.prevent="props.getFormValues"
++              data-active="max-h-full-screen h-full fixed top-0 overflow-y-scroll z-[101] pt-10 pb-[195px]"
++              data-remove="absolute top-full max-h-0"
++            >
++              <a
++                href="#"
++                class="j-filter-bar flex w-full text-white uppercase font-medium font-header tracking-wide bg-primary text-center text-tiny px-[30px] py-2.5 justify-center relative |  md:hidden"
++                data-active="fixed top-0 left-0 text-left text-2xl justify-start"
++                data-remove="justify-center relative text-center uppercase text-tiny"
++                >Filters
++                <span
++                  class="svg-fill-true_white absolute right-[30px] top-1/2 -translate-y-1/2 rotate-180 transition-all duration-300"
++                  data-active="rotate-0"
++                  data-remove="rotate-180"
++                >
++                  {%- render 'arrow' -%}
++                </span></a
++              >
++
++              {% comment %}
++                <details class="filter-group pt-10 pb-5 px-[30px] md:p-0 md:mr-5">
++
++                	<summary class="mb-5 md:mb-0 filter-group-summary list-none flex items-center">
++                		<div class="summary-inner">
++                			<span class="summary-title font-header font-normal whitespace-nowrap text-xs md:text-tiny">Blogs</span>
++                		</div>
++                		<span class="arrow ml-2.5 hidden md:block svg-fill-black">{% render 'arrow' %}</span>
++                	</summary>
++
++
++                	<div class="filter-group-dropdown md:absolute w-full top-[calc(100%+22px)] sm:left-[1.875rem] md:left-[3.75rem] lg:left-[5.75rem]">
++
++                		<ul class="fgd__list flex w-full flex-wrap md:flex-nowrap">
++                			{% for blog in blogs %}
++                			<li class="fgd__list-item">
++                				<a class="transition-all duration-300 | inline-block border-primary border-[1px] rounded-[14px] md:rounded-xl mr-5 mb-5 text-[13px] md:text-[10px] leading-[15px] md:leading-[10px] py-1.5 px-3 md:px-7 font-header-light md:font-header font-bold whitespace-nowrap md:mb-0 hover:bg-primary hover:text-white {% if blog.handle == c_handle %}bg-primary text-white{% else %}text-primary{% endif %}" href="{{ blog.url }}">
++                					<span class="text-wrapper">{{ blog.title }}</span>
++                				</a>
++                			</li>
++                			{% endfor %}
++
++                		</ul>
++
++                	</div>
++
++                </details>
++              {% endcomment %}
++
++              <template v-for="(filter,index) in props.getBlogFilters">
++                <details class="filter-group pt-10 pb-5 px-[30px] md:p-0 md:mr-5">
++                  <summary class="mb-5 md:mb-0 filter-group-summary list-none flex items-center">
++                    <div class="summary-inner">
++                      <span class="summary-title font-header font-normal whitespace-nowrap text-xs md:text-tiny"
++                        >${ filter.label.replaceAll('-', ' ') }
++                      </span>
++                      <span
++                        v-if="filter.active_values.length > 0"
++                        class="summary-active-filter-count text-[13px] md:text-[10px] leading-[15px] md:leading-[10px]"
++                      >
++                        (${ filter.active_values.length })</span
++                      >
++                    </div>
++                    <span class="arrow mt-[2px] ml-2.5 hidden md:block svg-fill-black">{% render 'arrow' %}</span>
++                  </summary>
++
++                  <div class="filter-group-dropdown md:absolute w-full top-[calc(100%+22px)] flex sm:left-[1.875rem] md:left-[3.75rem] lg:left-[5.75rem]">
++                    <template v-if="filter.type === 'list'">
++                      {% comment %}
++                        <!-- <div class="fgd__header">
++                        	<span class="fgd__header-selected">${ filter.active_values.length } selected</span>
++
++                        </div> -->
++                      {% endcomment %}
++
++                      <ul class="fgd__list flex w-full flex-wrap md:flex-nowrap">
++                        <li class="fgd__list-item" v-for="(filter_value,fv_index) in filter.values">
++                          <input
++                            class="hidden peer"
++                            type="checkbox"
++                            @change="props.handleFilterChange($event)"
++                            :name="filter_value.param_name"
++                            :value="filter_value.value"
++                            :id="'filter-'+filter.param_name+'-'+fv_index"
++                            :checked="filter_value.active"
++                          >
++                          <label
++                            v-if="filter_value.count > 0"
++                            :for="'filter-'+filter.param_name+'-'+fv_index"
++                            class="cursor-pointer transition-all duration-300 | inline-block checkbox-style border-primary border-[1px] rounded-[14px] md:rounded-xl text-primary mr-5 mb-5 text-[13px] md:text-[10px] leading-[15px] md:leading-[10px] py-1.5 px-3 md:px-7 font-header-light md:font-header font-bold whitespace-nowrap md:mb-0 | hover:bg-primary hover:text-white | peer-checked:bg-primary peer-checked:text-white"
++                            :class="[filter_value.count == 0 && filter_value.active == false ? 'disabled' : '' ]"
++                          >
++                            <span class="text-wrapper text-[13px] md:text-[10px] leading-[15px] md:leading-[10px]">
++                              ${ filter_value.label }</span
++                            >
++                            <span class="text-[13px] md:text-[10px] leading-[15px] md:leading-[10px] article-count-for-filter">
++                              ( ${filter_value.count} )</span
++                            >
++                            <transition name="fade" appear>
++                              <span
++                                v-if="filter_value.active"
++                                class="inline-block -my-0.5 ml-[5px] h-[11px] w-[11px] relative after:content[''] before:content[''] after:h-[1.5px] before:h-[1.5px] after:w-[9px] before:w-[9px] after:absolute before:absolute after:top-1/2 before:top-1/2 after:left-1/2 before:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 before:-translate-x-1/2 before:-translate-y-1/2 after:rotate-45 before:-rotate-45 after:bg-true-white before:bg-true-white"
++                              ></span>
++                            </transition>
++                          </label>
++                        </li>
++
++                        <li class="fgd__list-item">
++                          <!-- This currently doesn't work -->
++
++                          <a
++                            :href="filter.url_to_remove"
++                            class="transition-all duration-300 | filter-group-display__header-reset inline-block checkbox-style text-black opacity-50 hover:opacity-100 mr-5 text-[10px] leading-[10px] py-1.5 font-header font-bold underline whitespace-nowrap"
++                            @click.prevent="props.clearFiltersFromGroup(filter.active_values)"
++                            v-if="filter.active_values.length > 0"
++                            >Reset</a
++                          >
++                        </li>
++                      </ul>
++                    </template>
++                    {% comment %}
++                      <template v-else-if="filter.type === 'price_range'">
++
++                      	<div class="fgd__header">
++                      		<span class="fgd__header-selected">The max article price is ${ filter.range_max_money_without_currency }</span>
++                      		<!-- <a :href="filter.url_to_remove" class="filter-group-display__header-reset">Reset</a> -->
++                      	</div>
++
++                      	<div class="fgd__price-range-slider multi-input-range-slider">
++                      		<div id="price-range-slider"></div>
++                      	</div>
++
++                      	<div class="fgd__price-range">
++                      		<div class="fgd__price-range-item range-from">
++                      			<label :for="'filter-'+filter.min_value.param_name" class="input-title">From</label>
++                      			<span class="currency-icon">{{ cart.currency.symbol }}</span>
++                      			<input :name="filter.min_value.param_name"
++                      			:id="'filter-'+filter.min_value.param_name"
++                      			:value="filter.min_value.value_money_without_currency"
++                      			type="number"
++                      			placeholder="-"
++                      			min="0"
++                      			:max="filter.range_max_money_without_currency"
++                      			>
++                      		</div>
++                      		<div class="fgd__price-range-item range-to">
++                      			<label :for="'filter-'+filter.max_value.param_name" class="input-title">To</label>
++                      			<span class="currency-icon">{{ cart.currency.symbol }}</span>
++                      			<input :name="filter.max_value.param_name"
++                      			:id="'filter-'+filter.max_value.param_name"
++                      			:value="filter.max_value.value_money_without_currency"
++                      			type="number"
++                      			:placeholder="filter.range_max_money_without_currency"
++                      			min="1"
++                      			:max="filter.range_max_money_without_currency"
++                      			>
++                      		</div>
++                      	</div>
++
++                      </template>
++                    {% endcomment %}
++
++                    {% comment %}
++                       <div class="fgd__submit">
++                      	<button type="submit" class="btn btn-dark hover-outline-dark" value="Apply">Apply</button>
++                      </div>
++                    {% endcomment %}
++                  </div>
++                </details>
++              </template>
++
++              {% comment %}
++                <div class="select hidden">
++                	<select name="sort_by" class="filter-item__sort" id="filter-sort_by" @change="props.addOrReplaceFilter($event.target.name,$event.target.value)">
++                		<option v-for="(option,index) in props.getBlog.sort_options" :value="option.value" :selected="option.value === props.getBlog.sort_by">${ option.name }</option>
++                		<!-- <option v-for="(option,index) in props.getBlog.sort_options" :value="option.value" :selected="(option.value === props.getBlog.default_sort_by && props.getBlog.sort_by == '') || option.value === props.getBlog.sort_by ? true : null">${ option.name }</option> -->
++                	</select>
++                </div>
++              {% endcomment %}
++
++              <div
++                class="mobile-filter-controls hidden fixed bg-white bottom-0 left-0 w-full shadow-upper py-10 px-[30px]"
++                data-active="block"
++                data-remove="hidden"
++              >
++                <a class="j-filter-bar | btn block mb-5" href="#">Apply Filters</a>
++                <a class="j-filter-bar | btn outline_red block" href="#" @click.prevent="props.clearFilters()"
++                  >Clear filters</a
++                >
++              </div>
++            </form>
++          </div>
++          <div class="flex flex-col items-end md:min-w-[16rem] ">
++            <a
++              href="#"
++              class="hidden relative z-20 transition-all duration-300 | clear-all-filters mb-10 text-black opacity-50 hover:opacity-100 text-xs font-header font-bold underline md:inline-block"
++              v-if="props.totalActiveBlogFilters > 0"
++              @click.prevent="props.clearFilters()"
++              >Clear all filters</a
++            >
++            <img
++              class="object-contain w-40 -mr-11 self-end | md:mr-0 md:w-64"
++              src="{{ 'Kabuto-Collection-image.png' | asset_url }}"
++            >
++          </div>
++        </div>
++      </section>
++      {% comment %}
++        <!-- Currently active filter badges/pills -->
++        <div class="active-filter-badges">
++        	<a href="#" class="clear-all-filters" v-if="props.totalActiveBlogFilters > 0" @click.prevent="props.clearFilters()">Clear all filters</a>
++
++        	<template v-for="(filter,index) in props.getBlogFilters">
++
++        		<a href="#"
++        		class="filter-pill"
++        		v-for="activeItem in filter.active_values"
++        		@click.prevent="props.removeFilter(activeItem.param_name+'='+activeItem.value)"
++        		>
++        			<div clas="pill-title">${ activeItem.label }</div>
++        			<div href="#" class="standard-close-icon"><span></span></div>
++        		</a>
++
++        		<a href="#"
++        		class="filter-pill"
++        		v-if="filter.type === 'price_range' && (filter.min_value?.value != null || filter.max_value?.value != null)"
++        		@click.prevent="props.removePriceRangeFilter(filter)"
++        		>
++        			<div class="pill-title">
++        				<template v-if="filter.min_value.value != null">${filter.min_value.value_money_without_trailing_zeros}</template>
++        				<template v-else >0</template>
++        				-
++        				<template v-if="filter.max_value.value != null">${filter.max_value.value_money_without_trailing_zeros}</template>
++        				<template v-else>${filter.max_value.value_money_without_trailing_zeros}</template>
++        			</div>
++        			<div href="#" class="standard-close-icon"><span></span></div>
++        		</a>
++
++        	</template>
++
++        </div>
++      {% endcomment %}
++
++      <!-- Blog loading state (skeleton article cards) -->
++      <template v-if="props.loadingBlog">
++        {% comment %}
++           <div class="loading-state">
++          	<p>loading...</p>
++          </div>
++        {% endcomment %}
++
++        <div class="articles-output">
++          <div class="article-item" v-for="index in 8">
++            <!-- Skeleton template card -->
++
++            <div class="article-card skeleton-layout" :key="index">
++              <div>
++                <div class="card-media image-wrap sk-light-bg"></div>
++              </div>
++
++              <div class="card-details">
++                <div class="article-info">
++                  <p class="title sk-block sk-light-bg"></p>
++                  <p class="price sk-block-third sk-light-bg"></p>
++                </div>
++
++                <div class="row-item">
++                  <div class="action-buttons">
++                    <div class="left-wrap">
++                      <div class="sk-button sk-light-bg"></div>
++                    </div>
++                    <div class="right-wrap">
++                      <button class="sk-icon sk-light-bg"></button>
++                    </div>
++                  </div>
++                </div>
++              </div>
++            </div>
++
++            <!-- End skeleton card -->
++          </div>
++        </div>
++      </template>
++
++      <!-- Else output articles -->
++      <div class="articles-output fluid pt-10 pb-20 flex flex-wrap" v-else>
++        <!-- No articles found -->
++        <div
++          class="grid-item-full-width message text-center"
++          v-if="props.filteredArticles.length === 0 && !props.loadingBlog"
++        >
++          <p class="h2 no-articles-found">Sorry, no articles match these filters.</p>
++        </div>
++
++        <template v-else>
++          <div
++            class="w-full md:w-6/12 lg:w-4/12 py-9 md:px-[14px] md:py-8"
++            v-for="(article,index) in props.filteredArticles"
++            :class="index <= 1 ? 'order-1' : 'order-2'"
++          >
++            <article-card
++              v-if="article"
++              :article-object="article"
++              :key="`article_item_${article.id}`"
++            >
++              {% render 'article-card' %}
++            </article-card>
++
++            <!-- @trigger-add-to-cart="props.handleAddToCartEvent($event)" -->
++          </div>
++        </template>
++      </div>
++
++      <!-- Pagination -->
++      <template v-if="!props.loadArticlesRecursively">
++        <div class="pagination-wrapper mb-20" v-if="props.getPagination.pages > 1">
++          <ul class="pagination flex justify-center items-center">
++            <li
++              class="mx-2 font-header font-bold text-tiny hover:text-primary"
++              v-if="props.getPagination.previous_part.is_link"
++            >
++              <a href="#" @click.prevent="props.goToPage(props.getPagination.current_page - 1)" class="chev first"
++                ><i class="fas fa-angle-left"></i
++              ></a>
++            </li>
++
++            <template v-for="(part,index) in props.getPagination.parts">
++              <li class="mx-2 font-header font-bold text-tiny hover:text-primary" v-if="part.is_link">
++                <a href="#" @click.prevent="props.goToPage(part.title)">${ part.title }</a>
++              </li>
++              <li
++                class="mx-2 font-header font-bold text-tiny"
++                v-else
++                :class="[ part.title === props.getPagination.current_page ? 'text-primary' : 'elipsis' ]"
++              >
++                <span>${ part.title }</span>
++              </li>
++            </template>
++
++            <li
++              class="mx-2 font-header font-bold text-tiny hover:text-primary"
++              v-if="props.getPagination.next_part.is_link"
++            >
++              <a href="#" @click.prevent="props.goToPage(props.getPagination.current_page + 1)" class="chev"
++                ><i class="fas fa-angle-right"></i
++              ></a>
++            </li>
++          </ul>
++          <!-- pagination -->
++        </div>
++      </template>
++    </template>
++  </blog-listing>
++</section>
+diff --git a/snippets/article-card.liquid b/snippets/article-card.liquid
+new file mode 100644
+index 0000000..1b0a6b5
+--- /dev/null
++++ b/snippets/article-card.liquid
+@@ -0,0 +1,78 @@
++<template v-slot="props">
++
++    <template  v-if="props.article != null">
++        
++        <template v-if="props.loading" class="skeleton-card">
++            <!-- loading... -->
++        </template>
++
++        <template v-else>
++
++            <div :key="`article_item_${article.id}`" class="article-card group relative">
++                
++                <a class="rounded-lg overflow-hidden w-full pt-[100%] relative block" :class="props.tagManipulator(article, 'product:', 'bg-', '')" :href="article.url">
++                    <img v-if="props.lazyLoading" :src="article.images?.src" loading="lazy" :alt="article.images?.alt" class="transition-all duration-300 rounded-lg group-hover:opacity-10 absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-full h-full object-cover">
++                    <img v-else :data-src="article.images?.src" :alt="article.images?.alt" class="transition-all duration-300 rounded-lg group-hover:opacity-10 absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-full h-full object-cover">
++                </a>
++
++                <a v-if="article.product" class="transition-all duration-300 absolute top-0 left-0 w-full pt-[100%] z-2 opacity-0 group-hover:opacity-100 block" :href="article.url">
++                    <img v-if="props.lazyLoading" :src="article.product?.images?.src" loading="lazy" :alt="article.product?.images?.alt" class="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-2/3 h-2/3 object-contain">
++                    <img v-else :data-src="article.product?.images?.src" :alt="article.product?.images?.alt" class="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-2/3 h-2/3 object-contain">
++                </a> 
++
++                
++
++                <div class="article-content text-center mt-6 | lg:mt-9">
++
++                    {% comment %}
++                    <div class="category">
++                        {% for tag in article.tags %}
++                            {% if tag contains 'type:' %}
++                                <span>{{ tag | remove : 'type:' }}</span>
++                            {% endif %}
++                        {% endfor %}
++                    </div>
++                    {% endcomment %}
++
++                    <h5 class="font-header font-bold mb-[18px] uppercase text-[16px] leading-[20px] | lg:mb-5 lg:text-xl" :class="props.tagManipulator(article, 'product:', 'text-', '')">${ article.title }</h5>
++                                            
++                    <p class="mb-5 text-[16px] leading-[20px] lg:text-lg font-header flex w-full justify-center"><span class="flex items-center justify-start mr-2.5 w-auto">${ article.published_at }</span><span v-if="props.article.tags.filter(item => { return item.indexOf('time:') != -1 }).length > 0" class="time flex items-center justify-start mr-2.5 w-auto"> | <span class="mx-2.5">{% render 'clock' %}</span> ${ props.tagManipulator(article, 'time:', '', '').replaceAll('_', ' ').replace('read', '') }</span><span v-if="props.article.tags.filter(item => { return item.indexOf('time:') != -1 }).length > 0 && props.article.tags.filter(item => { return item.indexOf('serves:') != -1 }).length > 0"> | </span><span v-if="props.article.tags.filter(item => { return item.indexOf('serves:') != -1 }).length > 0" class="serves flex justify-start items-center ml-2.5"><span class="mr-2.5">{% render 'servers' %}</span> Serves ${ props.tagManipulator(article, 'serves:', '', '') }</span></p>
++
++                    <div class="btn-flex justify-start | md:justify-center">
++                        <a class="btn w-full md:w-auto" :class="props.tagManipulator(article, 'product:', 'btn-', '')" :href="article.url">Read More</a>
++                    </div>
++
++                    {% comment %}
++                    <div class="tags">
++                        
++                        {% if ss.enable_author %}
++
++                            {% if author != blank %}
++                                <span>by {{ author }}</span>
++                            {% endif %}
++
++                        {% endif %}
++                    
++                        
++                        {% if ss.enable_date %}
++                            <span>{{ article.published_at | date: "%d %B %Y" }}</span>
++                        {% endif %}
++                        
++
++                    </div>
++                    {% endcomment %}
++                    {% comment %}
++                    <div class="exceprt">
++                        <p>{{ article.excerpt_or_content | strip_html | truncate: 120 }}</p>
++                    </div>
++                    {% endcomment %}
++
++                </div>
++
++            </div>
++
++        </template>
++
++    </template>
++
++</template>
+\ No newline at end of file
+diff --git a/snippets/blog-filters.liquid b/snippets/blog-filters.liquid
+new file mode 100644
+index 0000000..3b058b6
+--- /dev/null
++++ b/snippets/blog-filters.liquid
+@@ -0,0 +1,85 @@
++{% comment %} 
++This is a JSON object template for the data of a collection
++- NOT intended to be selected as a collection template from the CMS.
++- Should be used in API calls with the ?view=product_data flag.
++{% endcomment %}
++
++{% unless remove_object_wrapper %}
++    {
++    {% endunless %}
++        {% paginate blog.articles by 9 %}
++        "paginate": {
++            "items":{{ paginate.items | json }},
++            "current_offset":{{ paginate.current_offset | json }},
++            "current_page":{{ paginate.current_page | json }},
++            "next":{% if paginate.next.is_link %}true{% else %}false{% endif %},
++            "pages":{{ paginate.pages | json }},
++            "parts":[
++                {% for part in paginate.parts %}
++                    {
++                        "is_link":{{ part.is_link | json }},
++                        "title":{{ part.title | json | remove: "\n"}},
++                        "url":{{ part.url | json }}
++                    }{% unless forloop.last %},{% endunless %}
++                {% endfor %}
++            ],
++            "next_part": {
++                "is_link":{{ paginate.next.is_link | json }},
++                "title":{{ paginate.next.title | json | remove: "\n"}},
++                "url":{{ paginate.next.url | json }}
++            },
++            "previous_part": {
++                "is_link":{{ paginate.previous.is_link | json }},
++                "title":{{ paginate.previous.title | json | remove: "\n"}},
++                "url":{{ paginate.previous.url | json }}            
++            }
++        },
++        "articles": [
++            {% for article in blog.articles %}
++                {
++                    "id":{{ article.id | json }},
++                    "blog_id": {{ article.blog_id | json }},
++                    "title":{{ article.title | json | remove: "\n" }},
++                    "created_at": {{ article.created_at | json }},
++                    "published_at": "{{ article.published_at | date: '%d %b %y' }}",
++                    "body_html": {{ article.body_html | json | remove: "\n" }},
++                    "summary_html": {{ article.summary_html | json | remove: "\n" }},
++                    "handle":{{ article.handle | json }},
++                    "author": {{ article.author | json}},
++                    "images":{
++                                "alt":{{ article.image.alt | json }},
++                                "id":{{ article.image.id | json }},
++                                "src":{{ article.image | img_url: '500x' | json }},
++                                "originalSrc":{{ article.image | img_url: 'master' | json }}
++                    },
++                    "tags": [
++                        {% assign product = false %}
++                        {% for tag in article.tags %}
++                            {{ tag | json | remove: "\n" }}{% unless forloop.last %},{% endunless %}
++                            {% if tag contains 'product:' %}
++                                {% assign product = tag | remove: 'product:' %}
++                            {% endif %}
++                        {% endfor %}
++                    ],
++                    {%- if product -%}
++                    "product": {
++                        "title": {{all_products[product].title | json }},
++                        "images":{
++                            "alt":{{ all_products[product].featured_image.alt | json }},
++                            "id":{{ all_products[product].featured_image.id | json }},
++                            "src":{{ all_products[product].featured_image | img_url: '500x' | json }},
++                            "originalSrc":{{ all_products[product].featured_image | img_url: 'master' | json }}
++                        },
++                        "id":{{ all_products[product].id | json }},
++                        "url":{{ all_products[product].url | json }}  
++                    },
++                    {% endif %}  
++                    "url":{{ article.url | json }}
++                           
++                }{% unless forloop.last %},{% endunless %}
++            {% endfor %}
++        ]
++        {% endpaginate %}
++    {% unless remove_object_wrapper %}
++    }
++    {% endunless %}
+\ No newline at end of file
+diff --git a/templates/blog.all_data.liquid b/templates/blog.all_data.liquid
+new file mode 100644
+index 0000000..cfbffa4
+--- /dev/null
++++ b/templates/blog.all_data.liquid
+@@ -0,0 +1,182 @@
++{% layout none %}
++{% comment %} 
++This is a JSON object template for the data of a Blog
++- NOT intended to be selected as a Blog template from the CMS.
++- Should be used in API calls with the ?view=all_data flag.
++- take blog.all_tags group all the tags which all contain the same text before the first ':' (the label) - count would be the number of unique items
++  everything after the ':' will be our active, inactive and values (the value)
++  url_to_add & url_to_remove would be ?{{handleized-tag}}
++- need to workout how inactive and active are updated. as this might be handled by storefront
++{% endcomment %}
++{% assign full_url = request.path %}
++{% unless full_url contains 'tagged' %}
++    {% assign full_url = full_url | append: '/tagged/' %}
++{% else %}
++    {% assign full_url = full_url | append: '+' %}
++{% endunless %}
++
++
++
++{% assign activeFilter = full_url | remove: '?view=all_data' | split: '/tagged/' | last | split: '+' %}
++
++{
++    "title": {{ blog.title | json | remove: "\n" }},
++    "description": {{ blog.description | json | remove: "\n" }},
++    "featured_image": {{ blog.image | img_url: '' | json }},
++    {% comment %}  
++    <!-- Blogs doesn't have a sort by liquid property -->
++    "sort_by": {{ blog.sort_by | json }},
++    <!-- Default sort order of the collection -->
++    "default_sort_by": {{ blog.default_sort_by | json }},  
++    "sort_options": [
++        {% for option in blog.sort_options %}
++            {
++                "name":{{ option.name | json }},
++                "value":{{ option.value | json }}
++            }{% unless forloop.last %},{% endunless %}
++        {% endfor %}
++    ], 
++    {% endcomment %}
++    "blog_filters": [
++    {% comment %}blogs has to be filtered by tags {% endcomment %}
++        {%- for filter in blog.all_tags | sort -%}
++            {% assign label = filter | split: ':' | first | downcase %}
++            {% if pre_label %}
++                {% unless label == pre_label %},{% endunless %}
++            {% endif %}
++            {% unless label == pre_label %}
++            {
++                "param_name":{{ label | json }},
++                "type":"list",
++                "values":[
++                    {% assign pre_fv = false %} {% comment %} reset pre_fv to stop invalid json{% endcomment %}
++                    
++                    {%- for fv in blog.all_tags | sort -%}
++                        {% assign handle_fv = fv | handleize %}
++                        {% assign count = 0 %}
++                        {% for article in blog.articles %}
++                            {% for tag in article.tags %}
++                                {% if fv == tag %}
++                                    {% assign count = count | plus: 1 %}
++                                {% endif %}
++                            {% endfor %}
++                        {% endfor %}
++                        {%- if fv contains label -%}
++                            {% if pre_fv %}
++                                {%- unless fv == pre_fv -%},{% else %}{% assign count = 0 %}{%- endunless -%}
++                            {% endif %}
++                            {% assign fv_label = fv | split: ':' | first %}
++                            {% assign value = fv | split: ':' | last %}
++                            {
++                                "active": {% if full_url contains handle_fv %}true{% else %}false{% endif %},
++                                "count":{{ count | json }},
++                                "label":{{ value | capitalize | replace: '-', ' ' | json }},
++                                "param_name": "{{ fv | handleize }}",
++                                {% if full_url contains handle_fv %}
++                                    {% assign add_url = full_url | remove: handle_fv | remove: '+' %}
++                                {% else %}
++                                    {% assign add_url = full_url %}
++                                {% endif %}
++                                "url_to_add":"{{add_url }}{{ fv | handleize }}?view=all_data",
++                                "url_to_remove":"{{ full_url }}?view=all_data",
++                                "value":{{ value | json }}
++                            }
++                            {%- assign pre_fv = fv -%}
++                        {%- endif -%}
++                    {% endfor %}
++                ],
++                     
++                "active_values":[
++                {% assign pre_fv = false %} {% comment %} reset pre_fv to stop invalid json{% endcomment %}
++                {% assign count = 0 %}
++                
++                {% for filter in activeFilter %} {%comment %} loop through active filter{% endcomment %}
++                    {%- for fv in blog.all_tags | sort -%} {%comment %} loop through  all tags{% endcomment %}
++                    {% assign handle_fv = fv | handleize %}
++                        {%- if fv contains label -%}
++                            {% if handle_fv == filter %}
++                                {% if pre_fv %}
++                                    {%- unless fv == pre_fv -%},{% else %}{% assign count = 0 %}{%- endunless -%}
++                                {% endif %}
++                                {% for article in blog.articles %}
++                                    {% for tag in article.tags %}
++                                        {% assign tag = tag | handleize %}
++                                        {% if filter == tag %}
++                                            {% assign count = count | plus: 1 %}
++                                        {% endif %}
++                                    {% endfor %}
++                                {% endfor %}
++                                {% assign fv_label = fv | split: ':' | first %}
++                                {% assign value = fv | split: ':' | last %}
++                                    {
++                                        "active": {% if full_url contains handle_fv %}true{% else %}false{% endif %},
++                                        "count":{{ count | json }},
++                                        "label":{{ value | capitalize | replace: '-', ' ' | json }},
++                                        "param_name": "{{ fv | handleize }}",
++                                        {% if full_url contains handle_fv %}
++                                            {% assign add_url = full_url | remove: handle_fv | remove: '+' %}
++                                        {% else %}
++                                            {% assign add_url = full_url %}
++                                        {% endif %}
++                                        "url_to_add":"{{add_url }}{{ fv | handleize }}?view=all_data",
++                                        "url_to_remove":"{{full_url | remove: '+' }}?view=all_data",
++                                        "value":{{ value | json }}
++                                    }
++                                {%- assign pre_fv = fv -%}
++                            {%- endif -%}
++                        {% endif %}
++                    {% endfor %}
++                {% endfor %}
++                ],
++                "inactive_values":[
++                {% assign pre_fv = false %} {% comment %} reset pre_fv to stop invalid json{% endcomment %}
++                {% assign count = 0 %}
++                
++                {%- for fv in blog.all_tags | sort -%} {%comment %} loop through  all tags{% endcomment %}
++                {% assign handle_fv = fv | handleize %}
++                    {%- if fv contains label -%}
++                        {% unless full_url contains handle_fv %}
++                            {% if pre_fv %}
++                                {%- unless fv == pre_fv -%},{% else %}{% assign count = 0 %}{%- endunless -%}
++                            {% endif %}
++                            {% for article in blog.articles %}
++                                {% for tag in article.tags %}
++                                    {% assign tag = tag | handleize %}
++                                    {% if filter == tag %}
++                                        {% assign count = count | plus: 1 %}
++                                    {% endif %}
++                                {% endfor %}
++                            {% endfor %}
++                            {% assign fv_label = fv | split: ':' | first %}
++                            {% assign value = fv | split: ':' | last %}
++                            {
++                                "active": {% if full_url contains handle_fv %}true{% else %}false{% endif %},
++                                "count":{{ count | json }},
++                                "label":{{ value | capitalize | replace: '-', ' ' | json }},
++                                "param_name": "{{ fv | handleize }}",
++                                {% if full_url contains handle_fv %}
++                                    {% assign add_url = full_url | remove: handle_fv | remove: '+' %}
++                                {% else %}
++                                    {% assign add_url = full_url %}
++                                {% endif %}
++                                "url_to_add":"{{add_url }}{{ fv | handleize }}?view=all_data",
++                                "url_to_remove":"{{full_url | remove: '+' }}?view=all_data",
++                                "value":{{ value | json }}
++                            }
++                            {%- assign pre_fv = fv -%}
++                        {%- endunless -%}
++                    {% endif %}
++                {% endfor %}
++                ],
++                "label":{{ label | capitalize | json }},
++                "url_to_remove":"{{blog.url}}?{{ filter | handleize |  remove: "view=all_data" | remove: "view=article_data" }}"
++            }
++            {% assign pre_label = filter | split: ':' | first | downcase %}
++            {% endunless %}
++        {% endfor %}
++    ],
++    "article_count": {{ blog.article_count | json }},
++    {% comment %} Tags that are currently applied to a filtered collection, built from products of that collection {% endcomment %}
++    "blog_tags": {{ blog.tags | json }},
++    {% render 'blog-filters', remove_object_wrapper: true %}
++}
+\ No newline at end of file
+diff --git a/templates/blog.article_data.liquid b/templates/blog.article_data.liquid
+new file mode 100644
+index 0000000..5b093e9
+--- /dev/null
++++ b/templates/blog.article_data.liquid
+@@ -0,0 +1,2 @@
++{% layout none %} 
++{% render 'blog-filters' %}
+\ No newline at end of file

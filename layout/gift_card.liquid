@@ -1,0 +1,76 @@
+<!doctype html>
+<html class="no-js" lang="{{ shop.locale }}">
+  <head>
+
+    {% render 'header_meta' %}
+    {% render 'social-meta-tags' %}
+    {{ 'style-base.css' | asset_url | stylesheet_tag }}
+
+    {% comment %} Shopify default code {% endcomment %}
+    {{ content_for_header }}
+
+    {%- assign formatted_initial_value = gift_card.initial_value | money_without_trailing_zeros: gift_card.currency -%}
+    {%- assign formatted_initial_value_stripped = formatted_initial_value | strip_html -%}
+    <title>{{ 'gift_cards.issued.title_html' | t: value: formatted_initial_value_stripped, shop: shop.name }}</title>
+
+    <script src="{{ 'vendor/qrcode.js' | shopify_asset_url }}" defer="defer"></script>
+
+    <script>
+    var theme = {
+    strings: {
+    qrImageAlt: {{ 'gift_cards.issued.qr_image_alt' | t | json }}
+    }
+    };
+    </script>
+
+  </head>
+
+  <body class="template-{{ template | split: '.' | first }} handle-{{page.handle }}">
+
+    {%- capture main_content -%}
+
+        {% section 'site-header' %}
+        {{ content_for_layout }}
+        {% section 'instagram-feed' %}
+        {% section 'site-footer' %}
+
+    {%- endcapture -%}
+    
+    {{ main_content  | replace: ' ', ''}}
+
+    {% render 'footer-js' %}
+
+    <script>
+
+      $(function(){
+
+        $(document).on('click', '#GiftCardDigits', function(){
+
+          var _this = $(this);
+          var $temp = $("<input>");
+          var span = $(this).next().text();
+
+          $("body").append($temp);
+          $temp.val(_this.val()).select();
+          document.execCommand("copy");
+          $temp.remove();
+
+          _this.next().text('Copied to clipboard');
+          _this.parent().addClass('copied');
+
+          setTimeout(function(){
+
+            _this.next().text(span);
+            _this.parent().removeClass('copied');
+
+          },3000);
+
+        });
+
+
+      });
+
+    </script>
+
+  </body>
+</html>

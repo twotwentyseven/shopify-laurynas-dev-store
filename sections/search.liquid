@@ -1,0 +1,314 @@
+{% paginate search.results by 25 %}
+    <section
+        class="search-page relative w-full px-container-gutter pt-10 pb-16 | lg:px-container-gutter-lg bg-tertiary-900 fill-secondary-900"
+        data-search-results-page>
+        <div
+            class="text-center pb-10">
+
+
+            <h1
+                class="font-headline text-display mb-10 text-secondary-900">Search Results</h1>
+
+            <form
+                action="{{ routes.search_url }}"
+                class="flex justify-center items-center w-full h-full mx-auto max-w-form-container px-container-gutter py-[0.875rem] relative text-secondary-900 xl:py-0">
+                <p
+                    class="relative flex justify-between w-full mb-6">
+                    <input
+                        class="p-2 text-center text-secondary-900 placeholder:text-secondary-900/25 bg-tertiary-900 border border-secondary-900 rounded-lg outline-none w-full text-body-medium py-gutter"
+                        type="text"
+                        name="q"
+                        placeholder="Search.."
+                        value="{{ search.terms | escape }}">
+                    <button
+                        class="text-body-medium absolute right-2 top-1/2 translate-y-[-50%]">
+                        <i
+                            class="ri-search-line | font-light text-headline-6"></i>
+                    </button>
+                </p>
+            </form>
+
+        </div>
+
+
+        {% if search.performed %}
+
+            {% assign products_found = false %}
+            {% assign products_count = 0 %}
+            {% assign others_found = false %}
+            {% assign pages_found = false %}
+            {% assign pages_count = 0 %}
+            {% assign articles_found = false %}
+            {% assign articles_count = 0 %}
+
+            {%- assign grid_item_width = 'u-1/1 u-1/2@phab u-1/3@tab' -%}
+
+            {% for item in search.results %}
+                {% if item.object_type == 'product' %}
+                    {% assign products_found = true %}
+                    {% assign products_count = products_count | plus: 1 %}
+                {% endif %}
+                {% if item.object_type == 'article' %}
+                    {% assign articles_found = true %}
+                    {% assign articles_count = articles_count | plus: 1 %}
+                {% endif %}
+                {% if item.object_type == 'page' %}
+                    {% assign pages_found = true %}
+                    {% assign pages_count = pages_count | plus: 1 %}
+                {% endif %}
+            {% endfor %}
+
+            {% for item in search.results %}
+                {% if item.object_type == 'article' or item.object_type == 'page' %}
+                    {% assign others_found = true %}
+                {% endif %}
+            {% endfor %}
+
+            {% comment %}
+                filters
+            {% endcomment %}
+
+            <div
+                class="flex overflow-x-auto pb-2 mx-auto w-full max-w-[700px] mb-6 lg:justify-center">
+                {% if products_found %}
+                    <button
+                        data-search-filter
+                        data-category="products"
+                        class="w-full text-center uppercase border-b text-body-large border-b-secondary-900 rounded-t py-2 px-4 whitespace-nowrap | transition-all duration-animation-speed | text-secondary-900"
+                        data-add-class="bg-secondary-900 text-tertiary-900 active"
+                        data-remove-class="text-secondary-900">Products ( {{ products_count }} )</button>
+                {% endif %}
+                {% if articles_found %}
+                    <button
+                        data-search-filter
+                        data-category="articles"
+                        class="w-full text-center uppercase border-b text-body-large border-b-secondary-900 rounded-t py-2 px-4 whitespace-nowrap | transition-all duration-animation-speed | text-secondary-900"
+                        data-add-class="bg-secondary-900 text-tertiary-900 active"
+                        data-remove-class="text-secondary-900">Articles ( {{ articles_count }} )</button>
+                {% endif %}
+                {% if pages_found %}
+                    <button
+                        data-search-filter
+                        data-category="pages"
+                        class="w-full text-center uppercase border-b text-body-large border-b-secondary-900 rounded-t py-2 px-4 whitespace-nowrap | transition-all duration-animation-speed | text-secondary-900"
+                        data-add-class="bg-secondary-900 text-tertiary-900 active"
+                        data-remove-class="text-secondary-900">Pages ( {{ pages_count }} )
+                    </button>
+                {% endif %}
+
+            </div>
+
+            {% if products_found %}
+
+                <div
+                    data-category="products"
+                    data-vue-app
+                    class="search-list | flex flex-wrap w-[calc(100%+16px)] gap-y-6 lg:w-[calc(100%+24px)] mx-auto | lg:max-w-[1440px] ">
+                    {% for product in search.results %}
+                        {% if product.object_type == 'product' %}
+                            <product-card
+                                :metafield-object='{%- render "metafield-loop", name_space: "product_details", object: product -%}'
+                                :product-object="{{ product | json | escape }}"></product-card>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if articles_found %}
+                <div
+                    class="articles | mt-10 grid grid-cols-[repeat(auto-fit,max(350px,calc(100%_/_3_-_1rem)))] gap-6 justify-center mx-auto | lg:max-w-[1440px]"
+                    data-category="articles">
+                    {% for item in search.results %}
+                        {% if item.object_type == 'article' %}
+                            {% for article in blogs["news"].articles %}
+                                {% if article == item %}
+                                    <div
+                                        class="article-card | flex flex-col gap-4">
+                                        <a
+                                            href="{{ article.url }}">
+                                            {% render 'responsive-image' with image: article.image, image_class: 'rounded-2xl image object-cover h-full w-full', wrapper_class: "hover:opacity-50 transition-all" %}
+
+                                        </a>
+
+                                        <div
+                                            class="article-title | font-headline text-headline-5 | lg:text-headline-5-lg "
+                                            data-match-height="article-title">
+                                            <a
+                                                href="{{ article.url }}">{{ article.title | highlight: search.terms }}
+                                            </a>
+                                        </div>
+
+                                        <div
+                                            class="article-excerpt | text-body-large | lg:text-body-large-lg ">
+                                            <div
+                                                data-match-height="article-description">{{ article.excerpt | strip_html | highlight: search.terms }}
+                                            </div>
+                                        </div>
+
+                                        {% if article.metafields.article.time != blank %}
+                                            <div
+                                                data-match-height="article-time"
+                                                class="time | flex items-center gap-2">
+                                                <i
+                                                    class="clock ri-time-line text-headline-5"></i>
+                                                <p
+                                                    class="text-body-medium | lg:text-body-large-lg">
+                                                    {{ article.metafields.article.time | highlight: search.terms }}
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if pages_found %}
+                <div
+                    class="pages | flex flex-col mt-6 mx-auto | lg:max-w-[1440px]"
+                    data-category="pages">
+                    {% for item in search.results %}
+                        {% if item.object_type == 'page' %}
+
+                            <a
+                                class="page | mt-4 border-b border-secondary-900 pb-4 last-of-type:border-b-0 text-headline-6 lg:text-headline-6-lg font-semibold"
+                                href="{{ item.url }}">{{ item.title | highlight: search.terms }}</a>
+
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% if others_founds %}
+                <div
+                    class="search-page__other mt-">
+                    <div
+                        class="container container--small">
+                        <div
+                            class="section__bg section__bg--grey"></div>
+
+                        <ul
+                            class="search-page__other-items o-list-bare">
+                            {% for item in search.results %}
+                                {% if item.object_type == 'article' or item.object_type == 'page' %}
+                                    {% capture rotation %}
+                                        {% cycle '1', '2' %}{% endcapture %}
+
+                                    <li
+                                        class="search-page__other-item{% if rotation == '2' %} search-page__other-item--reverse{% endif %}{% unless item.image %} search-page__other-item--no-img{% endunless %}">
+
+                                        {% if item.image %}
+                                            <div
+                                                class="o-layout o-layout--tiny u-flex u-flex--middle{% if rotation == '2' %} o-layout--reverse{% endif %}">
+                                                <div
+                                                    class="o-layout__item u-1/1 u-1/2@tab">
+                                                    <div
+                                                        class="search-page__other-media">
+                                                        <img
+                                                            class="search-page__media-img"
+                                                            alt="{{ item.title }}"
+                                                            src="{{ item.image | img_url: '500x' }}"
+                                                            srcset="{{ item | img_url: '360x360', crop: 'center' }} 360w, {{ item | img_url: '540x540', crop: 'center' }} 540w, {{ item | img_url: '720x720', crop: 'center' }} 720w, {{ item | img_url: '900x900', crop: 'center' }} 900w, {{ item | img_url: '1080x1080', crop: 'center' }} 1080w, {{ item | img_url: '1296x1296', crop: 'center' }} 1296w"
+                                                            width="300"
+                                                            height="300">
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="o-layout__item u-1/1 u-1/2@tab">
+                                                {% endif %}
+
+                                                <div
+                                                    class="search-page__other-info">
+                                                    <h3
+                                                        class="search-page__other-title">
+                                                        <a
+                                                            href="{{ item.url }}"
+                                                            class="search-page__other-title-link text-headline-6 font-semibold">{{ item.title }}</a>
+                                                    </h3>
+                                                    <p
+                                                        class="search-page__other-text">{{ item.content | strip_html | truncate: 140 | highlight: search.terms }}</p>
+                                                    {% comment %}
+                                                    <div
+                                                        class="search-page__other-more">
+                                                        <a
+                                                            href="{{ item.url }}"
+                                                            class="link link--arrow">
+                                                            {{ 'general.search.more_label' | t }}
+                                                            </a>
+                                                    </div>        
+                                                    {% endcomment %}
+
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    {% endif %}
+
+                                </li>
+
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+
+        {% if paginate.pages > 1 %}
+            <ul
+                class="pagination flex gap-2 justify-center mt-10 -mx-1 lg:justify-end">
+
+                <li>
+                    <a
+                        href="{{ paginate.previous.url }}"
+                        class="mx-2 font-header font-bold text-tiny hover:text-body-large transition-all">
+                        <i
+                            class="ri-arrow-left-s-line"></i>
+                    </a>
+                </li>
+
+                {% for part in paginate.parts %}
+                    {% if part.is_link %}
+                        <li
+                            class="">
+                            <a
+                                class="px-5 py-3 border border-secondary-900 rounded text-secondary-900 font-header font-bold text-body-medium transition-all hover:text-tertiary-900 hover:bg-secondary-900"
+                                href="{{ part.url }}">{{ part.title }}</a>
+                        </li>
+                    {% else %}
+                        {% if part.title == paginate.current_page %}
+                            <li
+                                class="">
+                                <a
+                                    href="#"
+                                    class="px-5 py-3 border border-secondary-900 rounded text-tertiary-900 bg-secondary-900 font-header font-bold text-body-medium transition-all hover:text-secondary-900 hover:bg-tertiary-900">{{ part.title }}</a>
+                            </li>
+                        {% else %}
+                            <li
+                                class="">
+                                <a
+                                    href="#"
+                                    class="px-5 py-3 border border-secondary-900 rounded text-secondary-900 font-header font-bold text-body-medium transition-all hover:text-tertiary-900 hover:bg-secondary-900">{{ part.title }}</a>
+                            </li>
+                        {% endif %}
+
+                    {% endif %}
+                {% endfor %}
+
+                <li
+                    class="">
+                    <a
+                        href="{{ paginate.next.url }}"
+                        class="mx-2 font-header font-bold text-tiny hover:text-body-large transition-all">
+                        <i
+                            class="ri-arrow-right-s-line"></i>
+                    </a>
+                </li>
+
+            </ul>
+        {% endif %}
+
+    </section>
+{% endpaginate %}

@@ -1,0 +1,147 @@
+@charset 'UTF-8';
+@use "sass:math";
+
+@function px($px) {
+	@return math.div($px, 16) + rem;
+}
+
+// Colours
+
+$base: #000;
+$primary: yellow;
+
+// Fonts
+
+@font-face {
+    font-family:"BatonTurbo";
+    src:url("BatonTurboWeb-Regular.woff2") format("woff2"),url("BatonTurboWeb-Regular.woff") format("woff"),url("BatonTurboWeb-Regular.otf") format("opentype");
+    font-style:normal;font-weight:400;font-display:swap;
+}
+
+@font-face {
+    font-family:"BatonTurbo";
+    src:url("BatonTurboWeb-RegularItalic.woff2") format("woff2"),url("BatonTurboWeb-RegularItalic.woff") format("woff"),url("BatonTurboWeb-RegularItalic.otf") format("opentype");
+    font-style:italic;font-weight:normal;font-display:swap;
+}
+
+@font-face {
+    font-family:"BatonTurbo";
+    src:url("BatonTurboWeb-Medium.woff2") format("woff2"),url("BatonTurboWeb-Medium.woff") format("woff"),url("BatonTurboWeb-Medium.otf") format("opentype");
+    font-style:normal;font-weight:600;font-display:swap;
+}
+
+@font-face {
+    font-family:"BatonTurbo";
+    src:url("BatonTurboWeb-MediumItalic.woff2") format("woff2"),url("BatonTurboWeb-MediumItalic.woff") format("woff"),url("BatonTurboWeb-MediumItalic.otf") format("opentype");
+    font-style:italic;font-weight:600;font-display:swap;
+}
+
+@font-face {
+    font-family:"RP";
+    src:url("RP-Medium.woff2?2") format("woff2"),url("RP-Medium.woff?2") format("woff");
+    font-style:normal;font-weight:normal;font-display:swap;  
+
+}
+
+
+/* Font with descent-override for Firefox on Mac */
+@-moz-document url-prefix() {
+    @font-face {
+        font-family: "RP";
+        src: url("RP-Medium.woff2?2") format("woff2"), url("RP-Medium.woff?2") format("woff");
+        font-style: normal;
+        font-weight: normal;
+        font-display: swap;
+        descent-override: 0%;
+    }
+}
+
+
+
+
+$base_font: 'BatonTurbo', sans-serif;
+
+// Breakpoints
+
+$breakpoint-sm: 640px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1220px;
+
+@mixin respond-below($breakpoint) {
+    @media (max-width: ($breakpoint - 1px)) {
+    	@content;
+    }
+}
+
+@mixin respond-above($breakpoint) {
+    @media (min-width: ($breakpoint)) {
+    	@content;
+    }
+}
+
+@mixin respond-between($lower, $upper) {
+    @media (min-width: $lower) and (max-width: ($upper - 1px)) {
+    	@content;
+    }
+}
+
+// Additional helper functions for responsive styles
+
+@mixin respond-below-sm() {
+	@include respond-below($breakpoint-sm) {
+		@content;
+	}
+}
+
+@mixin respond-below-lg() {
+	@include respond-below($breakpoint-lg) {
+		@content;
+	}
+}
+
+@mixin respond-below-xl() {
+	@include respond-below($breakpoint-xl) {
+		@content;
+	}
+}
+
+@mixin respond-above-sm() {
+	@include respond-above($breakpoint-sm) {
+		@content;
+	}
+}
+
+@mixin respond-above-lg() {
+	@include respond-above($breakpoint-lg) {
+		@content;
+	}
+}
+
+@mixin respond-above-xl() {
+	@include respond-above($breakpoint-xl) {
+		@content;
+	}
+}
+
+// Media queries for accessibility
+
+@media (prefers-color-scheme: light) {} // Media query for dark or light mode. Options are [light], [dark]
+@media (prefers-reduced-motion: reduce) {} // Media query for reduce animation. Options are [prefers-reduced-motion], [no-preference]
+
+// @include respond-below($breakpoint-sm) {}
+// @include respond-above($breakpoint-sm) {}
+
+/*
+	Use case: @include bg-master("XXXXX", center, center, contain, transparent);
+*/
+@mixin bg-master($src, $pos_a, $pos_b, $size, $color) {
+	background-repeat: no-repeat;
+	background-image: url($src);
+	background-position: $pos_a $pos_b;
+	-webkit-background-position: $pos_a $pos_b;
+	-o-background-position: $pos_a $pos_b;
+	-webkit-background-size: $size;
+	-o-background-size: $size;
+	background-size: $size;
+	background-color:$color;
+}

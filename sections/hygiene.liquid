@@ -1,0 +1,33 @@
+<div class="default-page bg-tertiary-900 pt-10 pb-16 ">
+    <div class="max-w-screen-lg mx-auto px-5">
+        {% if section.settings.hygiene-title != blank %}
+            <div class="hygiene-title">{{ section.settings.hygiene-title | newline_to_br }}</div>
+        {% endif %}
+        {{ section.settings.hygiene-copy | newline_to_br }}
+    </div>
+</div>
+
+
+
+{% schema %}
+    {
+        "name": "Hygiene page",
+        "settings": [
+            {
+                "type": "richtext",
+                "id": "hygiene-title",
+                "label": "Hygiene title"
+            }, {
+                "type": "richtext",
+                "id": "hygiene-copy",
+                "label": "Hygiene copy"
+            }
+        ],
+        "presets": [
+            {
+                "name": "Hygiene page"
+            }
+        ]
+
+    }
+{% endschema %}

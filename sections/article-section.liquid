@@ -1,0 +1,187 @@
+{% assign featured_article_type = '' %}
+
+{% for tag in article.tags %}
+    {% if tag contains 'type:' %}
+        {% assign article_type = tag | remove: 'type:' | replace: '-', ' ' %}
+    {% endif %}
+{% endfor %}
+
+<section
+    class=" article | bg-tertiary-900 py-10 px-container-gutter | lg:px-container-gutter-lg">
+
+    <div
+        class="banner | max-w-[1440px] mx-auto">
+
+        <div
+            class="grid-x grid-margin-x">
+
+            {% if article.metafields.article.video != blank %}
+                <div
+                    class="video-wrapper rounded-2xl relative w-full h-full pt-[56.25%] cursor-pointer | after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full after:bg-black after:opacity-50 after:rounded-2xl transition-all"
+                    data-remove-class="after:content-[''] after:absolute after:top-0 after:left-0 after:w-full after:h-full after:bg-black after:opacity-50 after:rounded-2xl cursor-pointer"
+                    data-add-class="opacity-100">
+                    <button
+                        data-vimeo-play
+                        class="play-btn | absolute top-1/2 left-1/2 my-auto p-4 z-10 bg-tertiary-900 rounded-full leading-[normal] pointer-events-none | -translate-x-1/2 -translate-y-1/2 | lg:p-10"
+                        data-add-class="hidden"
+                        data-remove-class="block">
+                        <i
+                            class="ri-play-fill | text-5xl"></i>
+                    </button>
+
+                    <iframe
+                        id="vimeo-{{ article.metafields.article.video }}"
+                        class="w-full h-full absolute rounded-2xl top-1/2 left-1/2 -translate-x-[50%] -translate-y-[50%] pointer-events-none "
+                        data-add-class="pointer-events-auto"
+                        data-remove-class="pointer-events-none"
+                        src=""
+                        frameborder="0"
+                        allow="autoplay; fullscreen"
+                        allowfullscreen></iframe>
+
+                </div>
+
+                <script>
+
+                    window.addEventListener('DOMContentLoaded', function() {
+
+                        const video_{{article.metafields.article.video}} = document.querySelector('#vimeo-{{ article.metafields.article.video }}');
+
+                        function whichVideo() {
+                            video_{{article.metafields.article.video}}.setAttribute('src', 'https://player.vimeo.com/video/{{ article.metafields.article.video }}?api=1&player_id=banner_player&autopause=0&autoplay=0&badge=0&byline=0&portrait=0&title=0&background=0&loop=0&muted=0&controls=1');
+                        }
+
+                        whichVideo();
+
+
+
+                    });
+                </script>
+            {% else %}
+
+                <div
+                    class="w-full relative overflow-hidden flex items-center |min-h-[382px]| rounded-2xl | |lg:min-h-[600px]| lg:text-left | ">
+                    {% if article.metafields.article.image != blank %}
+                        {% comment %}
+            {% render 'responsive-image' with image: article.metafields.article.image, image_class: 'image object-cover h-full w-full', wrapper_class: "image-wrapper absolute h-full w-full left-0 top-0 overflow-hidden | " %}
+            
+        {% endcomment %}
+                        {% render 'responsive-image' with image: article.metafields.article.image, image_class: 'image h-full w-full object-cover  rounded-2xl absolute top-0 left-0', wrapper_class: "image-wrapper relative w-full h-full pt-[calc(600_/_1296_*_100%)] | " %}
+
+                        {% else %}
+                        {%- comment -%}
+        {% render 'responsive-image' with image: article.image, image_class: 'image object-cover h-full w-full', wrapper_class: "image-wrapper absolute h-full w-full left-0 top-0 overflow-hidden ", image_attributes: article.image.alt %}
+    {%- endcomment -%}
+                        {% render 'responsive-image' with image: article.image, image_class: 'image h-full w-full object-cover rounded-2xl absolute top-0 left-0', wrapper_class: 'image-wrapper relative w-full h-full pt-[calc(600_/_1296_*_100%)]', image_attributes: article.image.alt %}
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            <div
+                class="max-w-2xl mx-auto">
+
+                <div class=" mt-4 | lg:mt-10">
+                    {% comment %}
+                        {% if article_type != '' %}
+                        <div
+                            class="article-type">
+                            <p
+                                class="a-type">{{ article_type }}</p>
+                        </div>
+                    {% endif %}
+
+                    <p
+                        class="date">{{ article.published_at | date: "%d %B %Y" }}</p>
+                    {% endcomment %}
+
+                    <h1
+                        class="font-headline text-center text-headline-1 | lg:text-display-lg">{{ article.title }}</h1>
+
+                </div>
+
+
+                <div
+                    class="socials-time | mt-6 mb-10 flex justify-between items-center | lg:mt-10  ">
+
+                    {% if article.metafields.article.time != blank %}
+
+                        <div
+                            class="time | flex items-center gap-2 ">
+                            <i
+                                class="clock ri-time-line text-headline-5"></i>
+                            <p
+                                class="text-body-medium | lg:text-body-medium-lg">
+                                {{ article.metafields.article.time }}
+                            </p>
+                        </div>
+                    {% endif %}
+
+                    <div
+                        class="socials | flex justify-between items-center">
+                        <a
+                            data-copy
+
+                            class="button block mx-gutter text-body-medium cursor-pointer h-6 w-6 | lg:text-body-medium-lg">
+                            {% comment %} {% render 'copy' %} {% endcomment %}
+                            <input
+                                class="hidden"
+                                readonly
+                                type="text"
+                                value="{{ shop.url }}{{ url }}">
+                            <img
+                                src="{{ 'icon-share-link.png' | asset_url }}">
+                        </a>
+                        <a
+                            href="http://www.facebook.com/share.php?u={{ shop.url }}{{ url }}"
+                            target="_blank"
+                            class="button block mx-gutter text-body-medium cursor-pointer h-6 w-6 | lg:text-body-medium-lg">
+                            {% comment %} {% render 'facebook' %} {% endcomment %}
+                            <img
+                                src="{{ 'icon-facebook-share.png' | asset_url }}">
+                        </a>
+
+                        <a
+                            href="https://twitter.com/intent/tweet?text={{ settings.twitter_share }} {{ shop.url }}{{ url }}"
+                            target="_blank"
+                            class="button block mx-gutter text-body-medium cursor-pointer w-6 h-6 | lg:text-body-medium-lg">
+                            {% comment %} {% render 'twitter' %} {% endcomment %}
+                            <img
+                                src="{{ 'icon-twitter-share.png' | asset_url }}">
+                        </a>
+                    </div>
+                </div>
+
+                {% comment %}
+                <div
+                    class="section">
+                    <p
+                        class="a-type">Tags</p>
+
+                    <div
+                        class="tag-container">
+                        {% for tag in article.tags %}
+                            {% if tag contains 'tag:' %}
+                                {% assign article_tag = tag | remove: 'tag:' | replace: '-', ' ' %}
+                                <span
+                                    class="btn btn-outline tags">{{ article_tag }}</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                </div>    
+                {% endcomment %}
+
+            </div>
+
+            <div
+                class="default-page">
+                <article
+                    class="article-content text-left"
+                    data-article-content>
+                    {{ article.content }}
+                </article>
+            </div>
+        </div>
+    </div>
+
+</section>

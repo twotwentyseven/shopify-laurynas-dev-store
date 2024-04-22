@@ -1,0 +1,50 @@
+@font-face {
+  font-family: "BatonTurbo";
+  src: url("BatonTurboWeb-Regular.woff2") format("woff2"), url("BatonTurboWeb-Regular.woff") format("woff"), url("BatonTurboWeb-Regular.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "BatonTurbo";
+  src: url("BatonTurboWeb-RegularItalic.woff2") format("woff2"), url("BatonTurboWeb-RegularItalic.woff") format("woff"), url("BatonTurboWeb-RegularItalic.otf") format("opentype");
+  font-style: italic;
+  font-weight: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "BatonTurbo";
+  src: url("BatonTurboWeb-Medium.woff2") format("woff2"), url("BatonTurboWeb-Medium.woff") format("woff"), url("BatonTurboWeb-Medium.otf") format("opentype");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "BatonTurbo";
+  src: url("BatonTurboWeb-MediumItalic.woff2") format("woff2"), url("BatonTurboWeb-MediumItalic.woff") format("woff"), url("BatonTurboWeb-MediumItalic.otf") format("opentype");
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "RP";
+  src: url("RP-Medium.woff2?2") format("woff2"), url("RP-Medium.woff?2") format("woff");
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+}
+/* Font with descent-override for Firefox on Mac */
+@-moz-document url-prefix() {
+  @font-face {
+    font-family: "RP";
+    src: url("RP-Medium.woff2?2") format("woff2"), url("RP-Medium.woff?2") format("woff");
+    font-style: normal;
+    font-weight: normal;
+    font-display: swap;
+    descent-override: 0%;
+  }
+}
+/*
+	Use case: @include bg-master("XXXXX", center, center, contain, transparent);
+*/
+/* Reset form styles */

@@ -1,0 +1,144 @@
+{% comment %}
+    Keep all tags of parent in an array
+    Loop through articles 
+    loop through tags and check if any are contained within the current index article
+    if so render otherwise leave out
+{% endcomment %}
+{% assign article_tags = "" %}
+
+
+{% for tag in article.tags %}
+
+    {% if tag contains 'type:' %}
+        {% assign article_type = tag | remove: 'type:' | replace: '-', ' ' %}
+        {% if forloop.last %}
+            {% assign article_tags = article_tags | append: article_type | append: ',' %}
+        {% else %}
+            {% assign article_tags = article_tags | append: article_type %}
+        {% endif %}
+
+    {% endif %}
+
+{% endfor %}
+
+{% if article_tags != blank %}
+
+    <section
+        class="related-articles-section | py-10 px-container-gutter bg-tertiary-900 | lg:px-container-gutter-lg ">
+
+        <div
+            class="wrapper | | lg:max-w-[1440px] lg:mx-auto">
+
+            {% if section.settings.related-article-title != blank %}
+                <h5
+                    class="title | font-headline text-headline-2 | lg:text-headline-2-lg ">{{ section.settings.related-article-title }}</h5>
+            {% endif %}
+
+        </div>
+
+        <div
+            class="pb-20 flex flex-wrap | lg:max-w-[1440px] lg:mx-auto">
+
+            {% assign article_handle = article.handle %}
+            {% assign article_count = value %}
+
+            {%- for article in blogs['news'].articles -%}
+                {% if article.handle != article_handle %}
+
+                    {% for tag in article.tags %}
+
+                        {% if tag contains 'type:' %}
+                            {% assign related_article_type = tag | remove: 'type:' | replace: '-', ' ' %}
+
+                            {% if article_tags contains related_article_type %}
+                                {% assign article_count = article_count | plus: 1 %}
+
+                                <div
+                                    class="w-full md:w-6/12 lg:w-4/12 py-9 md:px-[14px] md:py-8">
+
+                                    <div
+                                        class="article-card | flex flex-col gap-4">
+                                        <a
+                                            href="{{ article.url }}"
+                                            class=" transition-all hover:opacity-90 ">
+                                            {% render 'responsive-image' with image: article.image, image_class: 'rounded-2xl image object-cover h-full w-full', wrapper_class: "" %}
+                                        </a>
+
+                                        <div
+                                            class="article-title | font-headline text-headline-5 | lg:text-headline-5-lg "
+                                            data-match-height="article-title">
+                                            <a
+                                                href="{{ article.url }}">{{ article.title }}
+                                            </a>
+                                        </div>
+
+                                        <div
+                                            class="article-excerpt | text-body-large | lg:text-body-large-lg ">
+                                            <div
+                                                data-match-height="article-description">{{ article.excerpt }}
+                                            </div>
+                                        </div>
+
+                                        {% if article.metafields.article.time != blank %}
+                                            <div
+                                                data-match-height="article-time"
+                                                class="time | flex items-center gap-2">
+                                                <i
+                                                    class="clock ri-time-line text-headline-5"></i>
+                                                <p
+                                                    class="text-body-medium | lg:text-body-large-lg">
+                                                    {{ article.metafields.article.time }}
+                                                </p>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                {% break %}
+
+                            {% endif %}
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                    {% if article_count >= section.settings.articles-to-show %}
+                        {% break %}
+                    {% endif %}
+
+                {% endif %}
+
+            {%- endfor -%}
+
+        </div>
+
+    </section>
+
+{% endif %}
+
+{% schema %}
+    {
+        "name": "Related Articles",
+
+        "settings": [
+            {
+                "type": "textarea",
+                "id": "related-article-title",
+                "label": "Related article title",
+                "default": "Related articles"
+            }, {
+                "type": "number",
+                "id": "articles-to-show",
+                "label": "Articles to show",
+                "default": 3
+            }
+
+        ],
+        "presets": [
+            {
+                "name": "related-articles"
+            }
+        ]
+
+    }
+{% endschema %}

@@ -1,46 +1,57 @@
 <!doctype html>
-<html>
-<head>
-  <title>{{ page_title }}</title>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="description" content="{{ page_description | escape }}">
-  <link rel="canonical" href="{{ canonical_url }}">
-  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-  {{ content_for_header }} <!-- Header hook for plugins -->
-  {{ 'application.css' | asset_url | stylesheet_tag }}
-  {{ 'application.js' | asset_url | script_tag }}
-</head>
-<body>
-  <p style=“background: #f1c40f; padding: 1em; font-weight:
-    bold;”>Current template: {{ template }}.liquid
-  </p>
-    {% for link in linklists.main-menu.links %}
-    {% assign child_list_handle = link.title | handleize %}
-    {% if linklists[child_list_handle].links != blank %}
-      <a href="{{ link.url }}">{{ link.title }}</a>
-      [{% for childlink in linklists[child_list_handle].links %}
-        <a href="{{ childlink.url }}">{{ childlink.title | escape }}</a>
-      {% endfor %}]
-    {% else %}
-      <a href="{{ link.url }}">{{ link.title }}</a>
-    {% endif %}
-  {% endfor %}
+<html class="no-js" lang="{{ shop.locale }}">
+    <head>
 
-  <a href="/cart">cart</a>
+        {% comment %} Add ccss at the end of project {% render 'ccss' %}{% endcomment %}
+        {% render 'header_meta' %}
+        {% render 'social-meta-tags' %}
+        {% render 'header-styles' %}
+        {% render 'cookie-logic' %}
 
-  {% if shop.customer_accounts_enabled %}
-    {% if customer %}
-      <a href="/account">account</a>
-      {{ 'log out'  | customer_logout_link }}
-    {% else %}
-      {{ 'log in ' | customer_login_link }}
-      {{ 'register' | customer_register_link }}
-    {% endif %}
-  {% endif %}
 
-  <main role="main">
-    {{ content_for_layout }}
-  </main>
-</body>
+        {% render 'product-card-content-and-colours' %}
+
+        {% section 'cookie-modal' %}
+        {% comment %} Shopify default code {% endcomment %}
+        {{ content_for_header }}
+
+    </head>
+
+    <body  class="h-screen font-body template-{{ template.directory }} template-name-{{ template.name }} handle-{{ page.handle }}" data-add-class="overflow-hidden">
+
+        {% render 'schema-data' %}
+
+        {% comment %}
+			captures everything to be output into theme files, by capturing it we can find and replace invisible elements that might be copied and pasted into the site
+		{% endcomment %}
+        {%- capture main_content -%}
+
+            {% section 'site-header' %}
+            {%- comment -%} {% section 'site-header-v2' %} {%- endcomment -%}
+            {% comment %}
+				Alternative Site header style using the same html, parts can be swapped between the two versions
+				
+			{% endcomment %}
+            {% assign full_url = request.host | append: request.path %}
+                {% if full_url contains "tools/recurring/portal" %}
+                {% section 'customer-account-nav' %}
+                    <h1 class="font-headline text-headline-1 pb-6 bg-tertiary-900 px-4 | lg:text-headline-1-lg lg:px-20"> Manage subscriptions</h1>
+            {% endif %}
+
+            {{ content_for_layout }}
+            {%- comment -%} {% section 'instagram-feed' %} {%- endcomment -%}
+            {% section 'site-footer' %}
+            {% unless template == 'cart' %}
+                {% section 'cart-data' %}
+            {% endunless %}
+            {%- comment -%} {% section 'vue-cart' %} {%- endcomment -%}
+            {% section 'newsletter-modal' %}
+
+        {%- endcapture -%}
+
+        {{ main_content | replace: '', '' }}
+
+        {% render 'footer-js' %}
+
+    </body>
 </html>

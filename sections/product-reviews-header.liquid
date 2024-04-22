@@ -1,0 +1,31 @@
+{% assign ss = section.settings %}
+
+<section class="product-reviews-header | text-center text-secondary-900 bg-tertiary-900 w-full pb-4 pt-16 |  lg:pt-20">
+    <div class="lg:w-1/2 lg:mx-auto">
+        <div class="title | font-headline text-display | lg:text-display-lg">{{ ss.title }}</div>
+        <div class="copy">{{ ss.copy }}</div>
+    </div>
+</section>
+
+{% schema %}
+    {
+        "name": "Product reviews header",
+        "settings": [
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Title"
+            }, {
+                "type": "richtext",
+                "id": "copy",
+                "label": "copy"
+            }
+        ],
+        "presets": [
+            {
+                "name": "Product reviews Header"
+            }
+        ]
+
+    }
+{% endschema %}

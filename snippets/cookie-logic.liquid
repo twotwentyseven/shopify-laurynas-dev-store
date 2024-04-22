@@ -1,0 +1,172 @@
+<script>
+    window.addEventListener('DOMContentLoaded', function() {
+
+        function toggleAnimation(element) {
+
+            // toggle remove
+            if (element.hasAttribute('data-remove-class')) {
+                let removeClasses = element.dataset.removeClass
+                let remClsArr = removeClasses.split(' ');
+                remClsArr.map(cl => element.classList.toggle(cl));
+            }
+
+            // toggle Active
+            if (element.hasAttribute('data-add-class')) {
+                let activeClasses = element.dataset.addClass
+                let actClsArr = activeClasses.split(' ');
+                actClsArr.map(cl => element.classList.toggle(cl));
+            }
+
+        }
+
+        // Cookie and newsletter modal logic
+
+        // cookie variables
+        const cookie_modal = document.querySelector('[data-cookie-modal]');
+        const cookie_modal_inner = document.querySelector('[data-cookie-modal-inner]');
+        
+        
+
+        // newsletter variables
+        // const newsletter_overlay = document.querySelector('[data-newsletter-overlay]');
+        // const newsletter_box = document.querySelector('[data-newsletter-modal]');
+        // const newsletter_box_close = document.querySelector('[data-close-newsletter-modal]');
+        // var newsletterCookie = Cookies.get('newsletter_modal');
+
+        window.Shopify.loadFeatures([
+            {
+                name: 'consent-tracking-api',
+                version: '0.1'
+            }
+        ], error => {
+            //console.log(" SHOULD SHOW BANNER ? ", window.Shopify.customerPrivacy.shouldShowBanner())
+            if (error) {
+                throw error; // if you want to raise
+            }if (window.Shopify.customerPrivacy.shouldShowBanner()) {
+                
+                toggleCookieBanner();
+            }
+            if (window.Shopify.customerPrivacy.userCanBeTracked()) {
+
+                // GA4
+
+
+
+                // Meta Pixel Code
+
+
+/*
+                if (newsletter_box) {
+                    if (newsletterCookie == undefined || newsletterCookie < 1) {
+                        newsletterBannerTicker()
+                    } else if (newsletterCookie == 1) {
+                        setTimeout(function() {
+                            toggleNewsletterBanner()
+                        }, 3000);
+                    }
+                }
+            }
+            */
+            /*
+            console.log(window.Shopify.customerPrivacy.shouldShowBanner() );
+            console.log(window.Shopify.customerPrivacy.shouldShowGDPRBanner());
+            console.log(window.Shopify.customerPrivacy.userCanBeTracked());*/
+                    }
+            });
+
+        function handleAccept(e) {
+            e.preventDefault();
+            window.Shopify.customerPrivacy.setTrackingConsent(true, toggleCookieBanner);
+            document.addEventListener("trackingConsentAccepted", function() {
+                console.log("trackingConsentAccepted event fired");
+
+
+                // GA4
+
+
+                // Meta Pixel Code
+
+                /*
+                // Fire newsletter cookies
+                if (newsletter_box) {
+                    if (newsletterCookie == undefined || newsletterCookie < 1) {
+                        newsletterBannerTicker()
+                    } else if (newsletterCookie == 1) {
+                        setTimeout(function() {
+                            toggleNewsletterBanner()
+                        }, 3000);
+                    }
+                }
+            }); */
+            })}
+
+        function handleReject(e) {
+            e.preventDefault();
+            window.Shopify.customerPrivacy.setTrackingConsent(false, toggleCookieBanner);
+            console.log("trackingConsentAccepted rejected");
+        }
+
+        if (cookie_modal_inner) {
+            //const cookieClose = document.querySelector('[data-close-cookie-modal]');
+            const cookieAccept = document.querySelector('[data-cookie-accept]');
+            const cookieReject = document.querySelector('[data-cookie-reject]');
+
+            //cookieClose.addEventListener('click', (e) => hideCookie(e));
+            cookieAccept.addEventListener('click', (e) => handleAccept(e));
+            cookieReject.addEventListener('click', (e) => handleReject(e));
+
+
+
+             function hideCookie(e) {
+                e.preventDefault();
+                toggleCookieBanner();
+                }
+
+            function toggleCookieBanner() {
+                //toggleAnimation(cookie_modal);
+                toggleAnimation(cookie_modal_inner);
+            }
+        }
+
+        /*if (newsletter_box) {
+
+            newsletter_box.addEventListener('click', (e) => {
+                e.stopPropagation()
+            });
+
+            // const newsletterTnC = document.querySelector('.j-TnC-newsletter-modal');
+            newsletter_overlay.addEventListener('click', (e) => {
+                closeNewsletterBanner(e)
+            });
+
+            newsletter_box_close.addEventListener('click', (e) => {
+                closeNewsletterBanner(e)
+            });
+
+            // newsletterTnC.addEventListener('click', (e) => closeNewsletterBanner());
+
+            function toggleNewsletterBanner() {
+                toggleAnimation(newsletter_overlay);
+                toggleAnimation(newsletter_box);
+            }
+
+            function newsletterBannerTicker() {
+                if (newsletterCookie == undefined) {
+                    Cookies.set('newsletter_modal', 1, {expires: 30});
+                }
+
+                // else {
+                //    newsletterCookie ++
+                //    Cookies.set('newsletter_modal', newsletterCookie, { expires: 30 });
+                // }
+
+            }function closeNewsletterBanner(e) {
+                if (e) {
+                    e.preventDefault();
+                }
+                Cookies.set('newsletter_modal', 'hidden', {expires: 30});
+                toggleNewsletterBanner();
+            }
+        } */
+    });
+</script>

@@ -1,0 +1,40 @@
+{
+  "sections": {
+    "nav": {
+      "type": "customer-account-nav",
+      "settings": {}
+    },
+    "main": {
+      "type": "customer-address-template",
+      "settings": {
+        "title": "Addresses",
+        "edit_address": "",
+        "add_address": "",
+        "btn_text": "Add new Address",
+        "btn_save": "Save",
+        "btn_update": "Update",
+        "btn_color": "bg-secondary",
+        "btn_color_shade": 900,
+        "btn_text_color": "text-tertiary",
+        "btn_text_color_shade": 900,
+        "btn_hover_color": "hover:bg-tertiary",
+        "btn_hover_color_shade": 700,
+        "btn_hover_text_color": "hover:text-secondary",
+        "btn_hover_text_color_shade": 900,
+        "btn_cancel": "Cancel",
+        "alt_btn_color": "border-secondary",
+        "alt_btn_color_shade": 900,
+        "alt_btn_text_color": "text-secondary",
+        "alt_btn_text_color_shade": 900,
+        "alt_btn_hover_color": "hover:bg-secondary",
+        "alt_btn_hover_color_shade": 500,
+        "alt_btn_hover_text_color": "hover:text-tertiary",
+        "alt_btn_hover_text_color_shade": 900
+      }
+    }
+  },
+  "order": [
+    "nav",
+    "main"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "collection-template",
+      "settings": {
+        "filter_btn": "FILTERS",
+        "filter_sort_btn": "FILTER & SORT",
+        "active_filters_title": "SELECTED FILTERS"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
